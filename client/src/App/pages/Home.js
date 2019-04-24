@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
+import Register from './Register'
 
 
 class Home extends Component {
@@ -13,6 +14,10 @@ class Home extends Component {
             My List
         </button>
       </Link>
+      <switch>
+      <div id="barchart"></div>
+      <Route path='/register' component={Register}/>
+      </switch>
     </div>
     );
   }

@@ -14,11 +14,12 @@ class List extends Component {
     this.getList();
   }
 
-  // Retrieves the list of items from the Express app
+   // Retrieves the list of items from the Express app
   getList = () => {
     fetch('/api/getList')
     .then(res => res.json())
-    .then(list => this.setState({ list }))
+    .then(({data}) =>
+      this.setState({ list: data }))
   }
 
   render() {
@@ -31,10 +32,11 @@ class List extends Component {
         {list.length ? (
           <div>
             {/* Render the list of items */}
+
             {list.map((item) => {
               return(
                 <div>
-                  {item}
+                  {item.name}
                 </div>
               );
             })}
@@ -45,7 +47,9 @@ class List extends Component {
           </div>
         )
       }
+
       </div>
+
     );
   }
 }
