@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import Register from './Register'
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
 
 
 class Home extends Component {
@@ -14,10 +16,10 @@ class Home extends Component {
             My List
         </button>
       </Link>
-      <switch>
-      <div id="barchart"></div>
+      <Switch>
+
       <Route path='/register' component={Register}/>
-      </switch>
+      </Switch>
     </div>
     );
   }
