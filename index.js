@@ -15,9 +15,9 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 // An api endpoint that returns a short list of items
 app.get('/api/getList', (req,res) => {
-  knex.select('name').from('users')
+  knex.select().from('records')
       .then((results) => {
-       // console.log(results)
+       console.log(">>> results = ", results);
         res.json({
           data: results
         });

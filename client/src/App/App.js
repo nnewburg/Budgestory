@@ -7,23 +7,65 @@ import Register from './pages/Register'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
-const options = {
-  chart: {
-    type: 'pie'
-  },
-
-  title: {
-    text: 'My chart'
-  },
-  series: [{
-    data: [1, 2, 3]
-  }]
-}
-
 
 
 class App extends Component {
+
+    constructor(props){
+    super(props);
+    this.state = {
+      list: [],
+      options: {
+        chart: {
+          type: 'pie'
+        },
+          credits: {
+            enabled: false
+        },
+
+        title: {
+          text: 'My chart'
+        },
+        series: [
+            { data: [1, 2, 3] }
+          ]
+      }
+
+    }
+  }
+
+retrieveValues(records){
+  let outputArray = [];
+  let outputObject = {};
+  outputObject.data = records.map(x => x.value);
+  outputArray.push(outputObject);
+  console.log("outputArray = ", outputArray);
+  return outputArray;
+}
+
+
+componentDidMount() {
+    this.getList();
+
+  }
+
+ getList = () => {
+    fetch('/api/getList')
+    .then(res => res.json())
+    .then(
+      ({data}) =>
+      this.setState({
+        options: {
+          series: this.retrieveValues(data)
+        }
+      })
+    );
+
+  }
+
+
   render() {
+    console.log("options Nick = ", this.state.options)
     const App = () => (
       <div>
         <Switch>
@@ -41,7 +83,7 @@ class App extends Component {
       </Switch>
         <HighchartsReact
     highcharts={Highcharts}
-    options={options}
+    options={this.state.options}
      />
       </div>
     );
