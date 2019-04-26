@@ -17,7 +17,6 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.get('/api/getList', (req,res) => {
   knex.select().from('records')
       .then((results) => {
-       console.log(">>> results = ", results);
         res.json({
           data: results
         });
@@ -43,10 +42,4 @@ app.get('*', (req,res) =>{
 const port = process.env.PORT || 5000;
 app.listen(port);
 
-console.log('App is listening on port ' + port);
-
-
-
-  //   var list = ["item1", "item2", "item3"];
-  // res.json(list);
-  // console.log(knex);
+console.log('BS >>> App is listening on port ' + port);
