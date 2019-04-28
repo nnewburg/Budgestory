@@ -3,14 +3,97 @@ import { Link, Route, Switch } from 'react-router-dom';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Category from './Category';
+import axios from 'axios';
 
-class Popup extends React.Component {
+class NewCategory extends React.Component {
+
+
+        constructor(props) {
+    super();
+    this.createCategory = this.createCategory.bind(this);
+
+  }
+
+   createCategory(event) {
+    event.preventDefault();
+
+       const newCat = {
+    name: event.target.name.value,
+    parent_id: this.props.parentCategory
+   }
+
+      axios.post('/newCategory', {newCat
+  }).then(function (response) {
+            if (response.data.redirect == '/categories') {
+                window.location = "/categories"
+            } else if (response.data.redirect == '/login'){
+                window.location = "/login"
+            }
+  })
+  }
+
+  render() {
+    console.log(this.props)
+    return (
+      <div className='NewCategory' style={{borderTop:'1px red solid'}}>
+        <div className='NewCategory_inner'>
+          <span>{this.props.text}</span>
+          <form onSubmit={this.createCategory}>
+            Name:
+            <input type='text' name='name'/>
+            <input type='submit' value='submit'  />
+          </form>
+        <button onClick={this.props.closeNewCategory}>close me</button>
+        </div>
+      </div>
+    );
+  }
+}
+
+class NewRecord extends React.Component {
+
+      constructor(props) {
+        super();
+        this.createRecord = this.createRecord.bind(this);
+        this.state = {
+          parentId: props.parentCategory
+        }
+
+  }
+
+   createRecord(event) {
+    event.preventDefault();
+
+       const newRec = {
+    notes: event.target.notes.value,
+    category_id: this.props.parentCategory,
+    value: event.target.value.value
+   }
+       console.log('asdjkad')
+
+      axios.post('/newRecord', {newRec
+  }).then(function (response) {
+            if (response.data.redirect == '/categories') {
+                window.location = "/categories"
+            } else if (response.data.redirect == '/login'){
+                window.location = "/login"
+            }
+  })
+  }
+
   render() {
     return (
-      <div className='popup'>
-        <div className='popup_inner'>
-          <h1>{this.props.text}</h1>
-        <button onClick={this.props.closePopup}>close me</button>
+      <div className='NewRecord' style={{display: 'flex',borderTop:'1px red solid'}}>
+        <div className='NewRecord_inner'>
+          <span>{this.props.text}</span>
+           <form onSubmit={this.createRecord}>
+            Notes:
+            <input type='text' name='notes'/>
+            Value:
+            <input type='number' name='value'/>
+            <input type='submit' value='submit'  />
+          </form>
+        <button onClick={this.props.closeNewRecord}>close me</button>
         </div>
       </div>
     );
@@ -53,16 +136,28 @@ class Categories extends Component {
         this.onItemClick = this.onItemClick.bind(this);
         this.findLineage = this.findLineage.bind(this);
         this.state = {
-          showPopup: false,
+          showNewRecord: false,
+          showNewCategory: false,
           categories: [],
+          records: [],
           parentId: 0
         }
     }
 
-    togglePopup() {
+    toggleNewCategory() {
+      if(!this.state.showNewRecord){
     this.setState({
-      showPopup: !this.state.showPopup
+      showNewCategory: !this.state.showNewCategory
     });
+    }
+  }
+
+   toggleNewRecord() {
+    if(!this.state.showNewCategory){
+    this.setState({
+      showNewRecord: !this.state.showNewRecord
+    });
+    }
   }
 
     updateCurrentGen(setGen){
@@ -97,16 +192,28 @@ class Categories extends Component {
 
 
     componentDidMount() {
-      this.getList();
+      this.getCategory();
+      this.getRecords();
     }
 
-    getList = () => {
-      fetch('/api/getList')
+    getCategory = () => {
+      fetch('/api/getCategories')
       .then(res => res.json())
       .then(
         ({data}) =>
         this.setState({
           categories: data
+        })
+      );
+    }
+
+    getRecords = () => {
+      fetch('/api/getRecords')
+      .then(res => res.json())
+      .then(
+        ({data}) =>
+        this.setState({
+          records: data
         })
       );
     }
@@ -127,19 +234,29 @@ class Categories extends Component {
         <div style={{display: 'flex', flexWrap: 'wrap', borderBottom: '2px black solid'}}>
                 {categoryList}
 
-                  <button onClick={this.togglePopup.bind(this)} style={{marginLeft: 'auto'}}>new record</button>
-                  <button onClick={this.togglePopup.bind(this)} style={{marginLeft: 'auto'}}>new category</button>
+                  <button onClick={this.toggleNewRecord.bind(this)} style={{marginLeft: 'auto'}}>new record</button>
+                  <button onClick={this.toggleNewCategory.bind(this)} style={{marginLeft: 'auto'}}>new category</button>
 
         </div>
       <Category updateCurrentGen={this.updateCurrentGen} state={this.state} />
-      </div>
-      {this.state.showPopup ?
-          <Popup
-            text='Close Me'
-            closePopup={this.togglePopup.bind(this)}
+      {this.state.showNewCategory ?
+          <NewCategory
+            text='Add a Category'
+            closeNewCategory={this.toggleNewCategory.bind(this)}
+            parentCategory = {this.state.parentId}
           />
           : null
         }
+        {this.state.showNewRecord ?
+          <NewRecord
+            text='Add a Record'
+            closeNewRecord={this.toggleNewRecord.bind(this)}
+            parentCategory = {this.state.parentId}
+          />
+          : null
+        }
+      </div>
+
     </div>
     );
   }
