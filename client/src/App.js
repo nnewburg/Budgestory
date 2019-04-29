@@ -24,10 +24,7 @@ class App extends Component {
     )
     return (
       <div>
-        <Switch>
-          <App/>
-        </Switch>
-        
+        <App/>
       </div>
     );
   }
