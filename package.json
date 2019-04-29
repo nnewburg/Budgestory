@@ -15,6 +15,7 @@
     "dotenv": "^2.0.0",
     "express": "^4.16.3",
     "highcharts": "^7.1.1",
+    "highcharts-drilldown": "^0.1.7",
     "highcharts-react-official": "^2.1.3",
     "knex": "^0.11.7",
     "knex-logger": "^0.1.0",
