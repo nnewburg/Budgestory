@@ -1,0 +1,19 @@
+.bar {
+  width: 50%;
+  position: absolute;
+  right: 10%;
+/*  transform: rotate(-90deg);*/
+}
+.piechart {
+  width: 50%;
+  position: absolute;
+  left: 5%;
+  bottom: 10%;
+}
+.heading {
+  text-align: center;
+}
+
+.date {
+  margin-left: 50px;
+}

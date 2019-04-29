@@ -217,6 +217,7 @@ app.get('/api/HomeChart', (req,res) => {
   .catch(err => console.error(err));
 });
 
+
 app.get('/api/getCategories', (req,res) => {
     knex.select().from('categories')
         .then((results) => {
@@ -246,7 +247,17 @@ app.get('/api/getCategories', (req,res) => {
     console.log(req.body)
     knex('records').insert([{user_id: 1, notes: req.body.newRec.notes, category_id: req.body.newRec.category_id, value: req.body.newRec.value}]).then(result =>
       {res.redirect('/categories')})
-  });
+    });
+
+app.get('/api/getCategoriesMenu', (req, res) => {
+  knex.select().from('categories')
+      .then((results) => {
+        res.json({
+          data: results
+
+        });
+      })
+});
 
 // Handles any requests that don't match the ones above
 app.get('*', (req,res) =>{
