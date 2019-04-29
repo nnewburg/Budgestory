@@ -23,6 +23,16 @@ app.get('/api/getList', (req,res) => {
       })
 });
 
+app.get('/api/getCategoriesMenu', (req, res) => {
+  knex.select().from('categories')
+      .then((results) => {
+        res.json({
+          data: results
+
+        });
+      })
+});
+
 app.post('/api/regist', (req,res) => {
   knex('users').insert([{name: req.body.user.name, password: req.body.user.password, email: req.body.user.email}])
   .then(result =>

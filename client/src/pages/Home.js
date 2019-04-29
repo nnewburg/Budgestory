@@ -6,7 +6,6 @@ import HighchartsReact from 'highcharts-react-official'
 
 class Home extends Component {
 
-      // 
       constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +25,7 @@ class Home extends Component {
           }
         }
       }
-  
+
     retrieveValues(records){
       let outputArray = [];
       let outputObject = {};
@@ -34,7 +33,7 @@ class Home extends Component {
       outputArray.push(outputObject);
       return outputArray;
     }
-  
+
     getList = () => {
       fetch('/api/getList')
       .then(res => res.json())
@@ -47,11 +46,11 @@ class Home extends Component {
         })
       );
     }
-  
+
     componentDidMount() {
       this.getList();
     }
-  
+
 
 
   render() {
