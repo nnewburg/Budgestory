@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import Highchart from './Highchart'
+import drilldown from 'highcharts-drilldown';
+drilldown(Highcharts);
 
-class PieChart extends React.Component {
+class ColumnChart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
           options: {
             chart: {
-              type: 'pie'
+              type: 'column'
             },
             credits: {
               enabled: false
@@ -51,7 +54,7 @@ class PieChart extends React.Component {
 
   render() {
     return (
-            <div className='pie'>
+            <div className='ColumnChart'>
               <HighchartsReact highcharts={Highcharts} options={this.state.options} />
 
             </div>
@@ -59,7 +62,7 @@ class PieChart extends React.Component {
   }
 }
 
-export default PieChart
+export default ColumnChart
 
 
 
