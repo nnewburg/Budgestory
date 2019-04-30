@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import Highchart from './Highchart'
+import drilldown from 'highcharts-drilldown';
+drilldown(Highcharts);
 
 class ColumnChart extends React.Component {
     constructor(props) {
@@ -51,7 +54,7 @@ class ColumnChart extends React.Component {
 
   render() {
     return (
-            <div className='pie'>
+            <div className='ColumnChart'>
               <HighchartsReact highcharts={Highcharts} options={this.state.options} />
 
             </div>
