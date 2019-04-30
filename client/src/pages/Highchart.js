@@ -127,9 +127,13 @@ class Highchart extends Component {
           events: {
             drilldown: function (e) {
               console.log("chart.events >>> drilldown e = ", e);
+              console.log("current title = ", this.options.title.text);
+              this.setTitle({text: "New Title"});
+              console.log("current title = ", this.options.title.text);
             },
             drillup: function (e) {
               console.log("chart.events >>> drillup e = ", e);
+              // this.test(false, e);
             }
           }
         },
@@ -218,6 +222,15 @@ class Highchart extends Component {
         }
       }
     }
+  }
+
+  test(drill_up_down, e) {
+    if(drill_up_down) {
+      console.log("test >>> drilldown true = ", drill_up_down);
+    } else {
+      console.log("test >>> drilldown false = ", drill_up_down);
+    }
+
   }
   
   componentDidMount() {

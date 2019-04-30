@@ -1,0 +1,23 @@
+#container {
+  max-width: 660px;
+  margin: auto;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.add_new_btns {
+  display: flex;
+  align-items: center;
+  
+  float: right;
+}
+
+.add-expenses-btn {
+  margin:20px;
+  padding: 20px;
+}
+
+.add-incomes-btn {
+  margin:20px;
+  padding: 20px;
+}
