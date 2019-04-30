@@ -42,7 +42,8 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 let balanceObj = {};
 let allCategories = [];
 let allRecords = [];
-let balanceChart = {}
+let balanceChart = {};
+let timePeriod = {start: "1000-01-01", end: "9999-12-31"};
 
 /******** Public Functions ********/
 // Initialize the top category: balance
@@ -64,6 +65,30 @@ function balanceInitialization() {
     }
   }
 }
+// If a specific category has record/records inside
+function hasRecordIn(categoryObj) {
+  let hasRecord = false;
+  if(allRecords.length > 0) {
+    allRecords.map(record => {
+      if(record.category_id === categoryObj.id) {
+        hasRecord = true;
+      }
+    });
+  }
+  if(!hasRecord) {
+    if(allCategories.length > 0) {
+      allCategories.map(category => {
+        if(category.parent_id === categoryObj.id) {
+          if(hasRecord === false) {
+            // categoryObj.hasRecord = hasRecordIn(category);
+            hasRecord = hasRecordIn(category);
+          }
+        }
+      });
+    }
+  } 
+  return hasRecord;
+}
 // Transfer db json style into highcharts data style
 function transferToChart() {
   // For the "series" key's value
@@ -81,7 +106,9 @@ function transferToChart() {
   // For the "drilldown" key's value
   if(allCategories.length > 0) {
     allCategories.map(category => {
-      createSeriesObj(category);
+      if(hasRecordIn(category)) {
+        createSeriesObj(category);
+      }
     });
   }
 }
@@ -91,7 +118,7 @@ function createChildrenData(categoryObj) {
   let childrenObj = {};
   if(allCategories.length > 0) {
     allCategories.map(category => {
-      if(category.parent_id === categoryObj.id) {
+      if(category.parent_id === categoryObj.id && hasRecordIn(category)) {
         childrenObj = {}; // Clean child object before a new input
         childrenObj.name = category.name;
         childrenObj.v = category.value/100;
@@ -112,6 +139,7 @@ function createChildrenData(categoryObj) {
         childrenObj.name = record.notes;
         childrenObj.v = record.value/100;
         childrenObj.y = (record.value/categoryObj.value)*100;
+        childrenObj.d = record.date.split('T')[0];
         childrenObj.drilldown = null;
         childrenArray.push(childrenObj);
       }
@@ -135,6 +163,7 @@ function findAllChildren(categoryObj) {
       if(category.parent_id === categoryObj.id) {
         category.type = "category";
         category.value = 0;
+        // category.hasRecord = false;
         category.children = findAllChildren(category);
         children.push(category);
       }
@@ -149,29 +178,17 @@ function findAllChildren(categoryObj) {
       }
     });
   }
-  // if(categoryObj.type === "category") {
-  // } else {
-    // if(allRecords.length > 0) {
-    //   allRecords.map(record => {
-    //     if(record.category_id === category_record_Obj.id) {
-    //       record.type = "record";
-    //       record.children = [];
-    //       children.push(record);
-    //     }
-    //   });
-    // }
-  // }
   return children;
 }
 // Calculate the value for a specific category based on all the records inside of it
-function calculateValue(category_record_Obj) {
+function calculateValue(categoryObj) {
   let valueTotal = 0;
   if(allCategories.length > 0) {
     allCategories.map(category => {
-      if(category.parent_id === category_record_Obj.id) {
+      if(category.parent_id === categoryObj.id) {
         let valueAdd = calculateValue(category);
         category.value += valueAdd;
-        if(category_record_Obj.id === 0 && category.id === 1) {
+        if(categoryObj.id === 0 && category.id === 1) {
           valueAdd *= -1;
         }
         valueTotal += valueAdd;
@@ -180,17 +197,31 @@ function calculateValue(category_record_Obj) {
   }
   if(allRecords.length > 0) {
     allRecords.map(record => {
-      if(record.category_id === category_record_Obj.id) {
+      if(record.category_id === categoryObj.id) {
         valueTotal += record.value;
       }
     });
   }
   return valueTotal;
 }
+// Update Date Range
+function updateDateRange(dateParams) {
+  if(Object.keys(dateParams).length > 0) {
+    if(dateParams.start){
+      timePeriod.start = dateParams.start;
+    }
+    if(dateParams.end){
+      timePeriod.end = dateParams.end;
+    }
+  }
+  // console.log("BS >>> timePeriod = ", timePeriod);
+}
 
 /******** All HTTP Requires Based On Express ********/
 // Home Page: Achieve data from DB, regulate into hightchart style, and then send back to the front
 app.get('/api/HomeChart', (req,res) => {
+  // Update Date Range
+  updateDateRange(req.query);
   // Select all Categories
   knex('categories').select()
   .then(categories => {
@@ -199,7 +230,7 @@ app.get('/api/HomeChart', (req,res) => {
   .then(results => {
     allCategories = results;
     // Select all Records
-    knex('records').select()
+    knex('records').select().where('date', '>=', timePeriod.start).andWhere('date', '<=', timePeriod.end)
     .then(records => {
       allRecords = JSON.parse(JSON.stringify(records));
       balanceInitialization();

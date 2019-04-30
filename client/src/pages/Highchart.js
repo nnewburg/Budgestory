@@ -98,24 +98,6 @@ let chartOptions = {
   }
 };
 
-// var chart = Highcharts.chart('MajorChart', {
-//   series: [{
-//       type: 'column',
-//       data: [{
-//           y: 2,
-//           drilldown: 'd1'
-//       }]
-//   }],
-
-//   drilldown: {
-//       series: [{
-//           type: 'column',
-//           data: [1,2,3,4],
-//           id: 'd1'
-//       }]
-//   }
-// });
-
 class Highchart extends Component {
   constructor(props) {
     super(props);
@@ -133,7 +115,6 @@ class Highchart extends Component {
             },
             drillup: function (e) {
               console.log("chart.events >>> drillup e = ", e);
-              // this.test(false, e);
             }
           }
         },
@@ -153,7 +134,7 @@ class Highchart extends Component {
           series: {
             dataLabels: {
               enabled: true,
-              format: '{point.name}: ${point.v:.1f}, {point.y:.1f}%'
+              format: '{point.name}: ${point.v:.1f}, {point.y:.1f}%, {point.d}'
             },
             cursor: 'pointer',
             // point: {
@@ -223,50 +204,20 @@ class Highchart extends Component {
       }
     }
   }
-
-  test(drill_up_down, e) {
-    if(drill_up_down) {
-      console.log("test >>> drilldown true = ", drill_up_down);
-    } else {
-      console.log("test >>> drilldown false = ", drill_up_down);
-    }
-
-  }
   
   componentDidMount() {
-    axios('/api/HomeChart')
+    axios('/api/HomeChart', {
+      params: {
+        // start: "2019-01-01",
+        // end: "2019-04-30"
+      }
+    })
     .then(
       ({data}) => {
         this.setState({
           loading: false,
           options: {
-            // chart: {
-            //   type: 'pie'
-            // },
-            // title: {
-            //   text: 'WOW! Balance:$100,000,000 April, 2019'
-            // },
-            // plotOptions: {
-            //   series: {
-            //     dataLabels: {
-            //       enabled: true,
-            //       format: '{point.name}: ${point.v:.1f}, {point.y:.1f}%'
-            //     },
-            //     cursor: 'pointer',
-            //     point: {
-            //       events: {
-            //         click: function (e) {
-            //             // alert('clicked! ' + this.state);
-            //           // console.log(this);
-            //         }
-            //       }
-            //     }
-            //   }
-            // },
-            // tooltip: {
-            //   headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            //   pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
-            // },
+            ...this.state.options,
             series: data.series,
             drilldown: data.drilldown
           }
