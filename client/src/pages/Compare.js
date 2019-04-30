@@ -16,7 +16,7 @@ class Compare extends Component {
         this.state = {
           options: {
             chart: {
-              type: 'pie',
+              type: 'pie'
             },
             credits: {
               enabled: false
