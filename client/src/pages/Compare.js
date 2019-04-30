@@ -3,16 +3,20 @@ import { Link, Route, Switch } from 'react-router-dom';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import '../App/styles/compare.css'
-import Pie from './PieChart.js'
+import ColumnChart from './ColumnChart.js'
 import Categories from './select_categories.js'
 import Date from './datepicker.js'
+import Highchart from './Highchart'
+import drilldown from 'highcharts-drilldown';
+drilldown(Highcharts);
+
 class Compare extends Component {
     constructor(props) {
         super(props);
         this.state = {
           options: {
             chart: {
-              type: 'bar'
+              type: 'pie'
             },
             credits: {
               enabled: false
@@ -70,13 +74,16 @@ class Compare extends Component {
         <div className='date'>
           <Date />
         </div>
-        <div className='pie'>
-          <Pie />
+        <div className='ColumnChart'>
+          <ColumnChart />
         </div>
-        <div className='bar'>
-          <HighchartsReact highcharts={Highcharts} options={this.state.options} />
-
-        </div>
+        {/* <form onSubmit={newExpenses}>
+        <button className="add-expenses-btn" type="submit">+ New Expenses</button>
+      </form>
+      <form onSubmit={newIncomes}>
+        <button className="add-incomes-btn" type="submit">+ New Incomes</button>
+      </form> */}
+      <Highchart />
       </div>
     );
   }
