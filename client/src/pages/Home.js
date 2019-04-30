@@ -7,22 +7,30 @@ import drilldown from 'highcharts-drilldown';
 drilldown(Highcharts);
 
 class Home extends Component {
-  // const onSubmit = evt => {
-
-  // };
+  
   
   render() {
+    const newExpenses = evt => {
+      evt.preventDefault();
+      alert("New Expenses!");
+    };
+    const newIncomes = evt => {
+      evt.preventDefault();
+      alert("New Incomes!")
+    };
     return (
-    <div className="App">
-      <h1>Project Home</h1>
-      {/* <form onSubmit={newExpenses}>
-        <button className="add-expenses-btn" type="submit">+ New Expenses</button>
-      </form>
-      <form onSubmit={newIncomes}>
-        <button className="add-incomes-btn" type="submit">+ New Incomes</button>
-      </form> */}
-      <Highchart />
-    </div>
+      <div className="App">
+        <h1>Project Home</h1>
+        <div className="add_new_btns">
+          <form onSubmit={newExpenses}>
+            <button className="add-expenses-btn" type="submit">+ New Expenses</button>
+          </form>
+          <form onSubmit={newIncomes}>
+            <button className="add-incomes-btn" type="submit">+ New Incomes</button>
+          </form>
+        </div>
+        <Highchart />
+      </div>
     );
   }
 }
