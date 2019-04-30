@@ -216,31 +216,65 @@ app.get('/api/HomeChart', (req,res) => {
 });
 // Categories Management Page: 
 app.get('/api/getCategories', (req,res) => {
-    knex.select().from('categories')
-        .then((results) => {
-          res.json({
-            data: results
-          });
-        })
+  knex.select().from('categories')
+  .then((results) => {
+    res.json({
+      data: results
+    });
+  })
 });
 
 app.get('/api/getRecords', (req,res) => {
   knex.select().from('records')
-      .then((results) => {
-        res.json({
-          data: results
-        });
-      })
+  .then((results) => {
+    res.json({ data: results });
+  })
 });
 
 app.post('/newCategory', (req,res) => {
-  knex('categories').insert([{name: req.body.newCat.name, parent_id: req.body.newCat.parent_id}]).then(result =>
-    {res.redirect('/categories')})
+  knex('categories').insert([{name: req.body.newCat.name, parent_id: req.body.newCat.parent_id}])
+  .then(result =>
+    {res.redirect('/categories')}
+  )
 });
 
 app.post('/newRecord', (req,res) => {
-  knex('records').insert([{user_id: 1, notes: req.body.newRec.notes, category_id: req.body.newRec.category_id, value: req.body.newRec.value}]).then(result =>
-    {res.redirect('/categories')})
+  knex('records').insert([{user_id: 1, notes: req.body.newRec.notes, category_id: req.body.newRec.category_id, value: req.body.newRec.value}])
+  .then(result =>
+    {res.redirect('/categories')}
+  )
+});
+  
+app.get('/api/getRecords', (req,res) => {
+  knex.select().from('records')
+  .then((results) => {
+    res.json({
+      data: results
+    });
+  })
+});
+  
+app.post('/newCategory', (req,res) => {
+  // console.log(req.body)
+  knex('categories').insert([{name: req.body.newCat.name, parent_id: req.body.newCat.parent_id}])
+  .then(result =>
+    {res.redirect('/categories')}
+  )
+});
+  
+app.post('/newRecord', (req,res) => {
+  // console.log(req.body)
+  knex('records').insert([{user_id: 1, notes: req.body.newRec.notes, category_id: req.body.newRec.category_id, value: req.body.newRec.value}])
+  .then(result =>
+    {res.redirect('/categories')}
+  )
+});
+
+app.get('/api/getCategoriesMenu', (req, res) => {
+  knex.select().from('categories')
+  .then((results) => {
+    res.json({ data: results });
+  })
 });
 
 app.get('*', (req,res) =>{
