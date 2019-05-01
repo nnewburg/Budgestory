@@ -13,7 +13,6 @@ class DateRange extends Component {
     };
   }
 
-
   handleChange = ({ startDate, endDate }) => {
     startDate = startDate || this.state.startDate;
     endDate = endDate || this.state.endDate;

@@ -82,7 +82,7 @@ class Home extends Component {
             </form>
           </div>
         </div>
-        <Highchart />
+        <Highchart type={"pie"}/>
       </div>
     );
   }

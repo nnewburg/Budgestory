@@ -19,7 +19,7 @@ class Highchart extends Component {
       loading: true,
       options: {
         chart: {
-          type: 'pie',
+          type: this.props.type,
           events: {
             drilldown: (e) => {
               drillDownEvent(e);
