@@ -3,12 +3,12 @@ import { Link, Route, Switch } from 'react-router-dom';
 import Highchart from './Highchart'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
-import drilldown from 'highcharts-drilldown';
-drilldown(Highcharts);
+// import drilldown from 'highcharts-drilldown';
+// drilldown(Highcharts);
 
 class Home extends Component {
-  
-  
+
+
       constructor(props) {
         super(props);
         this.state = {

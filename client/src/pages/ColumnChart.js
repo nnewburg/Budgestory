@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import Highchart from './Highchart'
-import drilldown from 'highcharts-drilldown';
-drilldown(Highcharts);
+// import drilldown from 'highcharts-drilldown';
+// drilldown(Highcharts);
 
 class ColumnChart extends React.Component {
     constructor(props) {

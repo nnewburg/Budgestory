@@ -20,7 +20,7 @@ let chartOptions = {
   //     text: 'Click the slices to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
   // },
   // credits: {
-  //   enabled: true
+  //   enabled: true`
   // },
   // xAxis: {
   //   categories: ["Expenses", "Incomes"]
@@ -80,7 +80,7 @@ let chartOptions = {
         id: 3,
         data: [
           { name: "Clothes1", y: 10, v: 100, drilldown: null},
-          { name: "Clothes2", y: 20, v: 200, drilldown: null}, 
+          { name: "Clothes2", y: 20, v: 200, drilldown: null},
           { name: "Clothes3", y: 30, v: 300, drilldown: null},
           { name: "Clothes4", y: 40, v: 400, drilldown: null}
         ]
@@ -94,27 +94,61 @@ let chartOptions = {
           { name: "Food3", y: 50, v: 500}
         ]
       }
-    ]          
+    ]
   }
 };
 
 class Highchart extends Component {
   constructor(props) {
     super(props);
+    Highcharts.targetLevel = -1;
     this.state = {
       loading: true,
       options: {
         chart: {
           type: 'pie',
           events: {
-            drilldown: function (e) {
-              console.log("chart.events >>> drilldown e = ", e);
-              console.log("current title = ", this.options.title.text);
-              this.setTitle({text: "New Title"});
-              console.log("current title = ", this.options.title.text);
+            drilldown: (e) => {
+              // console.log("chart.events >>> drilldown e = ", e);
+              // console.log("current title = ", this.options.title.text);
+              // this.setTitle({text: "New Title"});
+              // console.log("current title = ", this.options.title.text);
+
+              if(!e.originalEvent) {
+                return;
+              }
+
+              if(!e.target.drilled) {
+                e.target.drilled = 0;
+              }
+
+              e.target.drilled++;
+
+              Highcharts.charts.forEach((chart) => {
+                if(!chart.drilled) {
+                  chart.drilled = 0;
+                }
+
+                if(chart !== e.target) {
+                  chart.drilled++;
+                  chart.series[0].points[e.point.index].doDrilldown();
+                }
+              });
             },
             drillup: function (e) {
-              console.log("chart.events >>> drillup e = ", e);
+              if(Highcharts.targetLevel === e.target.drilled) return;
+
+              Highcharts.targetLevel = e.target.drilled - 1;
+              e.target.drilled--;
+
+              Highcharts.charts.forEach((chart) => {
+                if(chart !== e.target) {
+                  chart.drilled--;
+                  chart.drillUp();
+                }
+              });
+
+              Highcharts.targetLevel = -1;
             }
           }
         },
@@ -185,7 +219,7 @@ class Highchart extends Component {
               id: 3,
               data: [
                 { name: "Clothes1", y: 10, v: 100, drilldown: null},
-                { name: "Clothes2", y: 20, v: 200, drilldown: null}, 
+                { name: "Clothes2", y: 20, v: 200, drilldown: null},
                 { name: "Clothes3", y: 30, v: 300, drilldown: null},
                 { name: "Clothes4", y: 40, v: 400, drilldown: null}
               ]
@@ -199,12 +233,12 @@ class Highchart extends Component {
                 { name: "Food3", y: 50, v: 500}
               ]
             }
-          ]          
+          ]
         }
       }
     }
   }
-  
+
   componentDidMount() {
     axios('/api/HomeChart', {
       params: {
@@ -223,13 +257,13 @@ class Highchart extends Component {
           }
         });
       }
-    ).catch(function (error) { 
+    ).catch(function (error) {
       console.log(error);
     });
   }
 
   render() {
-    console.log("render this.state.options = ", this.state.options);
+    //console.log("render this.state.options = ", this.state.options);
     return (
       <div id="MajorChart" className="Hightchart">
         <HighchartsReact highcharts={Highcharts} options={this.state.options} />

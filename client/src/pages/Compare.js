@@ -7,8 +7,9 @@ import ColumnChart from './ColumnChart.js'
 import Categories from './select_categories.js'
 import Date from './datepicker.js'
 import Highchart from './Highchart'
-import drilldown from 'highcharts-drilldown';
-drilldown(Highcharts);
+// import drilldown from 'highcharts-drilldown';
+
+// drilldown(Highcharts);
 
 class Compare extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class Compare extends Component {
               text: 'My Expenses'
             },
             series: [
-              { data: [1, 2, 3] }
+              { data: [] }
             ]
           }
 
@@ -75,7 +76,7 @@ class Compare extends Component {
           <Date />
         </div>
         <div className='ColumnChart'>
-          <ColumnChart />
+          { /* <ColumnChart /> */ }
         </div>
         {/* <form onSubmit={newExpenses}>
         <button className="add-expenses-btn" type="submit">+ New Expenses</button>
@@ -83,6 +84,7 @@ class Compare extends Component {
       <form onSubmit={newIncomes}>
         <button className="add-incomes-btn" type="submit">+ New Incomes</button>
       </form> */}
+      <Highchart />
       <Highchart />
       </div>
     );
