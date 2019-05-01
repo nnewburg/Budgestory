@@ -4,96 +4,176 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Category from './Category';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.css';
+import { Modal, Button, Form } from 'react-bootstrap';
 
-class NewCategory extends React.Component {
+class ModalCreateRecord extends React.Component{
+  constructor(props, context) {
+    super(props, context);
 
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
 
-        constructor(props) {
-    super();
-    this.createCategory = this.createCategory.bind(this);
-
+    this.state = {
+      show: false,
+    };
   }
 
-   createCategory(event) {
-    event.preventDefault();
-
-       const newCat = {
-    name: event.target.name.value,
-    parent_id: this.props.parentCategory
-   }
-
-      axios.post('/newCategory', {newCat
-  }).then(function (response) {
-            if (response.data.redirect == '/categories') {
-                window.location = "/categories"
-            } else if (response.data.redirect == '/login'){
-                window.location = "/login"
-            }
-  })
-  }
-
-  render() {
-    console.log(this.props)
-    return (
-      <div className='NewCategory' style={{borderTop:'1px red solid'}}>
-        <div className='NewCategory_inner'>
-          <span>{this.props.text}</span>
-          <form onSubmit={this.createCategory}>
-            Name:
-            <input type='text' name='name'/>
-            <input type='submit' value='submit'  />
-          </form>
-        <button onClick={this.props.closeNewCategory}>close me</button>
-        </div>
-      </div>
-    );
-  }
-}
-
-class NewRecord extends React.Component {
-
-      constructor(props) {
-        super();
-        this.createRecord = this.createRecord.bind(this);
-        this.state = {
-          parentId: props.parentCategory
-        }
-
-  }
-
-   createRecord(event) {
+   createRecord = (event) => {
     event.preventDefault();
 
        const newRec = {
-    notes: event.target.notes.value,
-    category_id: this.props.parentCategory,
-    value: event.target.value.value
-   }
-       console.log('asdjkad')
+         notes: event.target.notes.value,
+         category_id: this.props.parentCategory,
+         value: event.target.value.value*100
+       }
 
-      axios.post('/newRecord', {newRec
-  }).then(function (response) {
-            if (response.data.redirect == '/categories') {
-                window.location = "/categories"
-            } else if (response.data.redirect == '/login'){
-                window.location = "/login"
-            }
+      axios.post('/newRecord', {newRec}).then((response) => {
+    console.log('record Posted')
+      this.props.update()
+      this.handleClose();
   })
+  }
+
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
   }
 
   render() {
     return (
-      <div className='NewRecord' style={{display: 'flex',borderTop:'1px red solid'}}>
-        <div className='NewRecord_inner'>
+      <div style={{flexDirection: 'row-reverse', padding: '0.4em'}}>
+        <Button variant="success" onClick={this.handleShow}>
+          Create Record
+        </Button>
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Create a Record</Modal.Title>
+          </Modal.Header>
+            <Modal.Body>
+              <Form id="record" onSubmit={this.createRecord}>
+              <Form.Group controlId="formGroupEmail">
+              <Form.Label>Notes about record:</Form.Label>
+              <Form.Control type="text" placeholder="Notes..." name='notes' />
+              </Form.Group>
+              <Form.Group controlId="formGroupPassword">
+              <Form.Label>Amount spent:</Form.Label>
+              <Form.Control type="number" step='0.01' name='value' />
+              </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" type="submit" form="record">
+                Create Record
+              </Button>
+            </Modal.Footer>
+        </Modal>
+      </div>
+  );
+
+}
+}
+
+
+class ModalCreateCategory extends React.Component{
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+
+    this.state = {
+      show: false,
+    };
+  }
+
+  createCategory = (event) => {
+    event.preventDefault();
+
+       const newCat = {
+        name: event.target.name.value,
+        parent_id: this.props.parentCategory
+       }
+
+      axios.post('/newCategory', {newCat}).then((response) => {
+      this.props.update()
+      this.handleClose();
+      })
+   }
+
+
+
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  render() {
+    return (
+      <div style={{marginLeft: 'auto', padding: '0.4em'}}>
+        <Button variant="success" onClick={this.handleShow}>
+          Create Category
+        </Button>
+         <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Create a Category</Modal.Title>
+          </Modal.Header>
+            <Modal.Body>
+              <Form id="record" onSubmit={this.createCategory}>
+              <Form.Group controlId="formGroupEmail">
+              <Form.Label>Category Name:</Form.Label>
+              <Form.Control type="text" placeholder="Enter new category" name='name' />
+              </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" type="submit" form="record">
+                Create Category
+              </Button>
+            </Modal.Footer>
+        </Modal>
+      </div>
+  );
+
+}
+
+}
+
+class EditCategory extends React.Component {
+    constructor(props) {
+      super(props);
+
+    }
+
+
+    deleteCategory = (event) => {
+
+       const delCat = {
+        id: this.props.currentCategory
+       }
+
+    }
+
+    render() {
+    return (
+      <div className='NewCategory' style={{borderBottom:'1px red solid'}}>
+        <div className='NewCategory_inner' style={{display: 'flex'}}>
+          <div style={{ flexDirection: 'row', padding: '0.4em'}}>
+          <Button style ={{marginLeft: '0%'}} variant="danger" onClick={this.deleteCategory}> Delete Category </Button>
+          </div>
+          <div style={{alignItems: 'baseline'}}>
           <span>{this.props.text}</span>
-           <form onSubmit={this.createRecord}>
-            Notes:
-            <input type='text' name='notes'/>
-            Value:
-            <input type='number' name='value'/>
+          <form onSubmit={this.createCategory}>
+            <input type='text' name='name'/>
             <input type='submit' value='submit'  />
           </form>
-        <button onClick={this.props.closeNewRecord}>close me</button>
+          </div>
         </div>
       </div>
     );
@@ -101,29 +181,22 @@ class NewRecord extends React.Component {
 }
 
 class Helper extends Component {
-
   constructor(props) {
     super();
     this.onItemClick = this.onItemClick.bind(this);
   }
 
-    onItemClick(event) {
-      console.log('works', event.currentTarget)
-      const newGen = event.currentTarget.id
-        this.props.updateCurrentGen(newGen);
+  onItemClick(event) {
+    const newGen = event.currentTarget.id
+    this.props.updateCurrentGen(newGen);
   }
 
-
-
-
   render() {
-
-return (
+    return (
          <div id={this.props.id} onClick={this.onItemClick} style={{flexDirection: 'row', border:'1px black solid', margin: '0.5em' }}>
-                    {this.props.name}
-                  </div>
-
-      )
+            {this.props.name}
+          </div>
+          )
   }
 }
 
@@ -136,28 +209,24 @@ class Categories extends Component {
         this.onItemClick = this.onItemClick.bind(this);
         this.findLineage = this.findLineage.bind(this);
         this.state = {
-          showNewRecord: false,
-          showNewCategory: false,
+          showCategoryOptions: false,
           categories: [],
           records: [],
-          parentId: 0
+          parentId: 0,
+          currentCategory: null,
+          currentCatName: null
         }
     }
 
-    toggleNewCategory() {
-      if(!this.state.showNewRecord){
+  toggleCategory = (x,y) => {
+    console.log(x)
+    if(!this.state.showNewRecord && !this.state.showNewCategory){
     this.setState({
-      showNewCategory: !this.state.showNewCategory
+      currentCategory: x,
+      currentCatName: `Change name of ${y}`,
+      showCategoryOptions: !this.state.showCategoryOptions
     });
-    }
   }
-
-   toggleNewRecord() {
-    if(!this.state.showNewCategory){
-    this.setState({
-      showNewRecord: !this.state.showNewRecord
-    });
-    }
   }
 
     updateCurrentGen(setGen){
@@ -180,16 +249,15 @@ class Categories extends Component {
       return lineage.reverse()
     }
 
-    addCategory(event){
-
-    }
-
     onItemClick(event) {
-      console.log('works', event.currentTarget)
       const newGen = event.currentTarget.id
         this.updateCurrentGen(newGen);
-  }
+    }
 
+    refreshAsync(){
+      this.getCategory();
+      this.getRecords();
+    }
 
     componentDidMount() {
       this.getCategory();
@@ -220,41 +288,33 @@ class Categories extends Component {
 
   render() {
 
-          const filteredList = this.findLineage(this.state.parentId)
-          console.log(filteredList)
+         const filteredList = this.findLineage(this.state.parentId)
          const categoryList = filteredList.map((category, index) => (
               <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} id={category.parent_id} name={category.name}  />
         // const filteredList = this.state.categories.filter(category => category.id == this.props.state.currentGen)
         ))
 
     return (
-    <div className="App">
+    <div className="App" style={{}}>
       <h1>Categories Page</h1>
+
       <div style={{margin: '0 auto', border: '2px red solid', width: '80%'}}>
+      {this.state.showCategoryOptions ?
+          <EditCategory
+            text={this.state.currentCatName}
+            closeCategoryWindow={this.toggleCategory}
+            parentCategory = {this.state.parentId}
+            currentCategory = {this.state.currentCategory}
+          />
+          : null
+        }
         <div style={{display: 'flex', flexWrap: 'wrap', borderBottom: '2px black solid'}}>
                 {categoryList}
-
-                  <button onClick={this.toggleNewRecord.bind(this)} style={{marginLeft: 'auto'}}>new record</button>
-                  <button onClick={this.toggleNewCategory.bind(this)} style={{marginLeft: 'auto'}}>new category</button>
+                  <ModalCreateCategory parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
+                  <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
 
         </div>
-      <Category updateCurrentGen={this.updateCurrentGen} state={this.state} />
-      {this.state.showNewCategory ?
-          <NewCategory
-            text='Add a Category'
-            closeNewCategory={this.toggleNewCategory.bind(this)}
-            parentCategory = {this.state.parentId}
-          />
-          : null
-        }
-        {this.state.showNewRecord ?
-          <NewRecord
-            text='Add a Record'
-            closeNewRecord={this.toggleNewRecord.bind(this)}
-            parentCategory = {this.state.parentId}
-          />
-          : null
-        }
+      <Category toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} />
       </div>
 
     </div>

@@ -188,7 +188,7 @@ function calculateValue(category_record_Obj) {
 
 // An api endpoint that returns a short list of items
 app.get('/api/HomeChart', (req,res) => {
-  
+
   // Select all Categories
   knex('categories').select()
   .then(categories => {
@@ -197,7 +197,7 @@ app.get('/api/HomeChart', (req,res) => {
   .then(results => {
     // Select all Categories
     allCategories = results;
-    
+
     knex('records').select()
     .then(records => {
       // Select all Records
@@ -207,7 +207,7 @@ app.get('/api/HomeChart', (req,res) => {
       balanceObj.children = findAllChildren(balanceObj);
       balanceObj.value += calculateValue(balanceObj);
       transferToChart();
-      
+
       console.log("balanceChart.series = ", balanceChart.series);
       console.log("balanceChart.drilldown = ", balanceChart.drilldown);
       res.json(balanceChart);
@@ -225,7 +225,7 @@ app.get('/api/getCategories', (req,res) => {
           });
         })
   });
-  
+
   app.get('/api/getRecords', (req,res) => {
     knex.select().from('records')
         .then((results) => {
@@ -234,18 +234,18 @@ app.get('/api/getCategories', (req,res) => {
           });
         })
   });
-  
+
   // Handles any requests that don't match the ones above
   app.post('/newCategory', (req,res) => {
     console.log(req.body)
     knex('categories').insert([{name: req.body.newCat.name, parent_id: req.body.newCat.parent_id}]).then(result =>
-      {res.redirect('/categories')})
+      {res.json(result)})
   });
-  
+
   app.post('/newRecord', (req,res) => {
     console.log(req.body)
     knex('records').insert([{user_id: 1, notes: req.body.newRec.notes, category_id: req.body.newRec.category_id, value: req.body.newRec.value}]).then(result =>
-      {res.redirect('/categories')})
+      {res.json(result)})
   });
 
 // Handles any requests that don't match the ones above
