@@ -243,14 +243,8 @@ app.get('/api/HomeChart', (req,res) => {
       balanceObj.children = findAllChildren(balanceObj);
       balanceObj.value += calculateValue(balanceObj);
       transferToChart();
-
-
-      console.log("balanceChart.series = ", balanceChart.series);
-      console.log("balanceChart.drilldown = ", balanceChart.drilldown);
-
       // console.log("balanceChart.series = ", balanceChart.series);
       // console.log("balanceChart.drilldown = ", balanceChart.drilldown);
-
       res.json(balanceChart);
     })
     .catch(err => console.error(err));

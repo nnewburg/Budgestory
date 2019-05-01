@@ -22,22 +22,16 @@ class Highchart extends Component {
             drilldown: (e) => {
               // this.setTitle({text: "New Title"});
               if(!e.originalEvent) {
-                console.log("e.originalEvent is empty: ", e.originalEvent);
                 return;
               }
-              console.log("e.originalEvent is : ", e.originalEvent);
-              if(!e.target.drilled) {
-                console.log("e.target.drilled : ", e.target);
+              if(!e.target.drilled) { //  e.target is the chart user clicked
                 e.target.drilled = 0;
               }
-
-              e.target.drilled++;
-
+              e.target.drilled ++;
               Highcharts.charts.forEach((chart) => {
                 if(!chart.drilled) {
                   chart.drilled = 0;
                 }
-
                 if(chart !== e.target) {
                   chart.drilled++;
                   chart.series[0].points[e.point.index].doDrilldown();
@@ -45,18 +39,17 @@ class Highchart extends Component {
               });
             },
             drillup: function (e) {
-              if(Highcharts.targetLevel === e.target.drilled) return;
-
+              if(Highcharts.targetLevel === e.target.drilled) {
+                return;
+              }
               Highcharts.targetLevel = e.target.drilled - 1;
-              e.target.drilled--;
-
+              e.target.drilled --;
               Highcharts.charts.forEach((chart) => {
                 if(chart !== e.target) {
                   chart.drilled--;
                   chart.drillUp();
                 }
               });
-
               Highcharts.targetLevel = -1;
             }
           }
