@@ -8,8 +8,8 @@
 .add_new_btns {
   display: flex;
   align-items: center;
-  
-  float: right;
+  margin:20px;
+  padding: 20px;
 }
 
 .add-expenses-btn {
