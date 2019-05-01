@@ -32,23 +32,7 @@ class Categories extends Component {
     }
   }
 
-  retrieveNames(categories) {
-    let outputArray = [];
-    let outputObject = {};
-    outputObject.data = categories.map(x => x.value);
-    outputArray.push(outputObject);
-
-    return outputArray;
-  }
-
-  getCategoriesMenu = () => {
-    fetch('api/getCategoriesMenu')
-      .then(res => res.json())
-      .then(data => this.setState({ data }));
-  }
-
   componentDidMount() {
-    this.getCategoriesMenu();
 
   }
 

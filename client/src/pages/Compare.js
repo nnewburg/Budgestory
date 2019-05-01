@@ -28,6 +28,7 @@ class Compare extends Component {
         </div> */}
         <Highchart type={"pie"}/>
         <Highchart type={"column"}/>
+
       </div>
     );
   }

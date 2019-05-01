@@ -5,7 +5,7 @@
 /*  transform: rotate(-90deg);*/
 }
 .ColumnChart {
-  width: 50%;
+  height: 50%;
   position: absolute;
   left: 5%;
   bottom: 10%;
