@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import Highchart from './Highchart'
+import axios from 'axios';
+
+
 // import drilldown from 'highcharts-drilldown';
 // drilldown(Highcharts);
 
@@ -35,21 +38,41 @@ class ColumnChart extends React.Component {
       return outputArray;
     }
 
-    getList = () => {
-      fetch('/api/getRecords')
-      .then(res => res.json())
-      .then(
-        ({data}) =>
-        this.setState({
-          options: {
-            series: this.retrieveValues(data)
-          }
-        })
-      );
-    }
+    // getList = () => {
+    //   fetch('/api/getRecords')
+    //   .then(res => res.json())
+    //   .then(
+    //     ({data}) =>
+    //     this.setState({
+    //       options: {
+    //         series: this.retrieveValues(data)
+    //       }
+    //     })
+    //   );
+    // }
 
     componentDidMount() {
-      this.getList();
+      axios('/api/getRecords', {
+        params: {
+          start: "2019-01-01",
+          end: "2019-03-25"
+        }
+      })
+      .then(
+        ({ data }) => {
+          this.setState ({
+            loading: false,
+            options: {
+              ...this.state.options,
+              series: data.series,
+              drilldown: data.drilldown
+            }
+          });
+        }
+      ).catch(function (error) {
+        console.log(error);
+      });
+      // this.getList();
     }
 
   render() {

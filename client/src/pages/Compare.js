@@ -76,7 +76,7 @@ class Compare extends Component {
           <Date />
         </div>
         <div className='ColumnChart'>
-          { /* <ColumnChart /> */ }
+         <ColumnChart />
         </div>
         {/* <form onSubmit={newExpenses}>
         <button className="add-expenses-btn" type="submit">+ New Expenses</button>
@@ -84,7 +84,6 @@ class Compare extends Component {
       <form onSubmit={newIncomes}>
         <button className="add-incomes-btn" type="submit">+ New Incomes</button>
       </form> */}
-      <Highchart />
       <Highchart />
       </div>
     );
