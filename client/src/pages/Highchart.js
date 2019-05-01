@@ -20,16 +20,14 @@ class Highchart extends Component {
           type: 'pie',
           events: {
             drilldown: (e) => {
-              // console.log("chart.events >>> drilldown e = ", e);
-              // console.log("current title = ", this.options.title.text);
               // this.setTitle({text: "New Title"});
-              // console.log("current title = ", this.options.title.text);
-
               if(!e.originalEvent) {
+                console.log("e.originalEvent is empty: ", e.originalEvent);
                 return;
               }
-
+              console.log("e.originalEvent is : ", e.originalEvent);
               if(!e.target.drilled) {
+                console.log("e.target.drilled : ", e.target);
                 e.target.drilled = 0;
               }
 
