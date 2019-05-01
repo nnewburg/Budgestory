@@ -3,6 +3,8 @@ import { findDOMNode } from 'react-dom';
 import axios from 'axios';
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts';
+import { drillDownEvent } from "./DrillDownUp";
+import { drillUpEvent } from "./DrillDownUp";
 import Drilldown from 'highcharts/modules/drilldown';
 // check if HighchartsDrilldown has already been loaded
 if (!Highcharts.Chart.prototype.addSeriesAsDrilldown) {
@@ -20,37 +22,10 @@ class Highchart extends Component {
           type: 'pie',
           events: {
             drilldown: (e) => {
-              // this.setTitle({text: "New Title"});
-              if(!e.originalEvent) {
-                return;
-              }
-              if(!e.target.drilled) { //  e.target is the chart user clicked
-                e.target.drilled = 0;
-              }
-              e.target.drilled ++;
-              Highcharts.charts.forEach((chart) => {
-                if(!chart.drilled) {
-                  chart.drilled = 0;
-                }
-                if(chart !== e.target) {
-                  chart.drilled++;
-                  chart.series[0].points[e.point.index].doDrilldown();
-                }
-              });
+              drillDownEvent(e);
             },
             drillup: function (e) {
-              if(Highcharts.targetLevel === e.target.drilled) {
-                return;
-              }
-              Highcharts.targetLevel = e.target.drilled - 1;
-              e.target.drilled --;
-              Highcharts.charts.forEach((chart) => {
-                if(chart !== e.target) {
-                  chart.drilled--;
-                  chart.drillUp();
-                }
-              });
-              Highcharts.targetLevel = -1;
+              drillUpEvent(e);
             }
           }
         },
