@@ -1,3 +1,4 @@
+/******** Server-Side Initialization and Moduels, Libraries Required ********/
 const express = require('express');
 const path = require('path');
 const ENV         = process.env.ENV || "development";
@@ -13,32 +14,39 @@ app.use(bodyParser.json())
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-// knex('categories').select()
-// .then(categories => {
-//   console.log("BS >>> categories = ", JSON.parse(JSON.stringify(categories)))
-//   // let record = categories.map(category => {
-//   //   return knex('categories').select().where('parent_id', category.id)
-//   // });
-//   // return Promise.all(categories);
-//   return categories;
-// })
-// .then(results => {
-//   console.log("BS >>> results1 = ", JSON.parse(JSON.stringify(results)));
-//   return results.map(children => {
-//     return { name: 'blah', data: children }
-//   })
-// })
-// .then(results => {
-//   console.log("BS >>> results2 = ", JSON.parse(JSON.stringify(results)));
-//   // console.log(JSON.stringify(results, null, 2));
-// })
-// .catch(err => console.error(err));
+// Vaz Example Codes
+{
+  // knex('categories').select()
+  // .then(categories => {
+  //   console.log("BS >>> categories = ", JSON.parse(JSON.stringify(categories)))
+  //   // let record = categories.map(category => {
+  //   //   return knex('categories').select().where('parent_id', category.id)
+  //   // });
+  //   // return Promise.all(categories);
+  //   return categories;
+  // })
+  // .then(results => {
+  //   console.log("BS >>> results1 = ", JSON.parse(JSON.stringify(results)));
+  //   return results.map(children => {
+  //     return { name: 'blah', data: children }
+  //   })
+  // })
+  // .then(results => {
+  //   console.log("BS >>> results2 = ", JSON.parse(JSON.stringify(results)));
+  //   // console.log(JSON.stringify(results, null, 2));
+  // })
+  // .catch(err => console.error(err));
+}
 
+/******** Public Objects and Arrays ********/
 let balanceObj = {};
 let allCategories = [];
 let allRecords = [];
-let balanceChart = {}
+let balanceChart = {};
+let timePeriod = {start: "1000-01-01", end: "9999-12-31"};
 
+/******** Public Functions ********/
+// Initialize the top category: balance
 function balanceInitialization() {
   balanceObj = {id: 0, parent_id: -1, name:"Balance", type: "category", value: 0, children: []};
   balanceChart = {
@@ -57,9 +65,33 @@ function balanceInitialization() {
     }
   }
 }
-
+// If a specific category has record/records inside
+function hasRecordIn(categoryObj) {
+  let hasRecord = false;
+  if(allRecords.length > 0) {
+    allRecords.map(record => {
+      if(record.category_id === categoryObj.id) {
+        hasRecord = true;
+      }
+    });
+  }
+  if(!hasRecord) {
+    if(allCategories.length > 0) {
+      allCategories.map(category => {
+        if(category.parent_id === categoryObj.id) {
+          if(hasRecord === false) {
+            // categoryObj.hasRecord = hasRecordIn(category);
+            hasRecord = hasRecordIn(category);
+          }
+        }
+      });
+    }
+  }
+  return hasRecord;
+}
+// Transfer db json style into highcharts data style
 function transferToChart() {
-  // Series
+  // For the "series" key's value
   let totalExpenses = balanceObj.children[0].value;
   let totalIncomes = balanceObj.children[1].value;
   let totalValue = totalExpenses + totalIncomes;
@@ -71,25 +103,22 @@ function transferToChart() {
   balanceChart.series[0].data[1].y = (totalIncomes/totalValue)*100;
   balanceChart.series[0].data[0].drilldown = balanceObj.children[0].id;
   balanceChart.series[0].data[1].drilldown = balanceObj.children[1].id;
-  // Drilldown
+  // For the "drilldown" key's value
   if(allCategories.length > 0) {
     allCategories.map(category => {
-      createSeriesObj(category);
+      if(hasRecordIn(category)) {
+        createSeriesObj(category);
+      }
     });
   }
-  // if(allRecords.length > 0) {
-  //   allRecords.map(record => {
-  //     createSeriesObj(record);
-  //   });
-  // }
 }
-
+// Generate children data for a specific serie (category)
 function createChildrenData(categoryObj) {
   let childrenArray = [];
   let childrenObj = {};
   if(allCategories.length > 0) {
     allCategories.map(category => {
-      if(category.parent_id === categoryObj.id) {
+      if(category.parent_id === categoryObj.id && hasRecordIn(category)) {
         childrenObj = {}; // Clean child object before a new input
         childrenObj.name = category.name;
         childrenObj.v = category.value/100;
@@ -110,6 +139,7 @@ function createChildrenData(categoryObj) {
         childrenObj.name = record.notes;
         childrenObj.v = record.value/100;
         childrenObj.y = (record.value/categoryObj.value)*100;
+        childrenObj.d = record.date.split('T')[0];
         childrenObj.drilldown = null;
         childrenArray.push(childrenObj);
       }
@@ -117,7 +147,7 @@ function createChildrenData(categoryObj) {
   }
   return childrenArray;
 }
-
+// Generate a series for each category and push it into drilldown structure
 function createSeriesObj(categoryObj) {
   let seriesObj = {};
   seriesObj.name = categoryObj.name;
@@ -125,51 +155,40 @@ function createSeriesObj(categoryObj) {
   seriesObj.data = createChildrenData(categoryObj);
   balanceChart.drilldown.series.push(seriesObj);
 }
-
-function findAllChildren(category_record_Obj) {
+// Find all children categories and records for a specific category
+function findAllChildren(categoryObj) {
   let children = [];
-  if(category_record_Obj.type === "category") {
-    if(allCategories.length > 0) {
-      allCategories.map(category => {
-        if(category.parent_id === category_record_Obj.id) {
-          category.type = "category";
-          category.value = 0;
-          category.children = findAllChildren(category);
-          children.push(category);
-        }
-      });
-    }
-    if(allRecords.length > 0) {
-      allRecords.map(record => {
-        if(record.category_id === category_record_Obj.id) {
-          record.type = "record";
-          record.children = [];
-          children.push(record);
-        }
-      });
-    }
-  } else {
-    if(allRecords.length > 0) {
-      allRecords.map(record => {
-        if(record.category_id === category_record_Obj.id) {
-          record.type = "record";
-          record.children = [];
-          children.push(record);
-        }
-      });
-    }
+  if(allCategories.length > 0) {
+    allCategories.map(category => {
+      if(category.parent_id === categoryObj.id) {
+        category.type = "category";
+        category.value = 0;
+        // category.hasRecord = false;
+        category.children = findAllChildren(category);
+        children.push(category);
+      }
+    });
+  }
+  if(allRecords.length > 0) {
+    allRecords.map(record => {
+      if(record.category_id === categoryObj.id) {
+        record.type = "record";
+        record.children = [];
+        children.push(record);
+      }
+    });
   }
   return children;
 }
-
-function calculateValue(category_record_Obj) {
+// Calculate the value for a specific category based on all the records inside of it
+function calculateValue(categoryObj) {
   let valueTotal = 0;
   if(allCategories.length > 0) {
     allCategories.map(category => {
-      if(category.parent_id === category_record_Obj.id) {
+      if(category.parent_id === categoryObj.id) {
         let valueAdd = calculateValue(category);
         category.value += valueAdd;
-        if(category_record_Obj.id === 0 && category.id === 1) {
+        if(categoryObj.id === 0 && category.id === 1) {
           valueAdd *= -1;
         }
         valueTotal += valueAdd;
@@ -178,16 +197,31 @@ function calculateValue(category_record_Obj) {
   }
   if(allRecords.length > 0) {
     allRecords.map(record => {
-      if(record.category_id === category_record_Obj.id) {
+      if(record.category_id === categoryObj.id) {
         valueTotal += record.value;
       }
     });
   }
   return valueTotal;
 }
+// Update Date Range
+function updateDateRange(dateParams) {
+  if(Object.keys(dateParams).length > 0) {
+    if(dateParams.start){
+      timePeriod.start = dateParams.start;
+    }
+    if(dateParams.end){
+      timePeriod.end = dateParams.end;
+    }
+  }
+  // console.log("BS >>> timePeriod = ", timePeriod);
+}
 
-// An api endpoint that returns a short list of items
+/******** All HTTP Requires Based On Express ********/
+// Home Page: Achieve data from DB, regulate into hightchart style, and then send back to the front
 app.get('/api/HomeChart', (req,res) => {
+  // Update Date Range
+  updateDateRange(req.query);
 
   // Select all Categories
   knex('categories').select()
@@ -195,29 +229,37 @@ app.get('/api/HomeChart', (req,res) => {
     return Promise.all(JSON.parse(JSON.stringify(categories)));
   })
   .then(results => {
-    // Select all Categories
     allCategories = results;
 
-    knex('records').select()
-    .then(records => {
-      // Select all Records
-      allRecords = JSON.parse(JSON.stringify(records));
 
+    knex('records').select()
+
+    // Select all Records
+    knex('records').select().where('date', '>=', timePeriod.start).andWhere('date', '<=', timePeriod.end)
+
+    .then(records => {
+      allRecords = JSON.parse(JSON.stringify(records));
       balanceInitialization();
       balanceObj.children = findAllChildren(balanceObj);
       balanceObj.value += calculateValue(balanceObj);
       transferToChart();
 
+
       console.log("balanceChart.series = ", balanceChart.series);
       console.log("balanceChart.drilldown = ", balanceChart.drilldown);
+
+      // console.log("balanceChart.series = ", balanceChart.series);
+      // console.log("balanceChart.drilldown = ", balanceChart.drilldown);
+
       res.json(balanceChart);
     })
     .catch(err => console.error(err));
   })
   .catch(err => console.error(err));
 });
-
+// Categories Management Page:
 app.get('/api/getCategories', (req,res) => {
+
     knex.select().from('categories')
         .then((results) => {
           res.json({
@@ -248,12 +290,19 @@ app.get('/api/getCategories', (req,res) => {
       {res.json(result)})
   });
 
-// Handles any requests that don't match the ones above
+
+app.get('/api/getCategoriesMenu', (req, res) => {
+  knex.select().from('categories')
+  .then((results) => {
+    res.json({ data: results });
+  })
+});
+
 app.get('*', (req,res) =>{
 	res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
+/******** Start Listening ********/
 const port = process.env.PORT || 5000;
 app.listen(port);
-
 console.log('BS >>> App is listening on port ' + port);
