@@ -1,5 +1,4 @@
 /node_modules
-/node_modules_bk
 npm-debug.log
 .DS_Store
 dist
