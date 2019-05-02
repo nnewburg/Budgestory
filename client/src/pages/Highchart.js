@@ -30,7 +30,7 @@ class Highchart extends Component {
           }
         },
         title: {
-          text: 'Hao Jiang Balance:$100,000,000 January, 2020'
+          text: 'Balance'
         },
         // subtitle: {
         //     text: 'Click the slices to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
@@ -140,10 +140,14 @@ class Highchart extends Component {
   // }
 
   static getDerivedStateFromProps(props, state) {
+    Highcharts.charts.forEach((chart) => {
+      chart.setTitle({text: props.options.title});
+    });
     if(props.options.series.length > 0) {
       return {
         options: {
           ...state.options,
+          title: props.options.title,
           series: props.options.series,
           drilldown: props.options.drilldown
         }
@@ -154,9 +158,19 @@ class Highchart extends Component {
   }
 
   componentDidMount() {
+    
   }
 
   render() {
+    // Drill Up back to balance level everytime update the chart
+    Highcharts.targetLevel = -1;
+    Highcharts.charts.forEach((chart) => {
+      const drillUpLevel = chart.drilled;
+      for(let level = 0; level <= drillUpLevel; level ++) {
+        chart.drillUp();
+      }
+      chart.drilled = 0;
+    });
     return (
       <div id="MajorChart" className="Hightchart">
         <HighchartsReact highcharts={Highcharts} options={this.state.options} />

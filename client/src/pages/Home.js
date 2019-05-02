@@ -10,6 +10,7 @@ class Home extends Component {
     super(props);
     this.state = {
       options: {
+        title: "Balance",
         series: [],
         drilldown: {
           series: []
@@ -37,6 +38,7 @@ class Home extends Component {
       ({data}) => {
         this.setState({
           options: {
+            title: data.title,
             series: data.series,
             drilldown: data.drilldown
           }
@@ -48,10 +50,10 @@ class Home extends Component {
   }
 
   componentDidMount() {
+
   }
 
   render() {
-
     const newExpenses = evt => {
       evt.preventDefault();
       alert("New Expenses!");
@@ -60,7 +62,6 @@ class Home extends Component {
       evt.preventDefault();
       alert("New Incomes!")
     };
-    
     return (
       <div className="App">
         <h1>Budgestory</h1>
@@ -73,7 +74,6 @@ class Home extends Component {
           </form>
           <div className='date update_area'>
             <DateRange refreshDate={this.refreshDate.bind(this)}/>
-            
           </div>
         </div>
         <Highchart type={"pie"} options={this.state.options}/>
