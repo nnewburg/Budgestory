@@ -151,6 +151,23 @@ class EditCategory extends React.Component {
 
     }
 
+    editCategory = (event) => {
+      event.preventDefault();
+
+      console.log(event.target.name.value);
+
+      const editCat = {
+        id: this.props.currentCategory,
+        name: event.target.name.value
+      }
+
+      axios.post('/api/editCategory', {editCat}).then((response) => {
+      this.props.update()
+      this.props.closeCategoryWindow()
+      })
+
+    }
+
 
     deleteCategory = (event) => {
 
@@ -158,18 +175,24 @@ class EditCategory extends React.Component {
         id: this.props.currentCategory
        }
 
+       axios.post('/api/deleteCategory', {delCat}).then((response) => {
+        console.log('delete Category route works', response)
+        this.props.update()
+        this.props.closeCategoryWindow()
+      })
+
     }
 
     render() {
     return (
       <div className='NewCategory' style={{borderBottom:'1px red solid'}}>
-        <div className='NewCategory_inner' style={{display: 'flex'}}>
+        <div className='NewCategory_inner' style={{display: 'flex', justifyContent: 'space-between'}}>
           <div style={{ flexDirection: 'row', padding: '0.4em'}}>
           <Button style ={{marginLeft: '0%'}} variant="danger" onClick={this.deleteCategory}> Delete Category </Button>
           </div>
-          <div style={{alignItems: 'baseline'}}>
+          <div style={{alignItems: 'baseline', flexDirection: 'rowReverse'}}>
           <span>{this.props.text}</span>
-          <form onSubmit={this.createCategory}>
+          <form onSubmit={this.editCategory}>
             <input type='text' name='name'/>
             <input type='submit' value='submit'  />
           </form>
@@ -220,13 +243,13 @@ class Categories extends Component {
 
   toggleCategory = (x,y) => {
     console.log(x)
-    if(!this.state.showNewRecord && !this.state.showNewCategory){
+
     this.setState({
       currentCategory: x,
       currentCatName: `Change name of ${y}`,
       showCategoryOptions: !this.state.showCategoryOptions
     });
-  }
+
   }
 
     updateCurrentGen(setGen){
@@ -264,13 +287,15 @@ class Categories extends Component {
       this.getRecords();
     }
 
+
+
     getCategory = () => {
       fetch('/api/getCategories')
       .then(res => res.json())
       .then(
         ({data}) =>
         this.setState({
-          categories: data
+          categories: data.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
         })
       );
     }
@@ -302,7 +327,8 @@ class Categories extends Component {
       {this.state.showCategoryOptions ?
           <EditCategory
             text={this.state.currentCatName}
-            closeCategoryWindow={this.toggleCategory}
+            update={this.refreshAsync.bind(this)}
+            closeCategoryWindow={this.toggleCategory.bind(this)}
             parentCategory = {this.state.parentId}
             currentCategory = {this.state.currentCategory}
           />
@@ -314,7 +340,7 @@ class Categories extends Component {
                   <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
 
         </div>
-      <Category toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} />
+      <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
       </div>
 
     </div>

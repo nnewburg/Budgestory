@@ -1,8 +1,66 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import { OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
+import { Modal, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
+import axios from 'axios';
 import dollarSign from '../assets/dollarSign.png'
+import trashCan from '../assets/trashcan.png'
 
+class ModalDeleteRecord extends React.Component{
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+
+    this.state = {
+      show: false,
+    };
+  }
+
+   deleteRecord = (event) => {
+
+
+       const delRec = {
+         id: this.props.id
+       }
+
+      axios.post('/api/deleteRecord', {delRec}).then((response) => {
+    console.log('record Posted')
+      this.props.update()
+      this.handleClose();
+  })
+  }
+
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  render() {
+    return (
+      <div style={{flexDirection: 'row-reverse', padding: '0.4em'}}>
+        <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '0', padding: '0.2em'}}width='15%' src={trashCan} />
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete This Record</Modal.Title>
+          </Modal.Header>
+            <Modal.Body>
+            Are you sure you want to delete this record?
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger" onClick={this.deleteRecord}>
+                Delete Record
+              </Button>
+            </Modal.Footer>
+        </Modal>
+      </div>
+  );
+
+}
+}
 
 class RecordRender extends Component {
 
@@ -25,8 +83,14 @@ class RecordRender extends Component {
         </Tooltip>
       }
     >
-          <div id={this.props.id} onClick={this.onItemClick} style={{backgroundColor: 'white', borderRadius: '10%', border: '3px solid green', width: '20%', flexDirection: 'row', margin: '0.5em' }}>
+          <div id={this.props.id} onClick={this.onItemClick} style={{backgroundColor: 'white', borderRadius: '10%', position:'relative', border: '3px solid green', width: '20%', margin: '0.5em' }}>
+          <ModalDeleteRecord id={this.props.id} update={this.props.update} />
+            <div>
+
+            </div>
+            <div>
             <img style={{padding: '0.2em'}}width='40%' src={dollarSign} />
+            </div>
           </div>
       </OverlayTrigger>
            )
@@ -50,6 +114,9 @@ class CategoryRender extends Component {
      //console.log(event.currentTarget)
     const newGen = event.currentTarget.id
     this.props.updateCurrentGen(newGen);
+    if(this.props.editMenuShow){
+    this.props.toggle();
+  }
 }
 
   sngleItemClick(event) {
@@ -75,7 +142,7 @@ class CategoryRender extends Component {
 
   render() {
     return (
-          <div id={this.props.id} onClick={this.handleClicks} style={{backgroundColor: 'white', borderRadius: '10%', border: '3px solid blue', width: '20%', flexDirection: 'row', margin: '0.5em' }}>
+          <div id={this.props.id} onClick={this.handleClicks} style={{backgroundColor: 'white', borderRadius: '10px', border: '3px solid blue', width: '20%', flexDirection: 'row', margin: '0.5em' }}>
             <span className='align-middle'style={{verticalAlign: 'middle'}}>{this.props.name}</span>
           </div>
            )
@@ -92,12 +159,12 @@ class Category extends Component {
     const filteredList = this.props.state.categories.filter(category => category.parent_id == this.props.state.parentId)
 
     const categoryList = filteredList.map((category, index) => (
-             <CategoryRender toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} id={category.id} name={category.name} />
+             <CategoryRender editMenuShow={this.props.editShow} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} id={category.id} name={category.name} />
           ))
 
 
     const recordsList = filteredRecords.map((record, index) => (
-        <RecordRender name={record.notes} price={record.value} />
+        <RecordRender name={record.notes} price={record.value} id={record.id} update={this.props.update} />
       ))
 
     return (
