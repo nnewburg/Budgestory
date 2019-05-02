@@ -7,6 +7,68 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Modal, Button, Form } from 'react-bootstrap';
 
+class ModalDeleteCategory extends React.Component{
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+
+    this.state = {
+      show: false,
+    };
+  }
+
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+   deleteCategory = (event) => {
+
+       const delCat = {
+        id: this.props.currentCategory
+       }
+
+       axios.post('/api/deleteCategory', {delCat}).then((response) => {
+        console.log('delete Category route works', response)
+        this.props.update()
+        this.props.closeCategoryWindow()
+      })
+
+    }
+
+    render() {
+    return (
+      <div style={{marginLeft: 'auto', padding: '0.4em'}}>
+        <Button variant="danger" onClick={this.handleShow}>
+          Delete Category
+        </Button>
+         <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Warning:</Modal.Title>
+          </Modal.Header>
+            <Modal.Body>
+            If you delete a category it will delete ALL records and categories nested within that category
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger" onClick={this.props.deleteMethod}>
+                Delete {this.props.name}
+              </Button>
+            </Modal.Footer>
+        </Modal>
+      </div>
+  );
+}
+
+
+
+}
+
+
 class ModalCreateRecord extends React.Component{
   constructor(props, context) {
     super(props, context);
@@ -60,7 +122,7 @@ class ModalCreateRecord extends React.Component{
               <Form.Control type="text" placeholder="Notes..." name='notes' />
               </Form.Group>
               <Form.Group controlId="formGroupPassword">
-              <Form.Label>Amount spent:</Form.Label>
+              <Form.Label>Amount:</Form.Label>
               <Form.Control type="number" step='0.01' name='value' />
               </Form.Group>
               </Form>
@@ -151,6 +213,22 @@ class EditCategory extends React.Component {
 
     }
 
+    editCategory = (event) => {
+      event.preventDefault();
+
+      console.log(event.target.name.value);
+
+      const editCat = {
+        id: this.props.currentCategory,
+        name: event.target.name.value
+      }
+
+      axios.post('/api/editCategory', {editCat}).then((response) => {
+      this.props.update()
+      this.props.closeCategoryWindow()
+      })
+
+    }
 
     deleteCategory = (event) => {
 
@@ -158,18 +236,24 @@ class EditCategory extends React.Component {
         id: this.props.currentCategory
        }
 
+       axios.post('/api/deleteCategory', {delCat}).then((response) => {
+        console.log('delete Category route works', response)
+        this.props.update()
+        this.props.closeCategoryWindow()
+      })
+
     }
 
     render() {
     return (
-      <div className='NewCategory' style={{borderBottom:'1px red solid'}}>
-        <div className='NewCategory_inner' style={{display: 'flex'}}>
+      <div className='NewCategory' style={{borderBottom:'3px #D99789 solid'}}>
+        <div className='NewCategory_inner' style={{display: 'flex', justifyContent: 'space-between'}}>
           <div style={{ flexDirection: 'row', padding: '0.4em'}}>
-          <Button style ={{marginLeft: '0%'}} variant="danger" onClick={this.deleteCategory}> Delete Category </Button>
+          <ModalDeleteCategory name={this.props.text} update={this.props.update} toggle={this.props.closeCategoryWindow} deleteMethod={this.deleteCategory} categoryToDelete={this.props.currentCategory} />
           </div>
-          <div style={{alignItems: 'baseline'}}>
-          <span>{this.props.text}</span>
-          <form onSubmit={this.createCategory}>
+          <div style={{alignItems: 'baseline', padding: '0.4em'}}>
+          <span>Change name of: {this.props.text}</span>
+          <form onSubmit={this.editCategory}>
             <input type='text' name='name'/>
             <input type='submit' value='submit'  />
           </form>
@@ -179,6 +263,7 @@ class EditCategory extends React.Component {
     );
   }
 }
+
 
 class Helper extends Component {
   constructor(props) {
@@ -193,8 +278,8 @@ class Helper extends Component {
 
   render() {
     return (
-         <div id={this.props.id} onClick={this.onItemClick} style={{flexDirection: 'row', border:'1px black solid', margin: '0.5em' }}>
-            {this.props.name}
+         <div id={this.props.id} onClick={this.onItemClick} style={{flexDirection: 'row', border:'3px #03A678 solid', padding: '0.5em', margin: '0.5em', borderRadius: '10px' }}>
+            Current Category: {this.props.name}
           </div>
           )
   }
@@ -220,13 +305,13 @@ class Categories extends Component {
 
   toggleCategory = (x,y) => {
     console.log(x)
-    if(!this.state.showNewRecord && !this.state.showNewCategory){
-      this.setState({
-        currentCategory: x,
-        currentCatName: `Change name of ${y}`,
-        showCategoryOptions: !this.state.showCategoryOptions
-      });
-    }
+
+    this.setState({
+      currentCategory: x,
+      currentCatName: y,
+      showCategoryOptions: !this.state.showCategoryOptions
+    });
+
   }
 
     updateCurrentGen(setGen){
@@ -264,13 +349,15 @@ class Categories extends Component {
       this.getRecords();
     }
 
+
+
     getCategory = () => {
       fetch('/api/getCategories')
       .then(res => res.json())
       .then(
         ({data}) =>
         this.setState({
-          categories: data
+          categories: data.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
         })
       );
     }
@@ -291,30 +378,30 @@ class Categories extends Component {
          const filteredList = this.findLineage(this.state.parentId)
          const categoryList = filteredList.map((category, index) => (
               <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} id={category.parent_id} name={category.name}  />
-        // const filteredList = this.state.categories.filter(category => category.id == this.props.state.currentGen)
         ))
 
     return (
     <div className="App" style={{}}>
       <h1>Categories Page</h1>
 
-      <div style={{margin: '0 auto', border: '2px red solid', width: '80%'}}>
+      <div style={{margin: '0 auto', border: '4px #D99789 solid', width: '80%', borderRadius: '10px'}}>
       {this.state.showCategoryOptions ?
           <EditCategory
             text={this.state.currentCatName}
-            closeCategoryWindow={this.toggleCategory}
+            update={this.refreshAsync.bind(this)}
+            closeCategoryWindow={this.toggleCategory.bind(this)}
             parentCategory = {this.state.parentId}
             currentCategory = {this.state.currentCategory}
           />
           : null
         }
-        <div style={{display: 'flex', flexWrap: 'wrap', borderBottom: '2px black solid'}}>
+        <div style={{display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
                 {categoryList}
                   <ModalCreateCategory parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
                   <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
 
         </div>
-      <Category toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} />
+      <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
       </div>
 
     </div>
