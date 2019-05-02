@@ -216,6 +216,31 @@ function updateDateRange(dateParams) {
   }
   // console.log("BS >>> timePeriod = ", timePeriod);
 }
+// Get All Categories need to be removed
+let categoriesRemove = [];
+function removeCategory(parent_id) {
+  categoriesRemove.push(parent_id);
+  if(allCategories.length > 0) {
+    allCategories.map(category => {
+      if(category.parent_id === parent_id) {
+        removeCategory(category.id);
+      }
+    });
+  }
+  removeRecord(parent_id);
+}
+// Get All Records need to be removed
+let recordsRemove = [];
+function removeRecord(category_id) {
+  if(allRecords.length > 0) {
+    allRecords.map(record => {
+      if(record.category_id === category_id) {
+        recordsRemove.push(record.id);
+      }
+    });
+  }
+}
+
 
 /******** All HTTP Requires Based On Express ********/
 // Home Page: Achieve data from DB, regulate into hightchart style, and then send back to the front
@@ -287,6 +312,60 @@ app.get('/api/getCategoriesMenu', (req, res) => {
   .then((results) => {
     res.json({ data: results });
   })
+});
+
+app.post('/api/editCategory', (req, res) => {
+  knex('categories').where({id: req.body.editCat.id}).update({name: req.body.editCat.name}).then(result =>
+    {res.json(result)})
+});
+
+app.post('/api/deleteRecord', (req, res) => {
+  knex('records').where({id: req.body.delRec.id}).del().then(result =>
+    {res.json(result)})
+});
+
+app.post('/api/deleteCategory', (req, res) => {
+  console.log('Delete category Works');
+  let categoryDeleteId = req.body.delCat.id;
+  knex('categories').select()
+  .then(categories => {
+    return Promise.all(JSON.parse(JSON.stringify(categories)));
+  })
+  .then(results => {
+    allCategories = results;
+
+    // Select all Records
+    knex('records').select()
+    .then(records => {
+      allRecords = JSON.parse(JSON.stringify(records));
+
+      categoriesRemove = [];
+      removeCategory(categoryDeleteId);
+      console.log("categoriesRemove : ", categoriesRemove);
+      console.log("recordsRemove : ", recordsRemove);
+
+      if(recordsRemove.length > 0) {
+        knex('records').whereIn('id', recordsRemove).del()
+        .then(result => {
+          console.log("record remove info : ", result);
+           knex('categories').whereIn('id', categoriesRemove).del()
+          .then(result => {
+             res.json('categories delete successes');
+          })
+          .catch(err => console.error(err));
+        })
+        .catch(err => console.error(err));
+      } else {
+        knex('categories').whereIn('id', categoriesRemove).del()
+        .then(result => {
+           res.json('delete successes');
+        })
+        .catch(err => console.error(err));
+      }
+    })
+    .catch(err => console.error(err));
+  })
+  .catch(err => console.error(err));
 });
 
 app.get('*', (req,res) =>{
