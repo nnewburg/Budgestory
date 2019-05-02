@@ -23,11 +23,9 @@ class Compare extends Component {
         <div className='date'>
           <Date />
         </div>
-        {/* <div className='ColumnChart'>
-          <ColumnChart />
-        </div> */}
         <Highchart type={"pie"}/>
         <Highchart type={"column"}/>
+
       </div>
     );
   }
