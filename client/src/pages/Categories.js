@@ -7,6 +7,68 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Modal, Button, Form } from 'react-bootstrap';
 
+class ModalDeleteCategory extends React.Component{
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+
+    this.state = {
+      show: false,
+    };
+  }
+
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+   deleteCategory = (event) => {
+
+       const delCat = {
+        id: this.props.currentCategory
+       }
+
+       axios.post('/api/deleteCategory', {delCat}).then((response) => {
+        console.log('delete Category route works', response)
+        this.props.update()
+        this.props.closeCategoryWindow()
+      })
+
+    }
+
+    render() {
+    return (
+      <div style={{marginLeft: 'auto', padding: '0.4em'}}>
+        <Button variant="danger" onClick={this.handleShow}>
+          Delete Category
+        </Button>
+         <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Warning:</Modal.Title>
+          </Modal.Header>
+            <Modal.Body>
+            If you delete a category it will delete ALL records and categories nested within that category
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger" onClick={this.props.deleteMethod}>
+                Delete {this.props.name}
+              </Button>
+            </Modal.Footer>
+        </Modal>
+      </div>
+  );
+}
+
+
+
+}
+
+
 class ModalCreateRecord extends React.Component{
   constructor(props, context) {
     super(props, context);
@@ -168,7 +230,6 @@ class EditCategory extends React.Component {
 
     }
 
-
     deleteCategory = (event) => {
 
        const delCat = {
@@ -188,10 +249,10 @@ class EditCategory extends React.Component {
       <div className='NewCategory' style={{borderBottom:'3px #D99789 solid'}}>
         <div className='NewCategory_inner' style={{display: 'flex', justifyContent: 'space-between'}}>
           <div style={{ flexDirection: 'row', padding: '0.4em'}}>
-          <Button style ={{marginLeft: '0%'}} variant="danger" onClick={this.deleteCategory}> Delete Category </Button>
+          <ModalDeleteCategory name={this.props.text} update={this.props.update} toggle={this.props.closeCategoryWindow} deleteMethod={this.deleteCategory} categoryToDelete={this.props.currentCategory} />
           </div>
           <div style={{alignItems: 'baseline', padding: '0.4em'}}>
-          <span>{this.props.text}</span>
+          <span>Change name of: {this.props.text}</span>
           <form onSubmit={this.editCategory}>
             <input type='text' name='name'/>
             <input type='submit' value='submit'  />
@@ -202,6 +263,7 @@ class EditCategory extends React.Component {
     );
   }
 }
+
 
 class Helper extends Component {
   constructor(props) {
@@ -246,7 +308,7 @@ class Categories extends Component {
 
     this.setState({
       currentCategory: x,
-      currentCatName: `Change name of ${y}`,
+      currentCatName: y,
       showCategoryOptions: !this.state.showCategoryOptions
     });
 
