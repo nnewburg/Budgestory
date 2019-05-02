@@ -8,7 +8,7 @@ import Highchart from './Highchart'
 class Compare extends Component {
 
   componentDidMount() {
-    
+
   }
 
   render() {
@@ -23,9 +23,6 @@ class Compare extends Component {
         <div className='date'>
           <Date />
         </div>
-        {/* <div className='ColumnChart'>
-          <ColumnChart />
-        </div> */}
         <Highchart type={"pie"}/>
         <Highchart type={"column"}/>
 

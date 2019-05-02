@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import Highchart from './Highchart'
 import Date from './datepicker.js'
+import '../App/styles/home.css'
+
+
 
 class Home extends Component {
 
@@ -67,22 +70,26 @@ class Home extends Component {
     };
     return (
       <div className="App">
-        <h1>Budgestory</h1>
-        <div className="add_new_btns">
-          <form onSubmit={newExpenses}>
-            <button className="add-expenses-btn" type="submit">+ New Expenses</button>
-          </form>
-          <form onSubmit={newIncomes}>
-            <button className="add-incomes-btn" type="submit">+ New Incomes</button>
-          </form>
-          <div className='date update_area'>
-            <Date />
-            <form onSubmit={updateChart}>
-              <button className="update-btn" type="submit">Update</button>
-            </form>
-          </div>
+        <div id="logo">
+          <h1>Budgestory</h1>
         </div>
-        <Highchart type={"pie"}/>
+        <div className="container">
+          <div className="add_new_btns">
+            <form onSubmit={newExpenses}>
+              <button className="add-expenses-btn" id='expense' type="submit">+ New Expenses</button>
+            </form>
+            <form onSubmit={newIncomes}>
+              <button className="add-incomes-btn" id='income' type="submit">+ New Incomes</button>
+            </form>
+            <div className='date update_area'>
+              <Date />
+              <form onSubmit={updateChart}>
+                <button className="update-btn" id='update' type="submit">Update</button>
+              </form>
+            </div>
+          </div>
+            <Highchart type={"pie"}/>
+          </div>
       </div>
     );
   }

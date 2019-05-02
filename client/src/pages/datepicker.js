@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import '../App/styles/compare.css'
 import isAfter from 'date-fns/isAfter'
-
+import '../App/styles/home.css'
 class DateRange extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +28,7 @@ class DateRange extends Component {
   handleChangeEnd = endDate => this.handleChange({ endDate });
 
   render() {
+
     return (
       <div className = 'row'>
         <pre className = 'column example__code'>
@@ -41,7 +42,9 @@ class DateRange extends Component {
             startDate={this.state.startDate}
             endDate={this.state.endDate}
             onChange={this.handleChangeStart}
+
           />
+
           <DatePicker
             selected={this.state.endDate}
             selectsEnd

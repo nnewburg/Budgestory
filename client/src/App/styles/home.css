@@ -1,0 +1,254 @@
+.App {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-image: url("../picture/background-body.jpg");
+  background-size: cover;
+
+}
+
+.container {
+
+  border: 1px solid black;
+  position: fixed;
+  height: 100%;
+  left: 5%;
+  right: 5%;
+  background-color: rgba(255,255,255,0.75);
+
+}
+.App h1 {
+  color: black;
+  border-color: black;
+  font-family: cursive;
+
+}
+
+.highcharts-background {
+  width: 0;
+  height: 0;
+
+}
+
+.Highchart {
+  height: 40px;
+}
+
+
+.add-expenses-btn {
+  position: relative;
+  background: rgb(72, 44, 191);
+  background: -webkit-linear-gradient(45deg, rgba(72, 44, 191, 1) 0%, rgba(106, 198, 240, 1) 100%);
+  background: -o-linear-gradient(45deg, rgba(72, 44, 191, 1) 0%, rgba(106, 198, 240, 1) 100%);
+  background: linear-gradient(45deg, rgba(72, 44, 191, 1) 0%, rgba(106, 198, 240, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#482cbf', endColorstr='#6ac6f0', GradientType=1);
+  overflow: hidden;
+  z-index: 1;
+  margin-right: 10px;
+  border: none;
+
+
+}
+
+.add-expenses-btn:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: -1;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  opacity: 1;
+}
+
+.add-expenses-btn.active,
+.add-expenses-btn:hover {
+  color: #ffffff;
+}
+
+.add-expenses-btn.active:before,
+.add-expenses-btn:hover:before {
+  opacity: 0;
+}
+
+.add-expenses-btn-default,
+.add-expenses-btn {
+  padding: 12px 30px;
+  background-color: #ffffff;
+  display: inline-block;
+  color: #768ede;
+  text-transform: uppercase;
+  border-radius: 10px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  font-size: 14px;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  border: none;
+}
+
+.add-incomes-btn {
+  position: relative;
+  background: rgb(72, 44, 191);
+  background: -webkit-linear-gradient(45deg, rgba(72, 44, 191, 1) 0%, rgba(106, 198, 240, 1) 100%);
+  background: -o-linear-gradient(45deg, rgba(72, 44, 191, 1) 0%, rgba(106, 198, 240, 1) 100%);
+  background: linear-gradient(45deg, rgba(72, 44, 191, 1) 0%, rgba(106, 198, 240, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#482cbf', endColorstr='#6ac6f0', GradientType=1);
+  overflow: hidden;
+  z-index: 1;
+  margin-right: 10px;
+  border: none;
+
+}
+
+.add-incomes-btn:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: -1;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  opacity: 1;
+}
+
+.add-incomes-btn.active,
+.add-incomes-btn:hover {
+  color: #ffffff;
+}
+
+.add-incomes-btn.active:before,
+.add-incomes-btn:hover:before {
+  opacity: 0;
+}
+
+.add-incomes-btn-default,
+.add-incomes-btn {
+  padding: 12px 30px;
+  background-color: #ffffff;
+  display: inline-block;
+  color: #768ede;
+  text-transform: uppercase;
+  border-radius: 10px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  font-size: 14px;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  border: none;
+}
+
+
+.update-btn {
+  position: relative;
+  background: rgb(72, 44, 191);
+  background: -webkit-linear-gradient(45deg, rgba(72, 44, 191, 1) 0%, rgba(106, 198, 240, 1) 100%);
+  background: -o-linear-gradient(45deg, rgba(72, 44, 191, 1) 0%, rgba(106, 198, 240, 1) 100%);
+  background: linear-gradient(45deg, rgba(72, 44, 191, 1) 0%, rgba(106, 198, 240, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#482cbf', endColorstr='#6ac6f0', GradientType=1);
+  overflow: hidden;
+  z-index: 1;
+  margin-right: 10px;
+  border: none;
+
+}
+
+.update-btn:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: -1;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  opacity: 1;
+}
+
+.update-btn.active,
+.update-btn:hover {
+  color: #ffffff;
+}
+
+.update-btn.active:before,
+.update-btn:hover:before {
+  opacity: 0;
+}
+
+.update-btn-default,
+.update-btn {
+  padding: 12px 30px;
+  background-color: #ffffff;
+  display: inline-block;
+  color: #768ede;
+  text-transform: uppercase;
+  border-radius: 10px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  font-size: 14px;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  border: none;
+}
+
+.add_new_btns {
+  height: 20%;
+}
+#expense {
+  position: absolute;
+  bottom: 20%;
+  left: 10%;
+}
+
+#income {
+  position: absolute;
+  bottom: 20%;
+  right: 15%;
+}
+
+#update {
+  position: absolute;
+
+}
+
+.date {
+  position: absolute;
+  margin: 0;
+  top: 10%;
+  left: 30%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
