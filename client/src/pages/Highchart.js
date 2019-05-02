@@ -119,8 +119,8 @@ class Highchart extends Component {
   componentDidMount() {
     axios('/api/HomeChart', {
       params: {
-        // start: "2019-01-01",
-        // end: "2019-04-30"
+        start: this.props.date.start,
+        end: this.props.date.end,
       }
     })
     .then(

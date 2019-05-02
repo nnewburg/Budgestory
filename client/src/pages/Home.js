@@ -1,58 +1,37 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import Highchart from './Highchart'
-import Date from './datepicker.js'
+import DateRange from './datepicker.js'
 
 class Home extends Component {
 
-      constructor(props) {
-        super(props);
-        this.state = {
-          options: {
-            chart: {
-              type: 'pie'
-            },
-            credits: {
-              enabled: false
-            },
-            title: {
-              text: 'My Expenses'
-            },
-            series: [
-              { data: [1, 2, 3] }
-            ]
-          }
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentDateRange: {
+        start: new Date("2018-01-02"),
+        end: new Date("2019-05-02")
       }
-
-    retrieveValues(records){
-      let outputArray = [];
-      let outputObject = {};
-      outputObject.data = records.map(x => x.value);
-      outputArray.push(outputObject);
-      return outputArray;
     }
+  }
 
-    getList = () => {
-      fetch('/api/getRecords')
-      .then(res => res.json())
-      .then(
-        ({data}) =>
-        this.setState({
-          options: {
-            series: this.retrieveValues(data)
-          }
-        })
-      );
-    }
+  refreshDate = (start, end) => {
+    this.setState({
+      currentDateRange: {
+        start: start,
+        end: end
+      }
+    });
+  }
 
-    componentDidMount() {
-      this.getList();
-    }
+  componentDidMount() {
 
-
+  }
 
   render() {
+
+    // console.log("Home Date = ", this.state.currentDateRange);
+
     const newExpenses = evt => {
       evt.preventDefault();
       alert("New Expenses!");
@@ -76,13 +55,13 @@ class Home extends Component {
             <button className="add-incomes-btn" type="submit">+ New Incomes</button>
           </form>
           <div className='date update_area'>
-            <Date />
+            <DateRange date={ this.state.currentDateRange } refreshDate={this.refreshDate.bind(this)}/>
             <form onSubmit={updateChart}>
               <button className="update-btn" type="submit">Update</button>
             </form>
           </div>
         </div>
-        <Highchart type={"pie"}/>
+        <Highchart type={"pie"} date={ this.state.currentDateRange }/>
       </div>
     );
   }

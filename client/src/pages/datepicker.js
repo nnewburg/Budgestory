@@ -8,19 +8,20 @@ class DateRange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date(),
-      endDate: new Date()
+      startDate: this.props.date.start,
+      endDate: this.props.date.end
     };
   }
 
   handleChange = ({ startDate, endDate }) => {
     startDate = startDate || this.state.startDate;
     endDate = endDate || this.state.endDate;
-
     if (isAfter(startDate, endDate)) {
       endDate = startDate
     }
     this.setState({ startDate, endDate });
+    // console.log(this.state.startDate.toISOString());
+    this.props.refreshDate(this.state.startDate.toISOString(), this.state.endDate.toISOString());
   };
 
   handleChangeStart = startDate => this.handleChange({ startDate });
@@ -28,6 +29,7 @@ class DateRange extends Component {
   handleChangeEnd = endDate => this.handleChange({ endDate });
 
   render() {
+    // console.log("DataRange = ", this.state);
     return (
       <div className = 'row'>
         <pre className = 'column example__code'>
@@ -36,6 +38,7 @@ class DateRange extends Component {
         </pre>
         <div className = 'column'>
           <DatePicker
+            // dateFormat="yyyy-MM-dd"
             selected={this.state.startDate}
             selectsStart
             startDate={this.state.startDate}
@@ -43,6 +46,7 @@ class DateRange extends Component {
             onChange={this.handleChangeStart}
           />
           <DatePicker
+            // dateFormat="yyyy-MM-dd"
             selected={this.state.endDate}
             selectsEnd
             startDate={this.state.startDate}

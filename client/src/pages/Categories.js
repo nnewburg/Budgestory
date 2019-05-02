@@ -221,12 +221,12 @@ class Categories extends Component {
   toggleCategory = (x,y) => {
     console.log(x)
     if(!this.state.showNewRecord && !this.state.showNewCategory){
-    this.setState({
-      currentCategory: x,
-      currentCatName: `Change name of ${y}`,
-      showCategoryOptions: !this.state.showCategoryOptions
-    });
-  }
+      this.setState({
+        currentCategory: x,
+        currentCatName: `Change name of ${y}`,
+        showCategoryOptions: !this.state.showCategoryOptions
+      });
+    }
   }
 
     updateCurrentGen(setGen){

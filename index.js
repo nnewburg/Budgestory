@@ -65,7 +65,7 @@ function balanceInitialization() {
     }
   }
 }
-// If a specific category has record/records inside
+// If a specific category has record/records inside 
 function hasRecordIn(categoryObj) {
   let hasRecord = false;
   if(allRecords.length > 0) {
@@ -230,9 +230,6 @@ app.get('/api/HomeChart', (req,res) => {
   })
   .then(results => {
     allCategories = results;
-
-
-    knex('records').select()
 
     // Select all Records
     knex('records').select().where('date', '>=', timePeriod.start).andWhere('date', '<=', timePeriod.end)
