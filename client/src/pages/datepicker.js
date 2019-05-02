@@ -59,7 +59,7 @@ class DateRange extends Component {
             endDate={this.state.endDate}
             onChange={this.handleChangeStart}
 
-          /> 
+          />
 
           <DatePicker
             // dateFormat="yyyy-MM-dd"
@@ -71,7 +71,7 @@ class DateRange extends Component {
           />
         </div>
         <form onSubmit={updateChart}>
-          <button className="update-btn" type="submit">Update</button>
+          <button className="update-btn" id="update" type="submit">Update</button>
         </form>
       </div>
     );

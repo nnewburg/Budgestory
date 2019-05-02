@@ -116,7 +116,7 @@ class Highchart extends Component {
       }
     }
   }
-  
+
   // initializeChartInfo(){
   //   axios('/api/HomeChart', {
   //     params: {

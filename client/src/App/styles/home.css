@@ -30,9 +30,7 @@
 
 }
 
-.Highchart {
-  height: 40px;
-}
+
 
 
 .add-expenses-btn {
@@ -220,10 +218,7 @@
   right: 15%;
 }
 
-#update {
-  position: absolute;
 
-}
 
 .date {
   position: absolute;
