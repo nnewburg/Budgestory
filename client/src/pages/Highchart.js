@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+// import axios from 'axios';
 import { findDOMNode } from 'react-dom';
-import axios from 'axios';
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts';
 import { drillDownEvent } from "./DrillDownUp";
@@ -115,32 +115,48 @@ class Highchart extends Component {
       }
     }
   }
+  
+  // initializeChartInfo(){
+  //   axios('/api/HomeChart', {
+  //     params: {
+  //       start: this.props.date.start.toISOString().split('T')[0],
+  //       end: this.props.date.end.toISOString().split('T')[0]
+  //     }
+  //   })
+  //   .then(
+  //     ({data}) => {
+  //       this.setState({
+  //         loading: false,
+  //         options: {
+  //           ...this.state.options,
+  //           series: data.series,
+  //           drilldown: data.drilldown
+  //         }
+  //       });
+  //     }
+  //   ).catch(function (error) {
+  //     console.log(error);
+  //   });
+  // }
+
+  static getDerivedStateFromProps(props, state) {
+    if(props.options.series.length > 0) {
+      return {
+        options: {
+          ...state.options,
+          series: props.options.series,
+          drilldown: props.options.drilldown
+        }
+      };
+    } else{
+      return {};
+    }
+  }
 
   componentDidMount() {
-    axios('/api/HomeChart', {
-      params: {
-        start: "2019-01-01",
-        end: "2019-03-26"
-      }
-    })
-    .then(
-      ({data}) => {
-        this.setState({
-          loading: false,
-          options: {
-            ...this.state.options,
-            series: data.series,
-            drilldown: data.drilldown
-          }
-        });
-      }
-    ).catch(function (error) {
-      console.log(error);
-    });
   }
 
   render() {
-    //console.log("render this.state.options = ", this.state.options);
     return (
       <div id="MajorChart" className="Hightchart">
         <HighchartsReact highcharts={Highcharts} options={this.state.options} />
