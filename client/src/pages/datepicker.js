@@ -51,6 +51,7 @@ class DateRange extends Component {
           </code>
         </pre>
         <div className = 'column calender-area'>
+          Start:&ensp;
           <DatePicker
             // dateFormat="yyyy-MM-dd"
             selected={this.state.startDate}
@@ -59,7 +60,7 @@ class DateRange extends Component {
             endDate={this.state.endDate}
             onChange={this.handleChangeStart}
 
-          />
+          />&ensp;End:&ensp;
 
           <DatePicker
             // dateFormat="yyyy-MM-dd"
@@ -71,7 +72,7 @@ class DateRange extends Component {
           />
         </div>
         <form onSubmit={updateChart}>
-          <button className="update-btn" id="update" type="submit">Update</button>
+          <button className="update-btn" id="update" type="submit"></button>
         </form>
       </div>
     );

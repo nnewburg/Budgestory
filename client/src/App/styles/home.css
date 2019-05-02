@@ -145,7 +145,7 @@
   transition: 0.3s;
   border: none;
 }
-
+/*
 
 .update-btn {
   position: relative;
@@ -201,7 +201,7 @@
   -o-transition: 0.3s;
   transition: 0.3s;
   border: none;
-}
+}*/
 
 .add_new_btns {
   height: 20%;
@@ -218,15 +218,25 @@
   right: 15%;
 }
 
+#update {
+  background: url(../picture/refresh.gif);
+  background-size: cover;
 
-
-.date {
-  position: absolute;
   margin: 0;
-  top: 10%;
-  left: 30%;
+  border-radius: 20px;
+
 }
 
+.row {
+  position: absolute;
+  margin: 0;
+  top: 17%;
+  left: 33%;
+}
+
+#update:focus {
+  outline: none;
+}
 
 
 
