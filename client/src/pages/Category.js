@@ -42,7 +42,7 @@ class ModalDeleteRecord extends React.Component{
   render() {
     return (
       <div style={{flexDirection: 'row-reverse', padding: '0.4em'}}>
-        <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '0', padding: '0.2em'}}width='15%' src={trashCan} />
+        <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '0', padding: '0.2em', backgroundColor: 'red', borderRadius: '20px'}}width='15%' src={trashCan} />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Delete This Record</Modal.Title>
@@ -83,7 +83,7 @@ class RecordRender extends Component {
         </Tooltip>
       }
     >
-          <div id={this.props.id} onClick={this.onItemClick} style={{backgroundColor: 'white', borderRadius: '10%', position:'relative', border: '3px solid green', width: '20%', margin: '0.5em' }}>
+          <div id={this.props.id} onClick={this.onItemClick} style={{backgroundColor: '#65A688', borderRadius: '10px', position:'relative', border: '3px solid green', width: '20%', margin: '0.5em' }}>
           <ModalDeleteRecord id={this.props.id} update={this.props.update} />
             <div>
 
@@ -142,7 +142,7 @@ class CategoryRender extends Component {
 
   render() {
     return (
-          <div id={this.props.id} onClick={this.handleClicks} style={{backgroundColor: 'white', borderRadius: '10px', border: '3px solid blue', width: '20%', flexDirection: 'row', margin: '0.5em' }}>
+          <div id={this.props.id} onClick={this.handleClicks} style={{backgroundColor: '#65A688', borderRadius: '10px', border: '3px solid #D99789', justifyContent: 'space-around', margin: '0.5em', padding: '3%' }}>
             <span className='align-middle'style={{verticalAlign: 'middle'}}>{this.props.name}</span>
           </div>
            )
@@ -168,7 +168,7 @@ class Category extends Component {
       ))
 
     return (
-    <div className="App" style={{backgroundColor: '#c19045', display: 'flex', flexWrap: 'wrap'}}>
+    <div className="App" style={{backgroundColor: 'white', display: 'flex', flexWrap: 'wrap'}}>
       {categoryList}
       {recordsList}
     </div>

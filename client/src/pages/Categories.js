@@ -60,7 +60,7 @@ class ModalCreateRecord extends React.Component{
               <Form.Control type="text" placeholder="Notes..." name='notes' />
               </Form.Group>
               <Form.Group controlId="formGroupPassword">
-              <Form.Label>Amount spent:</Form.Label>
+              <Form.Label>Amount:</Form.Label>
               <Form.Control type="number" step='0.01' name='value' />
               </Form.Group>
               </Form>
@@ -185,12 +185,12 @@ class EditCategory extends React.Component {
 
     render() {
     return (
-      <div className='NewCategory' style={{borderBottom:'1px red solid'}}>
+      <div className='NewCategory' style={{borderBottom:'3px #D99789 solid'}}>
         <div className='NewCategory_inner' style={{display: 'flex', justifyContent: 'space-between'}}>
           <div style={{ flexDirection: 'row', padding: '0.4em'}}>
           <Button style ={{marginLeft: '0%'}} variant="danger" onClick={this.deleteCategory}> Delete Category </Button>
           </div>
-          <div style={{alignItems: 'baseline', flexDirection: 'rowReverse'}}>
+          <div style={{alignItems: 'baseline', padding: '0.4em'}}>
           <span>{this.props.text}</span>
           <form onSubmit={this.editCategory}>
             <input type='text' name='name'/>
@@ -216,8 +216,8 @@ class Helper extends Component {
 
   render() {
     return (
-         <div id={this.props.id} onClick={this.onItemClick} style={{flexDirection: 'row', border:'1px black solid', margin: '0.5em' }}>
-            {this.props.name}
+         <div id={this.props.id} onClick={this.onItemClick} style={{flexDirection: 'row', border:'3px #03A678 solid', padding: '0.5em', margin: '0.5em', borderRadius: '10px' }}>
+            Current Category: {this.props.name}
           </div>
           )
   }
@@ -316,14 +316,13 @@ class Categories extends Component {
          const filteredList = this.findLineage(this.state.parentId)
          const categoryList = filteredList.map((category, index) => (
               <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} id={category.parent_id} name={category.name}  />
-        // const filteredList = this.state.categories.filter(category => category.id == this.props.state.currentGen)
         ))
 
     return (
     <div className="App" style={{}}>
       <h1>Categories Page</h1>
 
-      <div style={{margin: '0 auto', border: '2px red solid', width: '80%'}}>
+      <div style={{margin: '0 auto', border: '4px #D99789 solid', width: '80%', borderRadius: '10px'}}>
       {this.state.showCategoryOptions ?
           <EditCategory
             text={this.state.currentCatName}
@@ -334,7 +333,7 @@ class Categories extends Component {
           />
           : null
         }
-        <div style={{display: 'flex', flexWrap: 'wrap', borderBottom: '2px black solid'}}>
+        <div style={{display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
                 {categoryList}
                   <ModalCreateCategory parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
                   <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
