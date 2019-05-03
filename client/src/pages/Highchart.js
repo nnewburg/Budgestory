@@ -6,6 +6,7 @@ import Highcharts from 'highcharts';
 import { drillDownEvent } from "./DrillDownUp";
 import { drillUpEvent } from "./DrillDownUp";
 import Drilldown from 'highcharts/modules/drilldown';
+import '../App/styles/home.css'
 // check if HighchartsDrilldown has already been loaded
 if (!Highcharts.Chart.prototype.addSeriesAsDrilldown) {
     Drilldown(Highcharts);
@@ -115,7 +116,7 @@ class Highchart extends Component {
       }
     }
   }
-  
+
   // initializeChartInfo(){
   //   axios('/api/HomeChart', {
   //     params: {

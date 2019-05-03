@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, Route, Switch } from 'react-router-dom';
 import Highchart from './Highchart'
 import DateRange from './datepicker.js'
+import '../App/styles/home.css'
 
 class Home extends Component {
 
@@ -62,21 +63,27 @@ class Home extends Component {
       evt.preventDefault();
       alert("New Incomes!")
     };
+
     return (
       <div className="App">
-        <h1>Budgestory</h1>
-        <div className="add_new_btns">
-          <form onSubmit={newExpenses}>
-            <button className="add-expenses-btn" type="submit">+ New Expenses</button>
-          </form>
-          <form onSubmit={newIncomes}>
-            <button className="add-incomes-btn" type="submit">+ New Incomes</button>
-          </form>
-          <div className='date update_area'>
-            <DateRange refreshDate={this.refreshDate.bind(this)}/>
-          </div>
+        <div id="logo">
+          <h1>Budgestory</h1>
         </div>
+        <div className="container">
+          <div className="add_new_btns">
+            <form onSubmit={newExpenses}>
+              <button className="add-expenses-btn" id="expense" type="submit">+ New Expenses</button>
+            </form>
+            <form onSubmit={newIncomes}>
+              <button className="add-incomes-btn" id="income" type="submit">+ New Incomes</button>
+            </form>
+            <div className='date update_area'>
+              <DateRange refreshDate={this.refreshDate.bind(this)}/>
+
+            </div>
+          </div>
         <Highchart type={"pie"} options={this.state.options}/>
+        </div>
       </div>
     );
   }

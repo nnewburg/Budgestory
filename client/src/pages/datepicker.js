@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import '../App/styles/compare.css'
 import isAfter from 'date-fns/isAfter'
-
+import '../App/styles/home.css'
 class DateRange extends Component {
   constructor(props) {
     super(props);
@@ -38,6 +38,7 @@ class DateRange extends Component {
 
   render() {
 
+
     const updateChart = evt => {
       evt.preventDefault();
       this.props.refreshDate(this.state.startDate, this.state.endDate);
@@ -50,6 +51,7 @@ class DateRange extends Component {
           </code>
         </pre>
         <div className = 'column calender-area'>
+          Start:&ensp;
           <DatePicker
             // dateFormat="yyyy-MM-dd"
             selected={this.state.startDate}
@@ -57,7 +59,9 @@ class DateRange extends Component {
             startDate={this.state.startDate}
             endDate={this.state.endDate}
             onChange={this.handleChangeStart}
-          /> 
+
+          />&ensp;End:&ensp;
+
           <DatePicker
             // dateFormat="yyyy-MM-dd"
             selected={this.state.endDate}
@@ -68,7 +72,7 @@ class DateRange extends Component {
           />
         </div>
         <form onSubmit={updateChart}>
-          <button className="update-btn" type="submit">Update</button>
+          <button className="update-btn" id="update" type="submit"></button>
         </form>
       </div>
     );

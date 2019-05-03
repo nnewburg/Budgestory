@@ -50,7 +50,7 @@ class Compare extends Component {
   }
 
   componentDidMount() {
-    
+
   }
 
   render() {
@@ -65,8 +65,10 @@ class Compare extends Component {
         <div className='date'>
           <DateRange refreshDate={this.refreshDate.bind(this)}/>
         </div>
+
         <Highchart type={"pie"} options={this.state.options}/>
         <Highchart type={"column"} options={this.state.options}/>
+
 
       </div>
     );
