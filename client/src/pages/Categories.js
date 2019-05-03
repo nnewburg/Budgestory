@@ -6,6 +6,7 @@ import Category from './Category';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Modal, Button, Form } from 'react-bootstrap';
+import '../App/styles/categoriesPage.css'
 
 class ModalDeleteCategory extends React.Component{
   constructor(props, context) {
@@ -381,29 +382,31 @@ class Categories extends Component {
         ))
 
     return (
-    <div className="App" style={{}}>
-      <h1>Categories Page</h1>
+    <div className="categoryPage">
+      <div className="App" style={{}}>
+        <h1>Categories Page</h1>
 
-      <div style={{margin: '0 auto', border: '4px #D99789 solid', width: '80%', borderRadius: '10px'}}>
-      {this.state.showCategoryOptions ?
-          <EditCategory
-            text={this.state.currentCatName}
-            update={this.refreshAsync.bind(this)}
-            closeCategoryWindow={this.toggleCategory.bind(this)}
-            parentCategory = {this.state.parentId}
-            currentCategory = {this.state.currentCategory}
-          />
-          : null
-        }
-        <div style={{display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
-                {categoryList}
-                  <ModalCreateCategory parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
-                  <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
+        <div style={{margin: '0 auto', border: '4px #D99789 solid', width: '80%', borderRadius: '10px', background: 'rgba(255,255,255,0.75)'}}>
+        {this.state.showCategoryOptions ?
+            <EditCategory
+              text={this.state.currentCatName}
+              update={this.refreshAsync.bind(this)}
+              closeCategoryWindow={this.toggleCategory.bind(this)}
+              parentCategory = {this.state.parentId}
+              currentCategory = {this.state.currentCategory}
+            />
+            : null
+          }
+          <div style={{display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid', }}>
+                  {categoryList}
+                    <ModalCreateCategory parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
+                    <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
 
+          </div>
+        <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
         </div>
-      <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
-      </div>
 
+      </div>
     </div>
     );
   }

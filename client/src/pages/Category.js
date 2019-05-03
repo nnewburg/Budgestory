@@ -168,7 +168,7 @@ class Category extends Component {
       ))
 
     return (
-    <div className="App" style={{backgroundColor: 'white', display: 'flex', flexWrap: 'wrap'}}>
+    <div className="App" style={{backgroundColor: 'rgb(217, 151, 137);', display: 'flex', flexWrap: 'wrap'}}>
       {categoryList}
       {recordsList}
     </div>

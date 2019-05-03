@@ -1,0 +1,9 @@
+.categoryPage {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-image: url("../picture/background-body.jpg");
+  background-size: cover;
+
+}
+
