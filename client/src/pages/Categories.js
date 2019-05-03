@@ -10,10 +10,8 @@ import { Modal, Button, Form } from 'react-bootstrap';
 class ModalDeleteCategory extends React.Component{
   constructor(props, context) {
     super(props, context);
-
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
-
     this.state = {
       show: false,
     };
@@ -67,7 +65,6 @@ class ModalDeleteCategory extends React.Component{
 
 
 }
-
 
 class ModalCreateRecord extends React.Component{
   constructor(props, context) {
@@ -138,7 +135,6 @@ class ModalCreateRecord extends React.Component{
 
 }
 }
-
 
 class ModalCreateCategory extends React.Component{
   constructor(props, context) {
@@ -264,7 +260,6 @@ class EditCategory extends React.Component {
   }
 }
 
-
 class Helper extends Component {
   constructor(props) {
     super();
@@ -278,10 +273,10 @@ class Helper extends Component {
 
   render() {
     return (
-         <div id={this.props.id} onClick={this.onItemClick} style={{flexDirection: 'row', border:'3px #03A678 solid', padding: '0.5em', margin: '0.5em', borderRadius: '10px' }}>
-            Current Category: {this.props.name}
-          </div>
-          )
+      <div id={this.props.id} onClick={this.onItemClick} style={{flexDirection: 'row', border:'3px #03A678 solid', padding: '0.5em', margin: '0.5em', borderRadius: '10px' }}>
+        Current Category: {this.props.name}
+      </div>
+      )
   }
 }
 
@@ -349,8 +344,6 @@ class Categories extends Component {
       this.getRecords();
     }
 
-
-
     getCategory = () => {
       fetch('/api/getCategories')
       .then(res => res.json())
@@ -375,10 +368,10 @@ class Categories extends Component {
 
   render() {
 
-         const filteredList = this.findLineage(this.state.parentId)
-         const categoryList = filteredList.map((category, index) => (
-              <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} id={category.parent_id} name={category.name}  />
-        ))
+    const filteredList = this.findLineage(this.state.parentId)
+    const categoryList = filteredList.map((category, index) => (
+        <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} id={category.parent_id} name={category.name}  />
+  ))
 
     return (
     <div className="App" style={{}}>
@@ -396,10 +389,9 @@ class Categories extends Component {
           : null
         }
         <div style={{display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
-                {categoryList}
-                  <ModalCreateCategory parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
-                  <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
-
+          {categoryList}
+            <ModalCreateCategory parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
+            <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
         </div>
       <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
       </div>

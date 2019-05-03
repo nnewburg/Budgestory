@@ -12,7 +12,6 @@ export const drillDownEvent = (e) => {
       value += data.v;
     }
   }    
-  
   if(!e.originalEvent) {
     return;
   }
@@ -38,15 +37,18 @@ export const drillUpEvent = (e) => {
     return;
   }
   let newTitle = e.seriesOptions.name + ": $";
-  if(e.seriesOptions.name === "Balance"){
-    newTitle += "-"
-  }
   let value = 0;
-  if(e.seriesOptions.data.length > 0) {
-    for(let data of e.seriesOptions.data) {
-      value += data.v;
-    }
-  }   
+  if(e.seriesOptions.name === "Balance"){
+    if(e.seriesOptions.data.length > 0) {
+      value = e.seriesOptions.data[1].v - e.seriesOptions.data[0].v
+    } 
+  } else {
+    if(e.seriesOptions.data.length > 0) {
+      for(let data of e.seriesOptions.data) {
+        value += data.v;
+      }
+    } 
+  }
   if(Highcharts.targetLevel === e.target.drilled) {
     return;
   }
