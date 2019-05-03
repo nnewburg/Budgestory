@@ -297,7 +297,7 @@ app.get('/api/getCategories', (req,res) => {
   // Handles any requests that don't match the ones above
   app.post('/newCategory', (req,res) => {
     console.log(req.body)
-    knex('categories').insert([{name: req.body.newCat.name, parent_id: req.body.newCat.parent_id}]).then(result =>
+    knex('categories').insert([{name: req.body.newCat.name, parent_id: req.body.newCat.parent_id, notes:req.body.newCat.notes}]).then(result =>
       {res.json(result)})
   });
 
@@ -316,7 +316,7 @@ app.get('/api/getCategoriesMenu', (req, res) => {
 });
 
 app.post('/api/editCategory', (req, res) => {
-  knex('categories').where({id: req.body.editCat.id}).update({name: req.body.editCat.name}).then(result =>
+  knex('categories').where({id: req.body.editCat.id}).update({name: req.body.editCat.name, notes:req.body.editCat.notes}).then(result =>
     {res.json(result)})
 });
 

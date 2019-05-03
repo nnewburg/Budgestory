@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import { Form, Modal, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
+import { Card, Form, Modal, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
 import axios from 'axios';
 import dollarSign from '../assets/dollarSign.png'
 import trashCan from '../assets/trashcan.png'
@@ -21,6 +21,7 @@ class ModalEditRecord extends React.Component{
     editRecord = (event) => {
       event.preventDefault();
 
+      console.log(this.props.id)
       const editRec = {
         id: this.props.id,
         name: event.target.name.value,
@@ -47,13 +48,13 @@ class ModalEditRecord extends React.Component{
 
     return(
     <div style={{marginLeft: 'auto', padding: '0.4em'}}>
-    <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '30%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
+    <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '15%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
   <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Edit a Record</Modal.Title>
+            <Modal.Title>Edit Record</Modal.Title>
           </Modal.Header>
             <Modal.Body>
-              <Form id="record" onSubmit={this.editCategory}>
+              <Form id="record" onSubmit={this.editRecord}>
               <Form.Group controlId="formGroupEmail">
               <Form.Label>Record notes:</Form.Label>
               <Form.Control type="text" placeholder="Enter new notes" name='name' />
@@ -94,7 +95,8 @@ class ModalEditCategory extends React.Component{
 
       const editCat = {
         id: this.props.id,
-        name: event.target.name.value
+        name: event.target.name.value,
+        notes: event.target.notes.value
       }
 
       axios.post('/api/editCategory', {editCat}).then((response) => {
@@ -106,10 +108,12 @@ class ModalEditCategory extends React.Component{
 
 
    handleClose() {
+    this.props.modalClicked()
     this.setState({ show: false });
   }
 
   handleShow() {
+    this.props.modalClicked()
     this.setState({ show: true });
   }
 
@@ -120,13 +124,17 @@ class ModalEditCategory extends React.Component{
     <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '10%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
   <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Edit a Category</Modal.Title>
+            <Modal.Title>Edit category: {this.props.name}</Modal.Title>
           </Modal.Header>
             <Modal.Body>
               <Form id="record" onSubmit={this.editCategory}>
               <Form.Group controlId="formGroupEmail">
-              <Form.Label>Category Name:</Form.Label>
+              <Form.Label>Category name:</Form.Label>
               <Form.Control type="text" placeholder="Enter new category" name='name' />
+              </Form.Group>
+              <Form.Group controlId="formGroupEmail">
+              <Form.Label>Category notes:</Form.Label>
+              <Form.Control type="text" placeholder="Enter new category" name='notes' />
               </Form.Group>
               </Form>
             </Modal.Body>
@@ -163,16 +171,18 @@ class ModalDeleteCategory extends React.Component{
        axios.post('/api/deleteCategory', {delCat}).then((response) => {
         console.log('delete Category route works', response)
         this.props.update()
-
+        this.handleClose();
       })
 
     }
 
   handleClose() {
+    this.props.modalClicked()
     this.setState({ show: false });
   }
 
   handleShow() {
+    this.props.modalClicked()
     this.setState({ show: true });
   }
 
@@ -228,10 +238,12 @@ class ModalDeleteRecord extends React.Component{
   }
 
   handleClose() {
+
     this.setState({ show: false });
   }
 
   handleShow() {
+
     this.setState({ show: true });
   }
 
@@ -260,40 +272,29 @@ class ModalDeleteRecord extends React.Component{
 
 class RecordRender extends Component {
 
-  constructor(props) {
-    super();
-    this.clickCount = 0;
-    this.singleClickTimer = '';
-  }
-
   render(){
-
     return (
-      <OverlayTrigger
-      key={'bottom'}
-      placement={'bottom'}
-      overlay={
-        <Tooltip id={`tooltip-bottom`}>
-        <p>Notes: {this.props.name} </p>
-        <p>Price: ${this.props.price/100} </p>
-        </Tooltip>
-      }
-    >
-          <div id={this.props.id} onClick={this.onItemClick} style={{ position: 'relative', backgroundColor: '#65A688', borderRadius: '10px', position:'relative', border: '3px solid #D99789', width: '20%', margin: '0.5em' }}>
-          <ModalDeleteRecord id={this.props.id} update={this.props.update} />
-          <ModalEditCategory id={this.props.id} update={this.props.update} />
 
+          <div id={this.props.id} onClick={this.onItemClick} style={{ position:'relative', minWidth: '20%', flex: '0.3', backgroundColor: '#65A688', borderRadius: '10px', position:'relative', border: '3px solid #D99789', width: '20%', margin: '0.5em' }}>
+          <ModalDeleteRecord id={this.props.id} update={this.props.update} />
+          <ModalEditRecord id={this.props.id} update={this.props.update} />
             <div>
             <p style={{position: 'absolute', left: '0', top: '0', padding: '0.1em'}}>{this.props.name}</p>
             <br></br>
-            <span>Value: ${this.props.price/100}</span>
+            <p style={{position: 'absolute', right: '0', bottom: '0'}}>Value: ${this.props.price/100}</p>
             </div>
           </div>
-      </OverlayTrigger>
+
            )
   }
 
 }
+
+const MyToolTip = props => (
+
+  <div></div>
+
+  )
 
 
 class CategoryRender extends Component {
@@ -304,28 +305,31 @@ class CategoryRender extends Component {
     this.singleClickTimer = '';
     this.handleClicks = this.handleClicks.bind(this)
     this.dblClick = this.dblClick.bind(this);
-    // this.sngleItemClick = this.sngleItemClick.bind(this);
+    this.modalClicked = this.modalClicked.bind(this);
+    this.state = {
+      editModal: false
+    }
+  }
+
+  modalClicked = () => {
+    this.setState({
+      editModal: !this.state.editModal
+    })
   }
 
   dblClick(event) {
-     //console.log(event.currentTarget)
+     console.log(event.currentTarget)
     const newGen = event.currentTarget.id
-    this.props.updateCurrentGen(newGen);
+    const newName = this.props.name
+    this.props.updateCurrentGen(newGen, newName);
     if(this.props.editMenuShow){
     this.props.toggle();
   }
 }
 
-  // sngleItemClick(event) {
-  //  // console.log(event)
-  //  if(this.props.parentId !== 0){
-  //   const currentCategory = event.currentTarget
-  //   this.props.toggle(this.props.id, this.props.name);
-  //   }
-  // }
 
   handleClicks(event){
-    console.log('any Click',event.currentTarget)
+
     this.clickCount++;
   if (this.clickCount === 1) {
     this.singleClickTimer = setTimeout(function() {
@@ -341,22 +345,33 @@ class CategoryRender extends Component {
 
 
   render() {
-    console.log(this.props.parentId)
+
     if (this.props.parentId){
     return (
+      <OverlayTrigger
+      key={'bottom'}
+      // show={null}
+      placement={'bottom'}
+      overlay={this.state.editModal ? MyToolTip : <Tooltip id={`tooltip-bottom`}>
+        <p>Notes: {this.props.notes} </p>
 
+        </Tooltip>}
+
+    >
           <div id={this.props.id} onClick={this.handleClicks} style={{ position:'relative', minWidth: '20%', flex: '0.3', backgroundColor: '#65A688', borderRadius: '10px', border: '3px solid #D99789', justifyContent: 'space-around', margin: '0.5em', padding: '3%' }}>
-            <ModalDeleteCategory id={this.props.id} name={this.props.name} update={this.props.update} />
-            <ModalEditCategory id={this.props.id} name={this.props.name} update={this.props.update} />
-            <span className='align-middle'style={{verticalAlign: 'middle'}}>{this.props.name}</span>
+            <ModalDeleteCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
+            <ModalEditCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
+            <p className='align-middle'style={{verticalAlign: 'middle',position: 'absolute', top: '0'}}>{this.props.name}</p>
           </div>
-
+          </OverlayTrigger>
            )
     } else {
       return (
+
        <div id={this.props.id} onClick={this.handleClicks} style={{ position:'relative', minWidth: '20%', flex: '0.3', backgroundColor: '#65A688', borderRadius: '10px', border: '3px solid #D99789', justifyContent: 'space-around', margin: '0.5em', padding: '3%' }}>
-           <span className='align-middle'style={{verticalAlign: 'middle'}}>{this.props.name}</span>
+           <p className='align-middle'style={{verticalAlign: 'middle', position: 'absolute', top: '0'}}>{this.props.name}</p>
         </div>
+
         )
     }
   }
@@ -372,16 +387,16 @@ class Category extends Component {
     const filteredList = this.props.state.categories.filter(category => category.parent_id == this.props.state.parentId)
 
     const categoryList = filteredList.map((category, index) => (
-             <CategoryRender update={this.props.update} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} id={category.id} name={category.name} parentId={category.parent_id} />
+             <CategoryRender update={this.props.update} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} notes={category.notes} id={category.id} key={category.id} name={category.name} parentId={category.parent_id} />
           ))
 
 
     const recordsList = filteredRecords.map((record, index) => (
-        <RecordRender name={record.notes} price={record.value} id={record.id} update={this.props.update} />
+        <RecordRender name={record.notes} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} price={record.value} id={record.id} update={this.props.update} />
       ))
 
     return (
-    <div className="App" style={{backgroundColor: 'white', display: 'flex', flexWrap: 'wrap'}}>
+    <div style={{backgroundColor: 'white', display: 'flex', flexWrap: 'wrap'}}>
       {categoryList}
       {recordsList}
     </div>
