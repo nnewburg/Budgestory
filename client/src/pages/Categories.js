@@ -4,8 +4,69 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Category from './Category';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootst<<<<<<< HEAD
 import { OverlayTrigger, Tooltip, Modal, Button, Form } from 'react-bootstrap';
+
+import { Modal, Button, Form } from 'react-bootstrap';
+
+class ModalDeleteCategory extends React.Component{
+  constructor(props, context) {
+    super(props, context);
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.state = {
+      show: false,
+    };
+  }
+
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+   deleteCategory = (event) => {
+
+       const delCat = {
+        id: this.props.currentCategory
+       }
+
+       axios.post('/api/deleteCategory', {delCat}).then((response) => {
+        console.log('delete Category route works', response)
+        this.props.update()
+        this.props.closeCategoryWindow()
+      })
+
+    }
+
+    render() {
+    return (
+      <div style={{marginLeft: 'auto', padding: '0.4em'}}>
+        <Button variant="danger" onClick={this.handleShow}>
+          Delete Category
+        </Button>
+         <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Warning:</Modal.Title>
+          </Modal.Header>
+            <Modal.Body>
+            If you delete a category it will delete ALL records and categories nested within that category
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger" onClick={this.props.deleteMethod}>
+                Delete {this.props.name}
+              </Button>
+            </Modal.Footer>
+        </Modal>
+      </div>
+  );
+}
+
+
+
+}
 
 
 class ModalCreateRecord extends React.Component{
@@ -79,7 +140,6 @@ class ModalCreateRecord extends React.Component{
 
 }
 }
-
 
 class ModalCreateCategory extends React.Component{
   constructor(props, context) {
@@ -207,7 +267,6 @@ class EditCategory extends React.Component {
   }
 }
 
-
 class Helper extends Component {
   constructor(props) {
     super();
@@ -221,6 +280,7 @@ class Helper extends Component {
 
   render() {
     return (
+
          <div id={this.props.id} onClick={this.onItemClick} style={{flexDirection: 'row', border:'3px #03A678 solid', padding: '0.5em', margin: '0.5em', borderRadius: '10px' }}>
            <span> Current Category: {this.props.name} </span>
            <br></br>
@@ -297,8 +357,6 @@ class Categories extends Component {
       this.getRecords();
     }
 
-
-
     getCategory = () => {
       fetch('/api/getCategories')
       .then(res => res.json())
@@ -323,10 +381,10 @@ class Categories extends Component {
 
   render() {
 
-         const filteredList = this.findLineage(this.state.parentId)
-         const categoryList = filteredList.map((category, index) => (
-              <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} id={category.parent_id} name={category.name}  />
-        ))
+    const filteredList = this.findLineage(this.state.parentId)
+    const categoryList = filteredList.map((category, index) => (
+        <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} id={category.parent_id} name={category.name}  />
+  ))
 
     return (
     <div className="App" style={{height: '100vh', backgroundColor: '#c6e5c3'}}>
@@ -343,10 +401,16 @@ class Categories extends Component {
           />
           : null
         }
+
         <div style={{backgroundColor: 'white', display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
                 {categoryList}
                   <ModalCreateCategory parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
                   <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
+
+        <div style={{display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
+          {categoryList}
+            <ModalCreateCategory parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
+            <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
 
         </div>
       <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />

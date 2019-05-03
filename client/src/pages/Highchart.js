@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
-import { findDOMNode } from 'react-dom';
-import HighchartsReact from 'highcharts-react-official'
-import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 import { drillDownEvent } from "./DrillDownUp";
 import { drillUpEvent } from "./DrillDownUp";
-import Drilldown from 'highcharts/modules/drilldown';
-import '../App/styles/home.css'
-// check if HighchartsDrilldown has already been loaded
-if (!Highcharts.Chart.prototype.addSeriesAsDrilldown) {
-    Drilldown(Highcharts);
-}
+import '../App/styles/home.css';
 
 class Highchart extends Component {
   constructor(props) {
     super(props);
-    Highcharts.targetLevel = -1;
+    props.Highcharts.targetLevel = -1;
     this.state = {
       loading: true,
       options: {
@@ -23,10 +15,16 @@ class Highchart extends Component {
           type: this.props.type,
           events: {
             drilldown: (e) => {
+              let currentCategoryName = e.seriesOptions.name;
+              console.log("drilldown: ", currentCategoryName);
               drillDownEvent(e);
+              props.getCurrentCategory(currentCategoryName);
             },
             drillup: function (e) {
+              let currentCategoryName = e.seriesOptions.name;
+              console.log("drillup: ", currentCategoryName);
               drillUpEvent(e);
+              props.getCurrentCategory(currentCategoryName);
             }
           }
         },
@@ -140,41 +138,37 @@ class Highchart extends Component {
   //   });
   // }
 
-  static getDerivedStateFromProps(props, state) {
-    Highcharts.charts.forEach((chart) => {
-      chart.setTitle({text: props.options.title});
-    });
-    if(props.options.series.length > 0) {
-      return {
-        options: {
-          ...state.options,
-          title: props.options.title,
-          series: props.options.series,
-          drilldown: props.options.drilldown
-        }
-      };
-    } else{
-      return {};
-    }
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   this.props.Highcharts.charts.forEach((chart) => {
+  //     chart.setTitle({text: props.options.title});
+  //   });
+  //   if(props.options.series.length > 0) {
+  //     return {
+  //       options: {
+  //         ...state.options,
+  //         title: props.options.title,
+  //         series: props.options.series,
+  //         drilldown: props.options.drilldown
+  //       }
+  //     };
+  //   } else{
+  //     return {};
+  //   }
+  // }
 
   componentDidMount() {
-    
+    console.log("componentDidMount")
   }
 
   render() {
-    // Drill Up back to balance level everytime update the chart
-    Highcharts.targetLevel = -1;
-    Highcharts.charts.forEach((chart) => {
-      const drillUpLevel = chart.drilled;
-      for(let level = 0; level <= drillUpLevel; level ++) {
-        chart.drillUp();
-      }
-      chart.drilled = 0;
-    });
+    let options = this.props.options;
+    options.chart = this.state.options.chart;
+    options.title = {text: options.title}
+    options.plotOptions = this.state.options.plotOptions;
+    options.tooltip = this.state.options.tooltip;
     return (
       <div id="MajorChart" className="Hightchart">
-        <HighchartsReact highcharts={Highcharts} options={this.state.options} />
+        <HighchartsReact highcharts={this.props.Highcharts} options={options} />
       </div>
     );
   }
