@@ -4,7 +4,8 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Category from './Category';
 import axios from 'axios';
-import 'bootst<<<<<<< HEAD
+import 'bootstrap/dist/css/bootstrap.css';
+
 import { OverlayTrigger, Tooltip, Modal, Button, Form } from 'react-bootstrap';
 
 import { Modal, Button, Form } from 'react-bootstrap';
