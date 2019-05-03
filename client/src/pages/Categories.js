@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import { OverlayTrigger, Tooltip, Modal, Button, Form } from 'react-bootstrap';
 
-import { Modal, Button, Form } from 'react-bootstrap';
+
 
 class ModalDeleteCategory extends React.Component{
   constructor(props, context) {
@@ -387,20 +387,21 @@ class Categories extends Component {
       );
     }
 
-  render() {
+   render() {
+
+
 
          const filteredList = this.findLineage(this.state.parentId)
          const categoryList = filteredList.map((category, index) => (
               <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} key={category.parent_id} id={category.parent_id} name={category.name}  />
         ))
+
     return (
     <div  style={{height: '100vh', backgroundColor: '#c6e5c3'}}>
       <h1>Your Categories</h1>
-        <div style={{backgroundColor: 'white', display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
 
       <div style={{backgroundColor: '#dce1ea', margin: '0 auto', border: '4px #D99789 solid', width: '80%', borderRadius: '10px'}}>
         <div style={{backgroundColor: '#90b768', display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
-
                 {categoryList}
                   <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
                   <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
