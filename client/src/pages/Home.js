@@ -1,26 +1,52 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Link, Route, Switch } from 'react-router-dom';
 import Highchart from './Highchart'
 import DateRange from './datepicker.js'
+import '../App/styles/home.css'
 
 class Home extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      currentDateRange: {
-        start: new Date("2018-01-02"),
-        end: new Date("2019-05-02")
+      options: {
+        title: "Balance",
+        series: [],
+        drilldown: {
+          series: []
+        }
       }
     }
   }
 
-  refreshDate = (start, end) => {
-    this.setState({
-      currentDateRange: {
-        start: start,
-        end: end
+  refreshDate = (startDate, endDate) => {
+    let startDateString = "2019-01-01";
+    let endDateString = "2019-05-09";
+    if(startDate){
+      startDateString = startDate.toISOString().split('T')[0]
+    }
+    if(endDate){
+      endDateString = endDate.toISOString().split('T')[0]
+    }
+    axios('/api/HomeChart', {
+      params: {
+        start: startDateString,
+        end: endDateString
       }
+    })
+    .then(
+      ({data}) => {
+        this.setState({
+          options: {
+            title: data.title,
+            series: data.series,
+            drilldown: data.drilldown
+          }
+        });
+      }
+    ).catch(function (error) {
+      console.log(error);
     });
   }
 
@@ -29,9 +55,6 @@ class Home extends Component {
   }
 
   render() {
-
-    // console.log("Home Date = ", this.state.currentDateRange);
-
     const newExpenses = evt => {
       evt.preventDefault();
       alert("New Expenses!");
@@ -40,28 +63,27 @@ class Home extends Component {
       evt.preventDefault();
       alert("New Incomes!")
     };
-    const updateChart = evt => {
-      evt.preventDefault();
-      alert("Update based on date selected!")
-    };
+
     return (
       <div className="App">
-        <h1>Budgestory</h1>
-        <div className="add_new_btns">
-          <form onSubmit={newExpenses}>
-            <button className="add-expenses-btn" type="submit">+ New Expenses</button>
-          </form>
-          <form onSubmit={newIncomes}>
-            <button className="add-incomes-btn" type="submit">+ New Incomes</button>
-          </form>
-          <div className='date update_area'>
-            <DateRange date={ this.state.currentDateRange } refreshDate={this.refreshDate.bind(this)}/>
-            <form onSubmit={updateChart}>
-              <button className="update-btn" type="submit">Update</button>
-            </form>
-          </div>
+        <div id="logo">
+          <h1>Budgestory</h1>
         </div>
-        <Highchart type={"pie"} date={ this.state.currentDateRange }/>
+        <div className="container">
+          <div className="add_new_btns">
+            <form onSubmit={newExpenses}>
+              <button className="add-expenses-btn" id="expense" type="submit">+ New Expenses</button>
+            </form>
+            <form onSubmit={newIncomes}>
+              <button className="add-incomes-btn" id="income" type="submit">+ New Incomes</button>
+            </form>
+            <div className='date update_area'>
+              <DateRange refreshDate={this.refreshDate.bind(this)}/>
+
+            </div>
+          </div>
+        <Highchart type={"pie"} options={this.state.options}/>
+        </div>
       </div>
     );
   }

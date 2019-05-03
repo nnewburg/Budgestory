@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+// import axios from 'axios';
 import { findDOMNode } from 'react-dom';
-import axios from 'axios';
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts';
 import { drillDownEvent } from "./DrillDownUp";
 import { drillUpEvent } from "./DrillDownUp";
 import Drilldown from 'highcharts/modules/drilldown';
+import '../App/styles/home.css'
 // check if HighchartsDrilldown has already been loaded
 if (!Highcharts.Chart.prototype.addSeriesAsDrilldown) {
     Drilldown(Highcharts);
@@ -30,7 +31,7 @@ class Highchart extends Component {
           }
         },
         title: {
-          text: 'Hao Jiang Balance:$100,000,000 January, 2020'
+          text: 'Balance'
         },
         // subtitle: {
         //     text: 'Click the slices to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
@@ -116,31 +117,61 @@ class Highchart extends Component {
     }
   }
 
-  componentDidMount() {
-    axios('/api/HomeChart', {
-      params: {
-        start: "2019-01-01",
-        end: "2019-03-26"
-      }
-    })
-    .then(
-      ({data}) => {
-        this.setState({
-          loading: false,
-          options: {
-            ...this.state.options,
-            series: data.series,
-            drilldown: data.drilldown
-          }
-        });
-      }
-    ).catch(function (error) {
-      console.log(error);
+  // initializeChartInfo(){
+  //   axios('/api/HomeChart', {
+  //     params: {
+  //       start: this.props.date.start.toISOString().split('T')[0],
+  //       end: this.props.date.end.toISOString().split('T')[0]
+  //     }
+  //   })
+  //   .then(
+  //     ({data}) => {
+  //       this.setState({
+  //         loading: false,
+  //         options: {
+  //           ...this.state.options,
+  //           series: data.series,
+  //           drilldown: data.drilldown
+  //         }
+  //       });
+  //     }
+  //   ).catch(function (error) {
+  //     console.log(error);
+  //   });
+  // }
+
+  static getDerivedStateFromProps(props, state) {
+    Highcharts.charts.forEach((chart) => {
+      chart.setTitle({text: props.options.title});
     });
+    if(props.options.series.length > 0) {
+      return {
+        options: {
+          ...state.options,
+          title: props.options.title,
+          series: props.options.series,
+          drilldown: props.options.drilldown
+        }
+      };
+    } else{
+      return {};
+    }
+  }
+
+  componentDidMount() {
+    
   }
 
   render() {
-    //console.log("render this.state.options = ", this.state.options);
+    // Drill Up back to balance level everytime update the chart
+    Highcharts.targetLevel = -1;
+    Highcharts.charts.forEach((chart) => {
+      const drillUpLevel = chart.drilled;
+      for(let level = 0; level <= drillUpLevel; level ++) {
+        chart.drillUp();
+      }
+      chart.drilled = 0;
+    });
     return (
       <div id="MajorChart" className="Hightchart">
         <HighchartsReact highcharts={Highcharts} options={this.state.options} />

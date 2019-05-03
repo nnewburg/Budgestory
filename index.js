@@ -50,6 +50,7 @@ let timePeriod = {start: "1000-01-01", end: "9999-12-31"};
 function balanceInitialization() {
   balanceObj = {id: 0, parent_id: -1, name:"Balance", type: "category", value: 0, children: []};
   balanceChart = {
+    title: "Balance: " + balanceObj.value,
     series: [
       {
         name: "Balance",
@@ -241,7 +242,6 @@ function removeRecord(category_id) {
   }
 }
 
-
 /******** All HTTP Requires Based On Express ********/
 // Home Page: Achieve data from DB, regulate into hightchart style, and then send back to the front
 app.get('/api/HomeChart', (req,res) => {
@@ -267,6 +267,7 @@ app.get('/api/HomeChart', (req,res) => {
       transferToChart();
       // console.log("balanceChart.series = ", balanceChart.series);
       // console.log("balanceChart.drilldown = ", balanceChart.drilldown);
+      balanceChart.title = "Balance: $" + balanceObj.value/100;
       res.json(balanceChart);
     })
     .catch(err => console.error(err));
