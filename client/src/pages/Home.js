@@ -62,10 +62,25 @@ class Home extends Component {
     };
 
     return (
+      <div>
+        <nav className="navbar">
+          <div id="logo">
+            <img src={require("../App/picture/logo.png")} height="35px" />
+            <a href="/" className="navbar-brand">BudgeStory</a>
+          </div>
+          <div className="contents">
+            <div id="comparePage">
+              <a href="/compare">Compare</a>
+            </div>
+            <div id="categoryPage">
+              <a href="/categories">Category</a>
+            </div>
+            <div id="userInfo">
+              Blah
+            </div>
+          </div>
+        </nav>
       <div className="App">
-        <div id="logo">
-          <h1>Budgestory</h1>
-        </div>
         <div className="container">
           <div className="add_new_btns">
             <form onSubmit={newExpenses}>
@@ -81,6 +96,7 @@ class Home extends Component {
           </div>
         <Highchart type={"pie"} options={this.state.options}/>
         </div>
+      </div>
       </div>
     );
   }
