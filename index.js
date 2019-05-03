@@ -316,7 +316,7 @@ app.get('/api/getCategoriesMenu', (req, res) => {
 });
 
 app.post('/api/editCategory', (req, res) => {
-  knex('categories').where({id: req.body.editCat.id}).update({name: req.body.editCat.name}).then(result =>
+  knex('categories').where({id: req.body.editCat.id}).update({name: req.body.editCat.name, notes:req.body.editCat.notes}).then(result =>
     {res.json(result)})
 });
 

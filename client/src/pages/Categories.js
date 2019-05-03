@@ -329,7 +329,7 @@ class Categories extends Component {
         ))
 
     return (
-    <div className="App" style={{height: '100vh', backgroundColor: '#c6e5c3'}}>
+    <div  style={{height: '100vh', backgroundColor: '#c6e5c3'}}>
       <h1>Your Categories</h1>
 
       <div style={{backgroundColor: 'white', margin: '0 auto', border: '4px #D99789 solid', width: '80%', borderRadius: '10px'}}>

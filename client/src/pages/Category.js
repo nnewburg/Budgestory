@@ -21,6 +21,7 @@ class ModalEditRecord extends React.Component{
     editRecord = (event) => {
       event.preventDefault();
 
+      console.log(this.props.id)
       const editRec = {
         id: this.props.id,
         name: event.target.name.value,
@@ -47,13 +48,13 @@ class ModalEditRecord extends React.Component{
 
     return(
     <div style={{marginLeft: 'auto', padding: '0.4em'}}>
-    <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '30%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
+    <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '15%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
   <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Edit a Record</Modal.Title>
           </Modal.Header>
             <Modal.Body>
-              <Form id="record" onSubmit={this.editCategory}>
+              <Form id="record" onSubmit={this.editRecord}>
               <Form.Group controlId="formGroupEmail">
               <Form.Label>Record notes:</Form.Label>
               <Form.Control type="text" placeholder="Enter new notes" name='name' />
@@ -94,7 +95,8 @@ class ModalEditCategory extends React.Component{
 
       const editCat = {
         id: this.props.id,
-        name: event.target.name.value
+        name: event.target.name.value,
+        notes: event.target.notes.value
       }
 
       axios.post('/api/editCategory', {editCat}).then((response) => {
@@ -127,6 +129,10 @@ class ModalEditCategory extends React.Component{
               <Form.Group controlId="formGroupEmail">
               <Form.Label>Category Name:</Form.Label>
               <Form.Control type="text" placeholder="Enter new category" name='name' />
+              </Form.Group>
+              <Form.Group controlId="formGroupEmail">
+              <Form.Label>Category Notes:</Form.Label>
+              <Form.Control type="text" placeholder="Enter new category" name='notes' />
               </Form.Group>
               </Form>
             </Modal.Body>
@@ -163,7 +169,7 @@ class ModalDeleteCategory extends React.Component{
        axios.post('/api/deleteCategory', {delCat}).then((response) => {
         console.log('delete Category route works', response)
         this.props.update()
-
+        this.handleClose();
       })
 
     }
@@ -281,7 +287,7 @@ class RecordRender extends Component {
     >
           <div id={this.props.id} onClick={this.onItemClick} style={{ position: 'relative', backgroundColor: '#65A688', borderRadius: '10px', position:'relative', border: '3px solid #D99789', width: '20%', margin: '0.5em' }}>
           <ModalDeleteRecord id={this.props.id} update={this.props.update} />
-          <ModalEditCategory id={this.props.id} update={this.props.update} />
+          <ModalEditRecord id={this.props.id} update={this.props.update} />
 
             <div>
             <p style={{position: 'absolute', left: '0', top: '0', padding: '0.1em'}}>{this.props.name}</p>
@@ -341,7 +347,7 @@ class CategoryRender extends Component {
 
 
   render() {
-    console.log(this.props.parentId)
+
     if (this.props.parentId){
     return (
 
@@ -377,11 +383,11 @@ class Category extends Component {
 
 
     const recordsList = filteredRecords.map((record, index) => (
-        <RecordRender name={record.notes} price={record.value} id={record.id} update={this.props.update} />
+        <RecordRender name={record.notes} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} price={record.value} id={record.id} update={this.props.update} />
       ))
 
     return (
-    <div className="App" style={{backgroundColor: 'white', display: 'flex', flexWrap: 'wrap'}}>
+    <div style={{backgroundColor: 'white', display: 'flex', flexWrap: 'wrap'}}>
       {categoryList}
       {recordsList}
     </div>
