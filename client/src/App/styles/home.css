@@ -9,7 +9,8 @@
 
 .container {
 
-  border: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
   position: fixed;
   height: 100%;
   left: 5%;
@@ -231,22 +232,41 @@
   position: absolute;
   margin: 0;
   top: 17%;
-  left: 33%;
+  left: 31%;
 }
 
 #update:focus {
   outline: none;
 }
 
+.navbar {
+  background-color: lightwhite;
+
+}
+#logo {
+  margin-left: 20%;
+}
+
+.contents {
+  margin-right: 12%;
+  display: flex;
+  height: 100%;
+  width: 30%;
+
+}
 
 
+#comparePage {
+  width: 33%;
+}
 
+#categoryPage {
+  width: 33%;
+}
 
-
-
-
-
-
+#userInfo {
+  width: 33%;
+}
 
 
 
