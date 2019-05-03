@@ -65,7 +65,7 @@ function balanceInitialization() {
     }
   }
 }
-// If a specific category has record/records inside 
+// If a specific category has record/records inside
 function hasRecordIn(categoryObj) {
   let hasRecord = false;
   if(allRecords.length > 0) {
@@ -366,6 +366,11 @@ app.post('/api/deleteCategory', (req, res) => {
     .catch(err => console.error(err));
   })
   .catch(err => console.error(err));
+});
+
+app.post('/api/editRecord', (req, res) => {
+  knex('records').where({id: req.body.editRec.id}).update({notes: req.body.editRec.name, value: req.body.editRec.value}).then(result =>
+    {res.json(result)})
 });
 
 app.get('*', (req,res) =>{
