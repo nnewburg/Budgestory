@@ -217,10 +217,18 @@
 #update {
   background: url(../picture/refresh.gif);
   background-size: cover;
-
+  opacity: 0.7;
   margin: 0;
   border-radius: 20px;
+  -webkit-transition: 1s ease-out;
+  -moz-transition:  1s ease-out;
+  transition:  1s ease-out;
+}
 
+#update:hover {
+  -webkit-transform: rotateZ(360deg);
+  -moz-transform: rotateZ(360deg);
+  transform: rotateZ(360deg);
 }
 
 .row {
@@ -234,12 +242,42 @@
   outline: none;
 }
 
+
+#logo .navbar-brand {
+  color: #d54d7b;
+  font-family: "Great Vibes", cursive;
+  font-weight: normal;
+  text-shadow: 0 1px 1px #fff;
+  padding-left: 1%;
+  -webkit-transition: .5s ease-out;
+  -moz-transition:  .5s ease-out;
+  transition:  .5s ease-out;
+}
+
+#logo:hover .navbar-brand {
+  -webkit-transform: rotateZ(10deg);
+  -moz-transform: rotateZ(10deg);
+  transform: rotateZ(10deg);
+}
+
 .navbar {
-  background-color: ;
+  margin-left: 10%;
+
 
 }
-#logo {
-  margin-left: 20%;
+
+#logo img{
+  width: 15%;
+  height: 35px;
+  -webkit-transition: .5s ease-out;
+  -moz-transition:  .5s ease-out;
+  transition:  .5s ease-out;
+}
+
+#logo:hover img {
+  -webkit-transform: rotateZ(-20deg);
+  -moz-transform: rotateZ(-20deg);
+  transform: rotateZ(-20deg);
 }
 
 .contents {
