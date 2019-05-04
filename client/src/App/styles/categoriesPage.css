@@ -2,13 +2,138 @@
   position: fixed;
   height: 100%;
   width: 100%;
+  font-family: "Great Vibes", cursive;
   background-image: url("../picture/background-body.jpg");
   background-size: cover;
-
 }
 
 .categoryPage h1 {
+
   padding-top: 1%;
   padding-left: 3%;
-  font-style:
+
 }
+
+.createRecordBtn{
+  flex-direction: row-reverse;
+  padding: 0.4em;
+}
+
+.createCategoryBtn{
+  margin-left: auto;
+  padding: 0.4em;
+}
+
+.currentCategory{
+  flex-direction: row;
+  border: 3px #03A678 solid;
+  padding: 0.5em;
+  margin: 0.5em;
+  border-radius: 10px;
+}
+
+.mostOuterContainer{
+  background-color: #dce1ea;
+  margin: 0 auto;
+  border: 4px #D99789 solid;
+  width: 80%;
+  border-radius: 10px;
+}
+
+.topDiv{
+  background-color: #dce1ea);
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 5px #D99789 solid;
+}
+
+.editRecordPencil{
+  position: absolute;
+  bottom: 0;
+  left: 8%;
+  padding: 0.2em;
+  background-color: gray;
+  border-radius: 20px;
+}
+
+.editCategoryPencil{
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  padding: 0.2em;
+  background-color: gray;
+  border-radius: 20px;
+}
+
+.delCategoryCan{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0.2em;
+  background-color: #ed4604;
+  border-radius: 20px;
+}
+
+.delRecordCan{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0.2em;
+  background-color: #ed4604;
+  border-radius: 20px;
+}
+
+.recordContainer{
+  position: relative;
+  min-width: 20%;
+  flex: 0.3;
+  background-color: #65A688;
+  border-radius: 10px;
+  border: 3px solid #D99789;
+  width: 20%;
+  height: 8em;
+  margin: 0.5em;
+}
+
+.recordNotes{
+  position: absolute;
+  left: 0.2em;
+  top: 0.2em;
+  padding: 0;
+  font-size: 1.2em;
+}
+
+.recordPrice{
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  font-size: 1.5em;
+}
+
+.categoryContainer{
+  position: relative;
+  min-width: 20%;
+  flex: 0.3;
+  background-color: #65A688;
+  border-radius: 10px;
+  position: relative;
+  border: 3px solid #D99789;
+  justify-content: space-around;
+  width: 20%;
+  margin: 0.5em;
+  padding: 3%;
+}
+
+.categoryName{
+  vertical-align: middle;
+  position: absolute;
+  top: 0;
+  font-size: 1.5em;
+}
+
+.bottomDiv{
+  background-color: rgb(217, 151, 137);
+  display: flex;
+  flex-wrap: wrap;
+}
+
