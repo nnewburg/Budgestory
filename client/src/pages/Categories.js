@@ -5,65 +5,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { OverlayTrigger, Tooltip, Modal, Button, Form } from 'react-bootstrap';
 import '../App/styles/categoriesPage.css'
 
-class ModalDeleteCategory extends React.Component{
-  constructor(props, context) {
-    super(props, context);
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.state = {
-      show: false,
-    };
-  }
-
-  handleClose() {
-    this.setState({ show: false });
-  }
-
-  handleShow() {
-    this.setState({ show: true });
-  }
-
-   deleteCategory = (event) => {
-
-       const delCat = {
-        id: this.props.currentCategory
-       }
-
-       axios.post('/api/deleteCategory', {delCat}).then((response) => {
-        console.log('delete Category route works', response)
-        this.props.update()
-        this.props.closeCategoryWindow()
-      })
-
-    }
-
-    render() {
-    return (
-      <div style={{marginLeft: 'auto', padding: '0.4em'}}>
-        <Button variant="danger" onClick={this.handleShow}>
-          Delete Category
-        </Button>
-         <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Warning:</Modal.Title>
-          </Modal.Header>
-            <Modal.Body>
-            If you delete a category it will delete ALL records and categories nested within that category
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="danger" onClick={this.props.deleteMethod}>
-                Delete {this.props.name}
-              </Button>
-            </Modal.Footer>
-        </Modal>
-      </div>
-  );
-}
-
-
-
-}
-
 
 class ModalCreateRecord extends React.Component{
   constructor(props, context) {
@@ -102,14 +43,14 @@ class ModalCreateRecord extends React.Component{
     if(categoryID !== 0 ) {
       this.setState({ show: true });
     }
-    
+
   }
 
   render() {
      let currentDateString = this.currentDate.toISOString().split('T')[0]
     return (
-      <div style={{flexDirection: 'row-reverse', padding: '0.4em'}}>
-        <Button variant="success" onClick={this.handleShow}>
+      <div className='createRecordBtn'>
+        <Button style={{backgroundColor: '#45c6a0'}} onClick={this.handleShow}>
           Create Record
         </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
@@ -118,18 +59,20 @@ class ModalCreateRecord extends React.Component{
           </Modal.Header>
             <Modal.Body>
               <Form id="record" onSubmit={this.createRecord}>
+              <Form.Group controlId="formGroupPassword">
+                  <Form.Label>Amount:</Form.Label>
+                  <Form.Control type="number" step='0.01' name='value' />
+                </Form.Group>
+                <Form.Group controlId="recordDate">
+              <Form.Label>Date:</Form.Label>
+              <Form.Control type="text" value={currentDateString} name='date' />
+            </Form.Group>
                 <Form.Group controlId="formGroupEmail">
                   <Form.Label>Notes about record:</Form.Label>
                   <Form.Control type="text" placeholder="Notes..." name='notes' />
                 </Form.Group>
-                <Form.Group controlId="recordDate">
-              <Form.Label>Date:</Form.Label>
-              <Form.Control type="text" placeholder={currentDateString} name='date' />
-            </Form.Group>
-                <Form.Group controlId="formGroupPassword">
-                  <Form.Label>Amount:</Form.Label>
-                  <Form.Control type="number" step='0.01' name='value' />
-                </Form.Group>
+
+
               </Form>
             </Modal.Body>
             <Modal.Footer>
@@ -187,8 +130,8 @@ class ModalCreateCategory extends React.Component{
 render() {
 
   return (
-    <div style={{marginLeft: 'auto', padding: '0.4em'}}>
-      <Button variant="success" onClick={this.handleShow}>
+    <div className='createCategoryBtn'>
+      <Button style={{backgroundColor: '#45c6a0'}} onClick={this.handleShow}>
         Create Category
       </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
@@ -234,7 +177,7 @@ class Helper extends Component {
   render() {
     return (
 
-         <div id={this.props.id} onClick={this.onItemClick} style={{flexDirection: 'row', border:'3px #03A678 solid', padding: '0.5em', margin: '0.5em', borderRadius: '10px' }}>
+         <div className='currentCategory' id={this.props.id} onClick={this.onItemClick}>
            <span> Current Category: {this.props.name} </span>
            <br></br>
            <span> Click to go back </span>
@@ -249,7 +192,6 @@ class Categories extends Component {
    constructor(props) {
         super(props);
         this.updateCurrentGen = this.updateCurrentGen.bind(this);
-        // this.onItemClick = this.onItemClick.bind(this);
         this.findLineage = this.findLineage.bind(this);
         this.state = {
           showCategoryOptions: false,
@@ -295,14 +237,6 @@ class Categories extends Component {
       return lineage.reverse()
     }
 
-    // event.currentTarget.name
-
-    // onItemClick(event) {
-    //   const newGen = event.currentTarget.id
-    //     this.updateCurrentGen(newGen);
-
-    // }
-
     refreshAsync(){
       this.getCategory();
       this.getRecords();
@@ -330,7 +264,7 @@ class Categories extends Component {
       .then(
         ({data}) =>
         this.setState({
-          records: data
+          records: data.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
         })
       );
     }
@@ -346,11 +280,11 @@ class Categories extends Component {
     <div className="categoryPage">
       <h1>Your Categories</h1>
 
-      <div style={{backgroundColor: '#dce1ea', margin: '0 auto', border: '4px #D99789 solid', width: '80%', borderRadius: '10px'}}>
-        <div style={{backgroundColor: 'rgba(255,255,255,0.75)', display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
+      <div className='mostOuterContainer'>
+        <div className='topDiv'>
                 {categoryList}
-                  <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
-                  <ModalCreateRecord name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
+                  <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
+                  <ModalCreateRecord name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
 
         </div>
         <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
