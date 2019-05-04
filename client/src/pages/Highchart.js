@@ -7,7 +7,8 @@ import '../App/styles/home.css';
 class Highchart extends Component {
   constructor(props) {
     super(props);
-    props.Highcharts.targetLevel = -1;
+    console.log("props.Highcharts = ", props.Highcharts);
+    // props.Highcharts.targetLevel = -1;
     this.state = {
       loading: true,
       options: {

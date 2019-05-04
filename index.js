@@ -66,7 +66,7 @@ function balanceInitialization() {
     }
   }
 }
-// If a specific category has record/records inside 
+// If a specific category has record/records inside
 function hasRecordIn(categoryObj) {
   let hasRecord = false;
   if(allRecords.length > 0) {
@@ -319,7 +319,7 @@ app.get('/api/getCategoriesMenu', (req, res) => {
 });
 
 app.post('/api/editCategory', (req, res) => {
-  knex('categories').where({id: req.body.editCat.id}).update({name: req.body.editCat.name}).then(result =>
+  knex('categories').where({id: req.body.editCat.id}).update({name: req.body.editCat.name, notes:req.body.editCat.notes}).then(result =>
     {res.json(result)})
 });
 
@@ -370,6 +370,11 @@ app.post('/api/deleteCategory', (req, res) => {
     .catch(err => console.error(err));
   })
   .catch(err => console.error(err));
+});
+
+app.post('/api/editRecord', (req, res) => {
+  knex('records').where({id: req.body.editRec.id}).update({notes: req.body.editRec.name, value: req.body.editRec.value}).then(result =>
+    {res.json(result)})
 });
 
 app.get('*', (req,res) =>{

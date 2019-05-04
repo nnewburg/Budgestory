@@ -27,7 +27,6 @@ class Home extends Component {
         endDate: new Date()
       },
       options: {
-        title: "Balance",
         series: [],
         drilldown: {
           series: []
@@ -104,13 +103,10 @@ class Home extends Component {
             endDate: endCalender
           },
           options: {
-            // ...this.state.options,
-            title: data.title,
             series: data.series,
             drilldown: data.drilldown
           }
         });
-        
       }
     ).catch(function (error) {
       console.log(error);
@@ -118,7 +114,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-
   }
 
   render() {
