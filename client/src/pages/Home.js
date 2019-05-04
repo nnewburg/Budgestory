@@ -56,7 +56,7 @@ class Home extends Component {
     let endDateString = "2019-05-09";
     let startCalender = startDate;
     let endCalender = endDate;
-    
+
     if(startDate){
       // startDate.setDate(startDate.getDate() - 1);
       startDateString = startDate.toISOString().split('T')[0]
@@ -65,7 +65,7 @@ class Home extends Component {
       // endDate.setDate(endDate.getDate() - 1);
       endDateString = endDate.toISOString().split('T')[0]
     }
-    
+
     // Drill Up back to balance level everytime update the chart
     Highcharts.targetLevel = -1;
     Highcharts.charts.forEach((chart) => {
@@ -96,7 +96,7 @@ class Home extends Component {
         }
         console.log("data.series[0].data = ", data.series[0].data);
         let balanceValue = (data.series[0].data[1].v - data.series[0].data[0].v).toFixed(2);
-        
+
         this.setState({
           // ...this.state,
           date: {
@@ -120,22 +120,25 @@ class Home extends Component {
   }
 
   render() {
-    // const newExpenses = evt => {
-    //   evt.preventDefault();
-    //   alert("New Expenses!");
-      
-    // };
-    // const newIncomes = evt => {
-    //   evt.preventDefault();
-    //   alert("New Incomes!")
-    // };
+    const newExpenses = evt => {
+      evt.preventDefault();
+      alert("New Expenses!");
+
+    };
+    const newIncomes = evt => {
+      evt.preventDefault();
+      alert("New Incomes!")
+    };
 
     return (
       <div className="App">
-      <div className="homePage">
+      <nav className="navbar">
         <div id="logo">
-          <h1>Budgestory</h1>
+          <a href="/"><img src={require("../App/picture/logo.png")}/></a>
+          <a href="/" className="navbar-brand">BudgeStory</a>
         </div>
+      </nav>
+      <div className="homePage">
         <div className="container">
           <div className="add_new_btns">
             <NewRecord category={this.state.currentCategory} update={this.refreshDate.bind(this)}/>
