@@ -15,16 +15,16 @@ class Highchart extends Component {
           type: this.props.type,
           events: {
             drilldown: (e) => {
-              let currentCategoryName = e.seriesOptions.name;
-              console.log("drilldown: ", currentCategoryName);
+              let categoryID = e.seriesOptions.id;
+              let categoryName = e.seriesOptions.name;
               drillDownEvent(e);
-              props.getCurrentCategory(currentCategoryName);
+              props.getCurrentCategory(categoryID, categoryName);
             },
             drillup: function (e) {
-              let currentCategoryName = e.seriesOptions.name;
-              console.log("drillup: ", currentCategoryName);
+              let categoryID = e.seriesOptions.id;
+              let categoryName = e.seriesOptions.name;
               drillUpEvent(e);
-              props.getCurrentCategory(currentCategoryName);
+              props.getCurrentCategory(categoryID, categoryName);
             }
           }
         },
@@ -157,7 +157,7 @@ class Highchart extends Component {
   // }
 
   componentDidMount() {
-    console.log("componentDidMount")
+
   }
 
   render() {

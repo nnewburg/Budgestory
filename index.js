@@ -296,15 +296,18 @@ app.get('/api/getCategories', (req,res) => {
 
   // Handles any requests that don't match the ones above
   app.post('/newCategory', (req,res) => {
-    console.log(req.body)
+    console.log("newCategory >>> ", req.body);
     knex('categories').insert([{name: req.body.newCat.name, parent_id: req.body.newCat.parent_id}]).then(result =>
       {res.json(result)})
   });
 
   app.post('/newRecord', (req,res) => {
-    console.log(req.body)
-    knex('records').insert([{user_id: 1, notes: req.body.newRec.notes, category_id: req.body.newRec.category_id, value: req.body.newRec.value}]).then(result =>
-      {res.json(result)})
+    console.log("newRecord >>> ", req.body);
+    knex('records').insert([{user_id: 1, notes: req.body.newRec.notes, category_id: req.body.newRec.category_id, value: req.body.newRec.value, date: req.body.newRec.date}])
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => console.error(err));
   });
 
 
