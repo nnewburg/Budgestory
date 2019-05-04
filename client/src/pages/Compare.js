@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, Route, Switch } from 'react-router-dom';
 import '../App/styles/compare.css'
 import Categories from './select_categories.js'
-import DateRange from './datepicker.js'
+import DateRange from './DateRange.js'
 import Highchart from './Highchart'
 
 class Compare extends Component {

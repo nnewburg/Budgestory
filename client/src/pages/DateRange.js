@@ -8,12 +8,12 @@ class DateRange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: this.getStartDate(),
-      endDate: new Date()
+      startDate: this.props.date.startDate,
+      endDate: this.props.date.endDate
     };
   }
 
-  getStartDate() {
+  getCalenderDate() {
     let startDate = new Date();
     startDate.setDate(startDate.getDate()-30)
     return startDate;
@@ -32,16 +32,41 @@ class DateRange extends Component {
 
   handleChangeEnd = endDate => this.handleChange({ endDate });
 
+  static getDerivedStateFromProps(props, state) {
+    console.log("getDerivedStateFromProps props >>> start: " + props.date.startDate.toISOString().split('T')[0] + ", end: " + props.date.endDate.toISOString().split('T')[0]);
+    console.log("getDerivedStateFromProps state >>> start: " + state.startDate.toISOString().split('T')[0] + ", end: " + state.endDate.toISOString().split('T')[0]);
+
+    if(props.date.init) {
+      return {
+        startDate: props.date.startDate,
+        endDate: props.date.endDate,
+      };
+    } else {
+      return {
+        startDate: state.startDate,
+        endDate: state.endDate,
+      };
+    }
+  }
+
+  passDateToHome = (start, end) => {
+    let startCalender = start;
+    let endCalender = end;
+    startCalender.setDate(startCalender.getDate() - 1);
+    endCalender.setDate(endCalender.getDate() - 1);
+    console.log("passDateToHome >>> start: " +  startCalender.toISOString().split('T')[0] + ", end: " + endCalender.toISOString().split('T')[0]);
+    this.props.refreshDate(false, startCalender, endCalender);
+  }
+
   componentDidMount() {
-    this.props.refreshDate(this.state.startDate, this.state.endDate);
+    this.passDateToHome(this.state.startDate, this.state.endDate);
   }
 
   render() {
 
-
     const updateChart = evt => {
       evt.preventDefault();
-      this.props.refreshDate(this.state.startDate, this.state.endDate);
+      this.passDateToHome(this.state.startDate, this.state.endDate);
     };
 
     return (

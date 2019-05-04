@@ -82,19 +82,18 @@ class ModalCreateRecord extends React.Component{
     };
   }
 
-   createRecord = (event) => {
+  createRecord = (event) => {
     event.preventDefault();
-
-       const newRec = {
-         notes: event.target.notes.value,
-         category_id: this.props.parentCategory,
-         value: event.target.value.value*100
-       }
-
-      axios.post('/newRecord', {newRec}).then((response) => {
+    const newRec = {
+      notes: event.target.notes.value,
+      category_id: this.props.parentCategory,
+      value: event.target.value.value*100
+    }
+    axios.post('/newRecord', {newRec}).then((response) => {
+      console.log('record Posted')
       this.props.update()
       this.handleClose();
-  })
+    })
   }
 
   handleClose() {
@@ -119,14 +118,14 @@ class ModalCreateRecord extends React.Component{
           </Modal.Header>
             <Modal.Body>
               <Form id="record" onSubmit={this.createRecord}>
-              <Form.Group controlId="formGroupEmail">
-              <Form.Label>Notes about record:</Form.Label>
-              <Form.Control type="text" placeholder="Notes..." name='notes' />
-              </Form.Group>
-              <Form.Group controlId="formGroupPassword">
-              <Form.Label>Amount:</Form.Label>
-              <Form.Control type="number" step='0.01' name='value' />
-              </Form.Group>
+                <Form.Group controlId="formGroupEmail">
+                  <Form.Label>Notes about record:</Form.Label>
+                  <Form.Control type="text" placeholder="Notes..." name='notes' />
+                </Form.Group>
+                <Form.Group controlId="formGroupPassword">
+                  <Form.Label>Amount:</Form.Label>
+                  <Form.Control type="number" step='0.01' name='value' />
+                </Form.Group>
               </Form>
             </Modal.Body>
             <Modal.Footer>
