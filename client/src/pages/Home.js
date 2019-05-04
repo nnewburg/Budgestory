@@ -22,7 +22,7 @@ class Home extends Component {
         name: "Balance"
       },
       date: {
-        state: 0,  // 0: Init from Homt; 1. Update from DateRange; 2. Generate via new record 
+        state: 0,  // 0: Init from Homt; 1. Update from DateRange; 2. Generate via new record
         startDate: this.getStartDate(),
         endDate: new Date()
       },
@@ -137,8 +137,31 @@ class Home extends Component {
           <a href="/"><img src={require("../App/picture/logo.png")}/></a>
           <a href="/" className="navbar-brand">BudgeStory</a>
         </div>
+        <div className="contents">
+          <div id="recordBox">
+            <div id="record">
+              Button
+            </div>
+          </div>
+          <div id="radioBox">
+            <div id="radioOption">
+              Drop
+            </div>
+          </div>
+          <div id="categoryBox">
+            <div id="categoryPage">
+              <a href="/categories">Category</a>
+            </div>
+          </div>
+          <div id="userBox">
+            <div id="userInfo">
+              Blah
+            </div>
+          </div>
+        </div>
       </nav>
       <div className="homePage">
+
         <div className="container">
           <div className="add_new_btns">
             <NewRecord category={this.state.currentCategory} update={this.refreshDate.bind(this)}/>
