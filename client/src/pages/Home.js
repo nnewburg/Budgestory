@@ -81,6 +81,7 @@ class Home extends Component {
           </div>
         </nav>
       <div className="App">
+      <div className="homePage">
         <div className="container">
           <div className="add_new_btns">
             <form onSubmit={newExpenses}>
@@ -96,6 +97,7 @@ class Home extends Component {
           </div>
         <Highchart type={"pie"} options={this.state.options}/>
         </div>
+      </div>
       </div>
       </div>
     );

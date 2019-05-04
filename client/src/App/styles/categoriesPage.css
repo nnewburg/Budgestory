@@ -1,0 +1,14 @@
+.categoryPage {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-image: url("../picture/background-body.jpg");
+  background-size: cover;
+
+}
+
+.categoryPage h1 {
+  padding-top: 1%;
+  padding-left: 3%;
+  font-style:
+}

@@ -5,10 +5,8 @@ import HighchartsReact from 'highcharts-react-official'
 import Category from './Category';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
-
 import { OverlayTrigger, Tooltip, Modal, Button, Form } from 'react-bootstrap';
-
-
+import '../App/styles/categoriesPage.css'
 
 class ModalDeleteCategory extends React.Component{
   constructor(props, context) {
@@ -397,19 +395,18 @@ class Categories extends Component {
         ))
 
     return (
-    <div  style={{height: '100vh', backgroundColor: '#c6e5c3'}}>
+    <div className="categoryPage">
       <h1>Your Categories</h1>
 
       <div style={{backgroundColor: '#dce1ea', margin: '0 auto', border: '4px #D99789 solid', width: '80%', borderRadius: '10px'}}>
-        <div style={{backgroundColor: '#90b768', display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
+        <div style={{backgroundColor: 'rgba(255,255,255,0.75)', display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
                 {categoryList}
                   <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
                   <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
 
         </div>
-      <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
+        <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
       </div>
-
     </div>
     );
   }

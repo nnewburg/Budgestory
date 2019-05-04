@@ -5,6 +5,7 @@ import axios from 'axios';
 import dollarSign from '../assets/dollarSign.png'
 import trashCan from '../assets/trashcan.png'
 import pencil from '../assets/edit.png'
+import '../App/styles/categoriesPage.css'
 
 class ModalEditRecord extends React.Component{
   constructor(props, context) {
@@ -250,7 +251,7 @@ class ModalDeleteRecord extends React.Component{
   render() {
     return (
       <div style={{flexDirection: 'row-reverse', padding: '0.4em'}}>
-        <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '0', padding: '0.2em', backgroundColor: 'red', borderRadius: '20px'}}width='15%' src={trashCan} />
+        <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '0', padding: '0.2em', backgroundColor: 'red', borderRadius: '20px'}}width='10%' src={trashCan} />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Delete This Record</Modal.Title>
@@ -275,13 +276,14 @@ class RecordRender extends Component {
   render(){
     return (
 
-          <div id={this.props.id} onClick={this.onItemClick} style={{ position:'relative', minWidth: '20%', flex: '0.3', backgroundColor: '#65A688', borderRadius: '10px', position:'relative', border: '3px solid #D99789', width: '20%', margin: '0.5em' }}>
+          <div id={this.props.id} onClick={this.onItemClick} style={{ position:'relative', minWidth: '20%', flex: '0.3', backgroundColor: '#65A688', borderRadius: '10px', position:'relative', border: '3px solid #D99789', width: '20%', height: '50%', margin: '0.5em' }}>
+
           <ModalDeleteRecord id={this.props.id} update={this.props.update} />
           <ModalEditRecord id={this.props.id} update={this.props.update} />
             <div>
-            <p style={{position: 'absolute', left: '0', top: '0', padding: '0.1em'}}>{this.props.name}</p>
+            <p style={{position: 'absolute', left: '0', top: '0', padding: '0'}}>{this.props.name}</p>
             <br></br>
-            <p style={{position: 'absolute', right: '0', bottom: '0'}}>Value: ${this.props.price/100}</p>
+            <p style={{position: 'absolute', right: '0', bottom: '0'}}> ${this.props.price/100}</p>
             </div>
           </div>
 
@@ -396,7 +398,7 @@ class Category extends Component {
       ))
 
     return (
-    <div style={{backgroundColor: 'white', display: 'flex', flexWrap: 'wrap'}}>
+    <div className="App" style={{backgroundColor: 'rgb(217, 151, 137);', display: 'flex', flexWrap: 'wrap'}}>
       {categoryList}
       {recordsList}
     </div>
