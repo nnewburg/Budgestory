@@ -38,10 +38,9 @@ class NewRecord extends React.Component{
     };
     let newRecordDate = new Date(newRec.date);
     let pastDate = this.getPastDate(newRecordDate);
-    pastDate.setDate(newRecordDate.getDate()-30);
     console.log("createRecord >>> past = " + pastDate.toISOString().split('T')[0] + ", new = " + newRecordDate.toISOString().split('T')[0]);
     axios.post('/newRecord', {newRec}).then((response) => {
-      this.props.update(true, pastDate, newRecordDate);
+      this.props.update(2, pastDate, newRecordDate);
       this.handleClose();
     })
   }

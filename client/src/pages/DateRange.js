@@ -33,18 +33,26 @@ class DateRange extends Component {
   handleChangeEnd = endDate => this.handleChange({ endDate });
 
   static getDerivedStateFromProps(props, state) {
+    console.log("props.date.state = ", props.date.state);
     console.log("getDerivedStateFromProps props >>> start: " + props.date.startDate.toISOString().split('T')[0] + ", end: " + props.date.endDate.toISOString().split('T')[0]);
     console.log("getDerivedStateFromProps state >>> start: " + state.startDate.toISOString().split('T')[0] + ", end: " + state.endDate.toISOString().split('T')[0]);
 
-    if(props.date.init) {
-      return {
-        startDate: props.date.startDate,
-        endDate: props.date.endDate,
-      };
-    } else {
+    if(props.date.state === 1) {
       return {
         startDate: state.startDate,
         endDate: state.endDate,
+      };
+    } else {
+      let startDate = props.date.startDate;
+      let endDate = props.date.endDate;
+      if(props.date.state === 2) {
+
+        startDate.setDate(startDate.getDate() + 1);
+        endDate.setDate(endDate.getDate() + 1);
+      }
+      return {
+        startDate: startDate,
+        endDate: endDate,
       };
     }
   }
@@ -55,7 +63,7 @@ class DateRange extends Component {
     startCalender.setDate(startCalender.getDate() - 1);
     endCalender.setDate(endCalender.getDate() - 1);
     console.log("passDateToHome >>> start: " +  startCalender.toISOString().split('T')[0] + ", end: " + endCalender.toISOString().split('T')[0]);
-    this.props.refreshDate(false, startCalender, endCalender);
+    this.props.refreshDate(1, startCalender, endCalender);
   }
 
   componentDidMount() {
