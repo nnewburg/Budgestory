@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
-import { Card, Form, Modal, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
+import { /*Card,*/ Form, Modal, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
 import axios from 'axios';
-import dollarSign from '../assets/dollarSign.png'
+// import dollarSign from '../assets/dollarSign.png'
 import trashCan from '../assets/trashcan.png'
 import pencil from '../assets/edit.png'
 import '../App/styles/categoriesPage.css'
@@ -48,9 +47,9 @@ class ModalEditRecord extends React.Component{
   render(){
 
     return(
-    <div style={{marginLeft: 'auto', padding: '0.4em'}}>
-    <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '15%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
-  <Modal show={this.state.show} onHide={this.handleClose}>
+      <div style={{marginLeft: 'auto', padding: '0.4em'}}>
+        <img onClick={this.handleShow} alt="" style={{position: 'absolute', bottom: '0', left: '15%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
+        <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Edit Record</Modal.Title>
           </Modal.Header>
@@ -121,9 +120,9 @@ class ModalEditCategory extends React.Component{
   render(){
 
     return(
-    <div style={{marginLeft: 'auto', padding: '0.4em'}}>
-    <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '10%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
-  <Modal show={this.state.show} onHide={this.handleClose}>
+      <div style={{marginLeft: 'auto', padding: '0.4em'}}>
+      <img onClick={this.handleShow} alt="" style={{position: 'absolute', bottom: '0', left: '10%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
+        <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Edit category: {this.props.name}</Modal.Title>
           </Modal.Header>
@@ -190,7 +189,7 @@ class ModalDeleteCategory extends React.Component{
   render() {
     return (
       <div style={{flexDirection: 'row-reverse', padding: '0.4em'}}>
-        <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '0', padding: '0.2em', backgroundColor: 'red', borderRadius: '20px'}}width='10%' src={trashCan} />
+        <img onClick={this.handleShow} alt="" style={{position: 'absolute', bottom: '0', left: '0', padding: '0.2em', backgroundColor: 'red', borderRadius: '20px'}}width='10%' src={trashCan} />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Warning:</Modal.Title>
@@ -382,12 +381,12 @@ class Category extends Component {
 
   render() {
 
-    const filteredRecords = this.props.state.records.filter(record => record.category_id == this.props.state.parentId)
-    const filteredList = this.props.state.categories.filter(category => category.parent_id == this.props.state.parentId)
+    const filteredRecords = this.props.state.records.filter(record => record.category_id === parseInt(this.props.state.parentId, 10))
+    const filteredList = this.props.state.categories.filter(category => category.parent_id === parseInt(this.props.state.parentId, 10))
 
     const categoryList = filteredList.map((category, index) => (
-             <CategoryRender update={this.props.update} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} notes={category.notes} id={category.id} key={category.id} name={category.name} parentId={category.parent_id} />
-          ))
+      <CategoryRender update={this.props.update} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} notes={category.notes} id={category.id} key={category.id} name={category.name} parentId={category.parent_id} />
+    ))
 
 
     const recordsList = filteredRecords.map((record, index) => (

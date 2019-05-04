@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
-import Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
 import Category from './Category';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -99,9 +96,11 @@ class ModalCreateRecord extends React.Component{
   }
 
   handleShow() {
-    let tmp = parseInt(this.props.parentCategory)
-    if(tmp !== 0 )
-    this.setState({ show: true });
+    let categoryID = parseInt(this.props.parentCategory, 10)
+    if(categoryID !== 0 ) {
+      this.setState({ show: true });
+    }
+    
   }
 
   render() {
@@ -172,101 +171,46 @@ class ModalCreateCategory extends React.Component{
   }
 
   handleShow() {
-    let tmp = parseInt(this.props.parentCategory)
-    if(tmp !== 0){
-    this.setState({ show: true });
-   }
+    let categoryID = parseInt(this.props.parentCategory, 10)
+    if(categoryID !== 0){
+      this.setState({ show: true });
+    }
   }
 
-  render() {
+render() {
 
-    return (
-      <div style={{marginLeft: 'auto', padding: '0.4em'}}>
-        <Button variant="success" onClick={this.handleShow}>
-          Create Category
-        </Button>
-         <Modal show={this.state.show} onHide={this.handleClose}>
+  return (
+    <div style={{marginLeft: 'auto', padding: '0.4em'}}>
+      <Button variant="success" onClick={this.handleShow}>
+        Create Category
+      </Button>
+        <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Create a sub category within {this.props.name}</Modal.Title>
           </Modal.Header>
-            <Modal.Body>
-              <Form id="record" onSubmit={this.createCategory}>
-              <Form.Group controlId="formGroupEmail">
-              <Form.Label>Category Name:</Form.Label>
-              <Form.Control type="text" placeholder="Enter category name" name='name' />
-              </Form.Group>
-              <Form.Group controlId="formGroupEmail">
-              <Form.Label>Category Notes:</Form.Label>
-              <Form.Control type="text" placeholder="Enter category notes" name='notes' />
-              </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="primary" type="submit" form="record">
-                Create Category
-              </Button>
-            </Modal.Footer>
+          <Modal.Body>
+            <Form id="record" onSubmit={this.createCategory}>
+            <Form.Group controlId="formGroupEmail">
+            <Form.Label>Category Name:</Form.Label>
+            <Form.Control type="text" placeholder="Enter category name" name='name' />
+            </Form.Group>
+            <Form.Group controlId="formGroupEmail">
+            <Form.Label>Category Notes:</Form.Label>
+            <Form.Control type="text" placeholder="Enter category notes" name='notes' />
+            </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" type="submit" form="record">
+              Create Category
+            </Button>
+          </Modal.Footer>
         </Modal>
-      </div>
+    </div>
   );
 
-}
-
-}
-
-class EditCategory extends React.Component {
-    constructor(props) {
-      super(props);
-
-    }
-
-    editCategory = (event) => {
-      event.preventDefault();
-
-
-      const editCat = {
-        id: this.props.currentCategory,
-        name: event.target.name.value
-      }
-
-      axios.post('/api/editCategory', {editCat}).then((response) => {
-      this.props.update()
-      this.props.closeCategoryWindow()
-      })
-
-    }
-
-    deleteCategory = (event) => {
-
-       const delCat = {
-        id: this.props.currentCategory
-       }
-
-       axios.post('/api/deleteCategory', {delCat}).then((response) => {
-
-        this.props.update()
-        this.props.closeCategoryWindow()
-      })
-
-    }
-
-    render() {
-    return (
-      <div className='NewCategory' style={{borderBottom:'3px #D99789 solid'}}>
-        <div className='NewCategory_inner' style={{display: 'flex', justifyContent: 'space-between'}}>
-          <div style={{ flexDirection: 'row', padding: '0.4em'}}>
-          </div>
-          <div style={{alignItems: 'baseline', padding: '0.4em'}}>
-          <span>Change name of: {this.props.text}</span>
-          <form onSubmit={this.editCategory}>
-            <input type='text' name='name'/>
-            <input type='submit' value='submit'  />
-          </form>
-          </div>
-        </div>
-      </div>
-    );
   }
+
 }
 
 class Helper extends Component {
@@ -335,7 +279,7 @@ class Categories extends Component {
       let check = currentGen;
 
       this.state.categories.forEach(category => {
-        if(category.id== check){
+        if(category.id === parseInt(check, 10)){
           check = category.parent_id
           lineage.push(category)
           return
@@ -386,12 +330,10 @@ class Categories extends Component {
 
    render() {
 
-
-
-         const filteredList = this.findLineage(this.state.parentId)
-         const categoryList = filteredList.map((category, index) => (
-              <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} key={category.parent_id} id={category.parent_id} name={category.name}  />
-        ))
+      const filteredList = this.findLineage(this.state.parentId)
+      const categoryList = filteredList.map((category, index) => (
+        <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} key={category.parent_id} id={category.parent_id} name={category.name}  />
+      ))
 
     return (
     <div className="categoryPage">

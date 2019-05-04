@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Link, Route, Switch } from 'react-router-dom';
+// import { Link, Route, Switch } from 'react-router-dom';
 import Highchart from './Highchart'
 import Highcharts from 'highcharts';
 import NewRecord from './NewRecord'
@@ -22,7 +22,7 @@ class Home extends Component {
         name: "Balance"
       },
       date: {
-        init: true,
+        state: 0,  // 0: Init from Homt; 1. Update from DateRange; 2. Generate via new record 
         startDate: this.getStartDate(),
         endDate: new Date()
       },
@@ -51,7 +51,7 @@ class Home extends Component {
     });
   }
 
-  refreshDate = (init, startDate, endDate) => {
+  refreshDate = (state, startDate, endDate) => {
     let startDateString = "2019-01-01";
     let endDateString = "2019-05-09";
     let startCalender = startDate;
@@ -75,7 +75,7 @@ class Home extends Component {
       }
       chart.drilled = 0;
     });
-    console.log("refreshDate >>> init = "  + init + ", startDate = " + startDateString + "， endDate = " , endDateString);
+    console.log("refreshDate >>> state = "  + state + ", startDate = " + startDateString + "， endDate = " , endDateString);
     axios('/api/HomeChart', {
       params: {
         start: startDateString,
@@ -89,20 +89,23 @@ class Home extends Component {
           chart.setTitle({text: data.title});
         });
 
-        if(!init) {
+        if(state === 1) {
           startCalender.setDate(startCalender.getDate() + 1);
           endCalender.setDate(endCalender.getDate() + 1);
-          console.log("after axio >>> init = "  + init + ", start = " + startCalender.toISOString().split('T')[0] + "， end = " , endCalender.toISOString().split('T')[0]);
+          console.log("after axio >>> state = "  + state + ", start = " + startCalender.toISOString().split('T')[0] + "， end = " , endCalender.toISOString().split('T')[0]);
         }
+        console.log("data.series[0].data = ", data.series[0].data);
+        let balanceValue = (data.series[0].data[1].v - data.series[0].data[0].v).toFixed(2);
         
         this.setState({
           // ...this.state,
           date: {
-            init: init,
+            state: state,
             startDate: startCalender,
             endDate: endCalender
           },
           options: {
+            title: "Balance: $" + balanceValue,
             series: data.series,
             drilldown: data.drilldown
           }
@@ -117,15 +120,15 @@ class Home extends Component {
   }
 
   render() {
-    const newExpenses = evt => {
-      evt.preventDefault();
-      alert("New Expenses!");
+    // const newExpenses = evt => {
+    //   evt.preventDefault();
+    //   alert("New Expenses!");
       
-    };
-    const newIncomes = evt => {
-      evt.preventDefault();
-      alert("New Incomes!")
-    };
+    // };
+    // const newIncomes = evt => {
+    //   evt.preventDefault();
+    //   alert("New Incomes!")
+    // };
 
     return (
       <div className="App">

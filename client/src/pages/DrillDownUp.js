@@ -20,7 +20,7 @@ export const drillDownEvent = (e) => {
   }
   e.target.drilled ++;
   Highcharts.charts.forEach((chart) => {
-    chart.setTitle({text: newTitle + value});
+    chart.setTitle({text: newTitle + value.toFixed(2)});
     if(!chart.drilled) {
       chart.drilled = 0;
     }
@@ -55,7 +55,7 @@ export const drillUpEvent = (e) => {
   Highcharts.targetLevel = e.target.drilled - 1;
   e.target.drilled --;
   Highcharts.charts.forEach((chart) => {
-    chart.setTitle({text: newTitle + value});
+    chart.setTitle({text: newTitle + value.toFixed(2)});
     if(chart !== e.target) {
         chart.drilled--;
         chart.drillUp();
