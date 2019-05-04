@@ -80,6 +80,7 @@ class ModalCreateRecord extends React.Component{
     this.state = {
       show: false,
     };
+     this.currentDate = new Date();
   }
 
   createRecord = (event) => {
@@ -87,7 +88,8 @@ class ModalCreateRecord extends React.Component{
     const newRec = {
       notes: event.target.notes.value,
       category_id: this.props.parentCategory,
-      value: event.target.value.value*100
+      value: event.target.value.value*100,
+      date: event.target.date.value
     }
     axios.post('/newRecord', {newRec}).then((response) => {
       console.log('record Posted')
@@ -107,6 +109,7 @@ class ModalCreateRecord extends React.Component{
   }
 
   render() {
+     let currentDateString = this.currentDate.toISOString().split('T')[0]
     return (
       <div style={{flexDirection: 'row-reverse', padding: '0.4em'}}>
         <Button variant="success" onClick={this.handleShow}>
@@ -122,6 +125,10 @@ class ModalCreateRecord extends React.Component{
                   <Form.Label>Notes about record:</Form.Label>
                   <Form.Control type="text" placeholder="Notes..." name='notes' />
                 </Form.Group>
+                <Form.Group controlId="recordDate">
+              <Form.Label>Date:</Form.Label>
+              <Form.Control type="text" placeholder={currentDateString} name='date' />
+            </Form.Group>
                 <Form.Group controlId="formGroupPassword">
                   <Form.Label>Amount:</Form.Label>
                   <Form.Control type="number" step='0.01' name='value' />
