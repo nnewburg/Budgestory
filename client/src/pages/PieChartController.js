@@ -1,72 +1,58 @@
 import React, { Component } from 'react';
 import HighchartsReact from 'highcharts-react-official';
-import { drillDownEvent } from "./DrillDownUp";
-import { drillUpEvent } from "./DrillDownUp";
-import '../App/styles/home.css';
+// import { drillDownEvent } from "./DrillDownUp";
+// import { drillUpEvent } from "./DrillDownUp";
+// import '../App/styles/home.css';
 
-class Highchart extends Component {
+class PieChartController extends Component {
   constructor(props) {
     super(props);
-    // console.log("props.Highcharts = ", props.Highcharts);
-    // props.Highcharts.targetLevel = -1;
     this.state = {
-      loading: true,
       options: {
         chart: {
-          type: this.props.type,
+          type: 'pie',
           events: {
             drilldown: (e) => {
-              let categoryID = e.seriesOptions.id;
-              let categoryName = e.seriesOptions.name;
-              drillDownEvent(e);
-              props.getCurrentCategory(categoryID, categoryName);
+                let categoryID = e.seriesOptions.id;
+                let categoryName = e.seriesOptions.name;
+                props.Highcharts.charts.forEach((chart) => {
+                    chart.setTitle({text: e.seriesOptions.name});
+                });
+                props.getCurrentCategory(categoryID, categoryName);
             },
             drillup: function (e) {
-              let categoryID = e.seriesOptions.id;
-              let categoryName = e.seriesOptions.name;
-              drillUpEvent(e);
-              props.getCurrentCategory(categoryID, categoryName);
+                let categoryID = e.seriesOptions.id;
+                let categoryName = e.seriesOptions.name;
+                props.Highcharts.charts.forEach((chart) => {
+                    chart.setTitle({text: e.seriesOptions.name});
+                });
+                props.getCurrentCategory(categoryID, categoryName);
             }
           }
         },
         title: {
           text: 'Balance'
         },
-        // subtitle: {
-        //     text: 'Click the slices to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
-        // },
         credits: {
           enabled: false
         },
-        // xAxis: {
-        //   categories: ["Expenses", "Incomes"]
-        // },
         plotOptions: {
           series: {
             dataLabels: {
               enabled: true,
-              format: '{point.name}: ${point.v:.1f}, {point.y:.1f}%, {point.d}'
+              format: '<span style="font-size:16px">{point.name}</span>'
             },
-            cursor: 'pointer',
-            // point: {
-            //   events: {
-            //     click: function (e) {
-            //       alert('clicked! ' + this.state);
-            //       console.log("plotOptions.point.events >>> ", this);
-            //     }
-            //   }
-            // }
+            cursor: 'pointer'
           }
         },
         tooltip: {
-          headerFormat: '<span style="font-size:12px">{series.name}</span><br>',
-          pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+              headerFormat: '<span style="font-size:15px">{series.name}</span><br>',
+              pointFormat: '<span style="color:{point.color}">{point.name}</span><br/>'
         },
         series: [
           {
             name: "Balance",
             id: "Balance",
-            // colorByPoint: true,
             data: [
               { name: "Expenses", y: 60, v: 600, drilldown: 1},
               { name: "Incomes", y: 40, v: 400, drilldown: 2}
@@ -116,29 +102,6 @@ class Highchart extends Component {
     }
   }
 
-  // initializeChartInfo(){
-  //   axios('/api/HomeChart', {
-  //     params: {
-  //       start: this.props.date.start.toISOString().split('T')[0],
-  //       end: this.props.date.end.toISOString().split('T')[0]
-  //     }
-  //   })
-  //   .then(
-  //     ({data}) => {
-  //       this.setState({
-  //         loading: false,
-  //         options: {
-  //           ...this.state.options,
-  //           series: data.series,
-  //           drilldown: data.drilldown
-  //         }
-  //       });
-  //     }
-  //   ).catch(function (error) {
-  //     console.log(error);
-  //   });
-  // }
-
   // static getDerivedStateFromProps(props, state) {
   //   this.props.Highcharts.charts.forEach((chart) => {
   //     chart.setTitle({text: props.options.title});
@@ -162,17 +125,17 @@ class Highchart extends Component {
   }
 
   render() {
-    let options = this.props.options;
-    options.chart = this.state.options.chart;
-    options.title = {text: options.title}
-    options.plotOptions = this.state.options.plotOptions;
-    options.tooltip = this.state.options.tooltip;
+    // let options = this.state.options;//this.props.options;
+    // options.chart = this.state.options.chart;
+    // options.title = {text: this.props.options.title}
+    // options.plotOptions = this.state.options.plotOptions;
+    // options.tooltip = this.state.options.tooltip;
     return (
-      <div id="MajorChart" className="Hightchart">
-        <HighchartsReact highcharts={this.props.Highcharts} options={options} />
+      <div id="PieChartController" className="Hightchart">
+        <HighchartsReact highcharts={this.props.Highcharts} options={this.state.options} />
       </div>
     );
   }
 }
 
-export default Highchart;
+export default PieChartController;

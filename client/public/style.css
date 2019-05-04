@@ -37,3 +37,22 @@ body {
   margin:10px;
   padding: 20px;
 }
+
+.charts-area {
+  /* margin-left: auto; */
+  /* background-color: grey; */
+  display: flex;
+  align-items: center;
+}
+
+.compare-control-area {
+  margin-right: auto;
+  background-color: lightblue;
+  display: flex;
+  align-items: center;
+}
+
+.compare-by {
+  margin-left: auto;
+  width: 200px;
+}

@@ -22,7 +22,7 @@ class Home extends Component {
         name: "Balance"
       },
       date: {
-        state: 0,  // 0: Init from Homt; 1. Update from DateRange; 2. Generate via new record
+        state: 0,  // 0: Init from Home; 1. Update from DateRange; 2. Generate via new record
         startDate: this.getStartDate(),
         endDate: new Date()
       },
@@ -161,21 +161,14 @@ class Home extends Component {
         </div>
       </nav>
       <div className="homePage">
-
         <div className="container">
           <div className="add_new_btns">
             <NewRecord category={this.state.currentCategory} update={this.refreshDate.bind(this)}/>
-            {/* <form onSubmit={newExpenses}>
-              <button className="add-expenses-btn" id="expense" type="submit">+ New Expenses</button>
-            </form>
-            <form onSubmit={newIncomes}>
-              <button className="add-incomes-btn" id="income" type="submit">+ New Incomes</button>
-            </form> */}
             <div className='date update_area'>
               <DateRange date={this.state.date} refreshDate={this.refreshDate.bind(this)}/>
             </div>
           </div>
-        <Highchart Highcharts={Highcharts} type={"pie"} options={this.state.options} getCurrentCategory={this.getCurrentCategory}/>
+          <Highchart Highcharts={Highcharts} type={"pie"} options={this.state.options} getCurrentCategory={this.getCurrentCategory}/>
         </div>
       </div>
       </div>

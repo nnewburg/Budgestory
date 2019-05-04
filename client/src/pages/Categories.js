@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Category from './Category';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
-import { OverlayTrigger, Tooltip, Modal, Button, Form } from 'react-bootstrap';
+import { /*OverlayTrigger, Tooltip,*/ Modal, Button, Form } from 'react-bootstrap';
 import '../App/styles/categoriesPage.css'
 
 class ModalDeleteCategory extends React.Component{
