@@ -18,12 +18,7 @@
   background-color: rgba(255,255,255,0.75);
 
 }
-.App h1 {
-  color: black;
-  border-color: black;
-  font-family: cursive;
 
-}
 
 .highcharts-background {
   width: 0;
@@ -240,7 +235,7 @@
 }
 
 .navbar {
-  background-color: lightwhite;
+  background-color: ;
 
 }
 #logo {

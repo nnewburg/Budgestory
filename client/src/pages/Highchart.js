@@ -7,7 +7,8 @@ import '../App/styles/home.css';
 class Highchart extends Component {
   constructor(props) {
     super(props);
-    props.Highcharts.targetLevel = -1;
+    console.log("props.Highcharts = ", props.Highcharts);
+    // props.Highcharts.targetLevel = -1;
     this.state = {
       loading: true,
       options: {
@@ -15,16 +16,16 @@ class Highchart extends Component {
           type: this.props.type,
           events: {
             drilldown: (e) => {
-              let currentCategoryName = e.seriesOptions.name;
-              console.log("drilldown: ", currentCategoryName);
+              let categoryID = e.seriesOptions.id;
+              let categoryName = e.seriesOptions.name;
               drillDownEvent(e);
-              props.getCurrentCategory(currentCategoryName);
+              props.getCurrentCategory(categoryID, categoryName);
             },
             drillup: function (e) {
-              let currentCategoryName = e.seriesOptions.name;
-              console.log("drillup: ", currentCategoryName);
+              let categoryID = e.seriesOptions.id;
+              let categoryName = e.seriesOptions.name;
               drillUpEvent(e);
-              props.getCurrentCategory(currentCategoryName);
+              props.getCurrentCategory(categoryID, categoryName);
             }
           }
         },
@@ -157,7 +158,7 @@ class Highchart extends Component {
   // }
 
   componentDidMount() {
-    console.log("componentDidMount")
+
   }
 
   render() {

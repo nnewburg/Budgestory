@@ -225,17 +225,14 @@ class ModalDeleteRecord extends React.Component{
   }
 
    deleteRecord = (event) => {
-
-
-       const delRec = {
-         id: this.props.id
-       }
-
-      axios.post('/api/deleteRecord', {delRec}).then((response) => {
-    console.log('record Posted')
+    const delRec = {
+      id: this.props.id
+    }
+    axios.post('/api/deleteRecord', {delRec}).then((response) => {
+      console.log('record Posted')
       this.props.update()
       this.handleClose();
-  })
+    })
   }
 
   handleClose() {
