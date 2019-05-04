@@ -7,9 +7,6 @@ import Home from './pages/Home';
 import Compare from './pages/Compare';
 import Categories from './pages/Categories';
 
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-
 class App extends Component {
 
   render() {

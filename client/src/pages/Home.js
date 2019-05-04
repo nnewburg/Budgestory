@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Link, Route, Switch } from 'react-router-dom';
+// import { Link, Route, Switch } from 'react-router-dom';
 import Highchart from './Highchart'
 import Highcharts from 'highcharts';
 import NewRecord from './NewRecord'
@@ -120,15 +120,15 @@ class Home extends Component {
   }
 
   render() {
-    const newExpenses = evt => {
-      evt.preventDefault();
-      alert("New Expenses!");
+    // const newExpenses = evt => {
+    //   evt.preventDefault();
+    //   alert("New Expenses!");
       
-    };
-    const newIncomes = evt => {
-      evt.preventDefault();
-      alert("New Incomes!")
-    };
+    // };
+    // const newIncomes = evt => {
+    //   evt.preventDefault();
+    //   alert("New Incomes!")
+    // };
 
     return (
       <div className="App">

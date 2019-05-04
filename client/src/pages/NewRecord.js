@@ -3,7 +3,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-class NewRecord extends React.Component{
+class NewRecord extends Component{
 
   constructor(props, context) {
     super(props, context);
