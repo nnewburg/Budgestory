@@ -115,7 +115,7 @@ class ModalCreateRecord extends React.Component{
         </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Create a Record</Modal.Title>
+            <Modal.Title>Create a Record in {this.props.name} </Modal.Title>
           </Modal.Header>
             <Modal.Body>
               <Form id="record" onSubmit={this.createRecord}>
@@ -404,7 +404,7 @@ class Categories extends Component {
         <div style={{backgroundColor: '#90b768', display: 'flex', flexWrap: 'wrap', borderBottom: '5px #D99789 solid'}}>
                 {categoryList}
                   <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
-                  <ModalCreateRecord parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
+                  <ModalCreateRecord name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)} style={{marginLeft: 'auto'}} />
 
         </div>
       <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
