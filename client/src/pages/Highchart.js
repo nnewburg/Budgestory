@@ -32,6 +32,7 @@ class Highchart extends Component {
         title: {
           text: 'Balance'
         },
+
         // subtitle: {
         //     text: 'Click the slices to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
         // },
