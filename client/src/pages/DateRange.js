@@ -33,15 +33,15 @@ class DateRange extends Component {
   handleChangeEnd = endDate => this.handleChange({ endDate });
 
   static getDerivedStateFromProps(props, state) {
-    console.log("props.date.state = ", props.date.state);
-    if(props.date.state === 4) {
-      return {
-        startDate: state.startDate,
-        endDate: state.endDate,
-      };
-    }
-    console.log("getDerivedStateFromProps props >>> start: " + props.date.startDate.toISOString().split('T')[0] + ", end: " + props.date.endDate.toISOString().split('T')[0]);
-    console.log("getDerivedStateFromProps state >>> start: " + state.startDate.toISOString().split('T')[0] + ", end: " + state.endDate.toISOString().split('T')[0]);
+    console.log("DR >>> props.date.state = ", props.date.state);
+    // if(props.date.state === 4) {
+    //   return {
+    //     startDate: state.startDate,
+    //     endDate: state.endDate,
+    //   };
+    // }
+    console.log("DR >>> getDerivedStateFromProps: props, start: " + props.date.startDate.toISOString().split('T')[0] + ", end: " + props.date.endDate.toISOString().split('T')[0]);
+    console.log("DR >>> getDerivedStateFromProps: state, start: " + state.startDate.toISOString().split('T')[0] + ", end: " + state.endDate.toISOString().split('T')[0]);
     if(props.date.state === 1) {
       return {
         startDate: state.startDate,
@@ -51,7 +51,6 @@ class DateRange extends Component {
       let startDate = props.date.startDate;
       let endDate = props.date.endDate;
       if(props.date.state === 2) {
-
         startDate.setDate(startDate.getDate() + 1);
         endDate.setDate(endDate.getDate() + 1);
       }
@@ -62,26 +61,26 @@ class DateRange extends Component {
     }
   }
 
-  passDateToHome = (start, end) => {
+  passDateToParent = (start, end) => {
     let startCalender = start;
     let endCalender = end;
-    if(this.props.date.state !== 4) {
-      startCalender.setDate(startCalender.getDate() - 1);
-      endCalender.setDate(endCalender.getDate() - 1);
-    }
-    console.log("passDateToHome >>> start: " +  startCalender.toISOString().split('T')[0] + ", end: " + endCalender.toISOString().split('T')[0]);
+    // if(this.props.date.state !== 4) {
+    // startCalender.setDate(startCalender.getDate() - 1);
+    // endCalender.setDate(endCalender.getDate() - 1);
+    // }
+    console.log("DR >>> passDateToParent: start = " +  startCalender.toISOString().split('T')[0] + ", end = " + endCalender.toISOString().split('T')[0]);
     this.props.refreshDate(1, startCalender, endCalender);
   }
 
   componentDidMount() {
-    this.passDateToHome(this.state.startDate, this.state.endDate);
+    this.passDateToParent(this.state.startDate, this.state.endDate);
   }
 
   render() {
 
     const updateChart = evt => {
       evt.preventDefault();
-      this.passDateToHome(this.state.startDate, this.state.endDate);
+      this.passDateToParent(this.state.startDate, this.state.endDate);
     };
 
     return (

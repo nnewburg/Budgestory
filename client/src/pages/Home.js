@@ -70,12 +70,17 @@ class Home extends Component {
     Highcharts.targetLevel = -1;
     Highcharts.charts.forEach((chart) => {
       const drillUpLevel = chart.drilled;
+      console.log("Compare >>> refreshDate chart = ", chart);
+      console.log("Compare >>> refreshDate chart.drilled = ", chart.drilled);
       for(let level = 0; level <= drillUpLevel; level ++) {
         chart.drillUp();
       }
       chart.drilled = 0;
+      console.log("Compare >>> refreshDate chart.drilled = ", chart.drilled);
     });
-    console.log("refreshDate >>> state = "  + state + ", startDate = " + startDateString + "， endDate = " , endDateString);
+
+    console.log("Home >>> refreshDate: state = ", state);
+    console.log("Home >>> startDate = " + startDateString + "， endDate = " , endDateString);
     axios('/api/HomeChart', {
       params: {
         start: startDateString,
@@ -90,11 +95,11 @@ class Home extends Component {
         });
 
         if(state === 1) {
-          startCalender.setDate(startCalender.getDate() + 1);
-          endCalender.setDate(endCalender.getDate() + 1);
-          console.log("after axio >>> state = "  + state + ", start = " + startCalender.toISOString().split('T')[0] + "， end = " , endCalender.toISOString().split('T')[0]);
+          // startCalender.setDate(startCalender.getDate() + 1);
+          // endCalender.setDate(endCalender.getDate() + 1);
         }
-        console.log("data.series[0].data = ", data.series[0].data);
+        console.log("Home >>> after axio: state = ", state);
+        console.log("Home >>> start = " + startCalender.toISOString().split('T')[0] + ", end = " + endCalender.toISOString().split('T')[0]);
         let balanceValue = (data.series[0].data[1].v - data.series[0].data[0].v).toFixed(2);
 
         this.setState({

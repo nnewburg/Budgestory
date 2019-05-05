@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import HighchartsReact from 'highcharts-react-official';
-// import { drillDownEvent } from "./DrillDownUp";
-// import { drillUpEvent } from "./DrillDownUp";
-// import '../App/styles/home.css';
+import { drillDownEvent } from "./DrillDownUp";
+import { drillUpEvent } from "./DrillDownUp";
+import '../App/styles/home.css';
 
 class PieChartController extends Component {
   constructor(props) {
@@ -13,20 +13,22 @@ class PieChartController extends Component {
           type: 'pie',
           events: {
             drilldown: (e) => {
-                let categoryID = e.seriesOptions.id;
-                let categoryName = e.seriesOptions.name;
-                props.Highcharts.charts.forEach((chart) => {
-                    chart.setTitle({text: e.seriesOptions.name});
-                });
-                props.getCurrentCategory(categoryID, categoryName);
+              let categoryID = e.seriesOptions.id;
+              let categoryName = e.seriesOptions.name;
+              // props.Highcharts.charts.forEach((chart) => {
+              //   chart.setTitle({text: e.seriesOptions.name});
+              // });
+              drillDownEvent(e);
+              props.getCurrentCategory(categoryID, categoryName);
             },
             drillup: function (e) {
-                let categoryID = e.seriesOptions.id;
-                let categoryName = e.seriesOptions.name;
-                props.Highcharts.charts.forEach((chart) => {
-                    chart.setTitle({text: e.seriesOptions.name});
-                });
-                props.getCurrentCategory(categoryID, categoryName);
+              let categoryID = e.seriesOptions.id;
+              let categoryName = e.seriesOptions.name;
+              // props.Highcharts.charts.forEach((chart) => {
+              //   chart.setTitle({text: e.seriesOptions.name});
+              // });
+              drillUpEvent(e);
+              props.getCurrentCategory(categoryID, categoryName);
             }
           }
         },
@@ -40,13 +42,13 @@ class PieChartController extends Component {
           series: {
             dataLabels: {
               enabled: true,
-              format: '<span style="font-size:16px">{point.name}</span>'
+              format: '<span style="font-size:12px">{point.name}</span>'
             },
             cursor: 'pointer'
           }
         },
         tooltip: {
-              headerFormat: '<span style="font-size:15px">{series.name}</span><br>',
+              headerFormat: '<span style="font-size:12px">{series.name}</span><br>',
               pointFormat: '<span style="color:{point.color}">{point.name}</span><br/>'
         },
         series: [
@@ -125,14 +127,14 @@ class PieChartController extends Component {
   }
 
   render() {
-    // let options = this.state.options;//this.props.options;
-    // options.chart = this.state.options.chart;
-    // options.title = {text: this.props.options.title}
-    // options.plotOptions = this.state.options.plotOptions;
-    // options.tooltip = this.state.options.tooltip;
+    let options = this.props.options;//this.state.options;//
+    options.chart = this.state.options.chart;
+    options.title = {text: this.props.options.title}
+    options.plotOptions = this.state.options.plotOptions;
+    options.tooltip = this.state.options.tooltip;
     return (
       <div id="PieChartController" className="Hightchart">
-        <HighchartsReact highcharts={this.props.Highcharts} options={this.state.options} />
+        <HighchartsReact highcharts={this.props.Highcharts} options={options} />
       </div>
     );
   }
