@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Category from './Category';
 import axios from 'axios';
+import '../App/styles/categoryNavbar.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import { /*OverlayTrigger, Tooltip,*/ Modal, Button, Form } from 'react-bootstrap';
 import '../App/styles/categoriesPage.css'
+
 
 
 class ModalCreateRecord extends React.Component{
@@ -49,6 +51,7 @@ class ModalCreateRecord extends React.Component{
   render() {
      let currentDateString = this.currentDate.toISOString().split('T')[0]
     return (
+
       <div className='createRecordBtn'>
         <Button style={{backgroundColor: '#45c6a0'}} onClick={this.handleShow}>
           Create Record
@@ -278,8 +281,28 @@ class Categories extends Component {
 
     return (
     <div className="categoryPage">
-      <h1>Your Categories</h1>
-
+      <nav className="category-navbar">
+        <div id="category-logo">
+          <a href="/" className="category-navbar-brand">BudgeStory</a>
+        </div>
+        <div className="category-contents">
+          <div id="category-compareBox">
+            <div id="category-comparePage">
+              <a href="/compare">Compare</a>
+            </div>
+          </div>
+          <div id="category-categoryBox">
+            <div id="category-categoryPage">
+              <a href="/categories">Category</a>
+            </div>
+          </div>
+          <div id="category-userBox">
+            <div id="category-userInfo">
+              Blah
+            </div>
+          </div>
+        </div>
+      </nav>
       <div className='mostOuterContainer'>
         <div className='topDiv'>
                 {categoryList}

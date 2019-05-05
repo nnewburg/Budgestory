@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Modal, Button, Form } from 'react-bootstrap';
+import "../App/styles/home.css"
 
 class NewRecord extends Component{
 
@@ -57,7 +58,7 @@ class NewRecord extends Component{
     let currentDateString = this.currentDate.toISOString().split('T')[0]
     return (
       <div style={{flexDirection: 'row-reverse', padding: '0.4em'}}>
-        <Button variant="success" onClick={this.handleShow}>New Record</Button>
+        <Button id="recordBtn" variant="success" onClick={this.handleShow}>New Record</Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Create a new Record in {this.props.category.name}</Modal.Title>

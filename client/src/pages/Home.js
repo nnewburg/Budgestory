@@ -7,6 +7,7 @@ import NewRecord from './NewRecord'
 import DateRange from './DateRange.js'
 import '../App/styles/home.css'
 import Drilldown from 'highcharts/modules/drilldown';
+import Navbar from './Navbar.js';
 // check if HighchartsDrilldown has already been loaded
 if (!Highcharts.Chart.prototype.addSeriesAsDrilldown) {
   Drilldown(Highcharts);
@@ -132,40 +133,18 @@ class Home extends Component {
 
     return (
       <div className="App" id="homeApp">
-      <nav className="navbar">
-        <div id="logo">
-          <a href="/"><img src={require("../App/picture/logo.png")}/></a>
-          <a href="/" className="navbar-brand">BudgeStory</a>
-        </div>
-        <div className="contents">
-          <div id="compareBox">
-            <div id="comparePage">
-              <a href="/compare">Compare</a>
+        <Navbar />
+        <div className="homePage">
+          <div className="container">
+            <div className="add_new_btns">
+              <NewRecord category={this.state.currentCategory} update={this.refreshDate.bind(this)}/>
             </div>
-          </div>
-          <div id="categoryBox">
-            <div id="categoryPage">
-              <a href="/categories">Category</a>
-            </div>
-          </div>
-          <div id="userBox">
-            <div id="userInfo">
-              Blah
-            </div>
-          </div>
-        </div>
-      </nav>
-      <div className="homePage">
-        <div className="container">
-          <div className="add_new_btns">
-            <NewRecord category={this.state.currentCategory} update={this.refreshDate.bind(this)}/>
-            <div className='date update_area'>
+            <div className='date update_area' id= "newRecord">
               <DateRange date={this.state.date} refreshDate={this.refreshDate.bind(this)}/>
             </div>
+            <Highchart Highcharts={Highcharts} type={"pie"} options={this.state.options} getCurrentCategory={this.getCurrentCategory}/>
           </div>
-          <Highchart Highcharts={Highcharts} type={"pie"} options={this.state.options} getCurrentCategory={this.getCurrentCategory}/>
         </div>
-      </div>
       </div>
     );
   }

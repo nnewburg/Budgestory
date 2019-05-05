@@ -8,6 +8,7 @@ import ColumnChart from './ColumnChart.js';
 // import Highchart from './Highchart'
 import '../App/styles/compare.css'
 import Drilldown from 'highcharts/modules/drilldown';
+import Navbar from './Navbar.js'
 // check if HighchartsDrilldown has already been loaded
 if (!Highcharts.Chart.prototype.addSeriesAsDrilldown) {
   Drilldown(Highcharts);
@@ -119,21 +120,21 @@ class Compare extends Component {
     const { selectedOption } = this.state;
 
     return (
-      <div className="">
+      <div className="CompareHome">
         <div className='heading'>
-          <h1>Compare Page</h1>
+          <Navbar />
         </div>
         <div className="compare-control-area">
           <div className='date update_area'>
             <DateRange date={this.state.date} refreshDate={this.refreshDate.bind(this)}/>
-            Divide By: 
+            Divide By:
             <div className="compare-by">
               <Select
                 value={selectedOption}
                 onChange={this.handleChange}
                 options={options}
               />
-            </div>        
+            </div>
           </div>
         </div>
         <br/>

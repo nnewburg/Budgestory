@@ -1,0 +1,130 @@
+
+.category-navbar {
+  height: 4em;
+  padding: 0;
+  background-color: #2F3136;
+  opacity: 0.8;
+  border-bottom-left-radius: 60px;
+
+}
+
+
+#logo .category-navbar-brand {
+  color: #d54d7b;
+  font-family: "Great Vibes", cursive;
+  font-weight: normal;
+  text-shadow: 0 1px 1px #fff;
+  padding-left: 20%;
+  padding-top: 0;
+  -webkit-transition: .5s ease-out;
+  -moz-transition:  .5s ease-out;
+  transition:  .5s ease-out;
+  font-size: 160%;
+}
+
+#logo:hover .category-navbar-brand {
+  -webkit-transform: rotateZ(-10deg);
+  -moz-transform: rotateZ(-10deg);
+  transform: rotateZ(-10deg);
+}
+
+
+.add_new_btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 50px 0 20px 0;
+  padding: 0;
+}
+.category-contents {
+  height: 100%;
+  width: 40%;
+  display: flex;
+  font-family: "Great Vibes", cursive;
+  font-weight: normal;
+  text-shadow: 0 1px 1px #fff;
+  font-size: 150%;
+}
+.category-contents div {
+  height: 100%;
+  /*border-left: 1px solid;*/
+  width: 33%;
+
+
+}
+
+.category-contents div:hover {
+  text-decoration: underline;
+}
+
+
+
+#category-comparePage {
+
+  height: 100%;
+  color: #A49492;
+  width: 100%;
+}
+
+
+
+#category-comparePage a {
+  height: 100%;
+  width: 100%;
+  color: #A49492;
+}
+
+#category-comparePage:hover a {
+  /*font-size: 80%;*/
+
+  /*transition: 1s;*/
+  position: absolute;
+  /*color: black;*/
+}
+
+#category-comparePage:hover {
+  /*background-color: white;*/
+  background-image: url("../picture/graph.png");
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: 1s;
+}
+
+
+
+#category-categoryPage {
+  color: #A49492;
+  width: 100%;
+  height: 100%;
+
+}
+
+#category-categoryPage a {
+  height: 100%;
+  width: 100%;
+  color: #A49492;
+}
+
+#category-categoryPage:hover a {
+  position: absolute;
+}
+
+#category-categoryPage:hover {
+  background-image: url("../picture/folder.png");
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: 1s;
+}
+
+#category-categoryPage a {
+  color: #A49492;
+}
+
+#category-userInfo {
+  color: #A49492;
+  width: 100%;
+
+}
+
