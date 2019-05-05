@@ -215,8 +215,102 @@ function updateDateRange(dateParams) {
       timePeriod.end = dateParams.end;
     }
   }
-  // console.log("BS >>> timePeriod = ", timePeriod);
 }
+// Initialize Compage Page Relevant Data
+let startList = [];
+let endList = [];
+let columnArray = [];
+function compareDateInit() {
+  startList = [];
+  endList = [];
+  columnArray = [];
+}
+// Update Date Ranges
+function updateDateRanges(dateParams) {
+  if(Object.keys(dateParams).length > 0) {
+    let dateRange = JSON.parse(dateParams.dateRange);
+    console.log("updateDateRanges >>> dateRange =  ", dateRange);
+    startList = dateRange.startList;
+    endList = dateRange.endList;
+    let length = startList.length;
+    timePeriod.start = startList[0];
+    timePeriod.end = endList[length-1];
+  }
+  console.log("updateDateRanges >>> startList = ", startList);
+  console.log("updateDateRanges >>> endList = ", endList);
+}
+// Generate Array for column chart
+function createColumnArray () {
+  let columnObj = {};
+  if(allCategories.length > 0) {
+    allCategories.map(category => {
+      columnObj = {};
+      columnObj.cid = category.id;
+      columnObj.rid = -1;
+      columnObj.pid = category.parent_id;
+      columnObj.name = category.name;
+      columnObj.type = 1; // Category
+      columnObj.data = [];
+      for(let i = 0; i < startList.length; i ++) {
+        columnObj.data.push(0);
+      }
+      columnArray.push(columnObj);
+    });
+  }
+  if(allRecords.length > 0) {
+    allRecords.map(record => {
+      columnObj = {};
+      columnObj.cid = -1;
+      columnObj.rid = record.id;
+      columnObj.pid = record.category_id;
+      columnObj.name = record.notes;
+      columnObj.type = 2; // Record
+      columnObj.data = [];
+      let recordDate = record.date.split('T')[0];
+      for(let i = 0; i < startList.length; i ++) {
+        if(recordDate < startList[i] || recordDate > endList[i]) {
+          columnObj.data.push(0);
+        } else {
+          columnObj.data.push(record.value);
+        }
+      }
+      columnArray.push(columnObj);
+    });
+  }
+}
+// Calculate value for each category in colunm array for column chart
+function getCategoryValuForColunm(columnObj, timeID){
+  let valueTotal = 0;
+  let length = columnArray.length;
+  // console.log("length = ", length);
+  for(let i = 1; i < length; i ++) {
+    // console.log("column id = ", i);
+    // For Category
+    if(columnArray[i].type === 1) {
+      // Find Children
+      if(columnArray[i].pid === columnObj.cid) {
+        let value = getCategoryValuForColunm(columnArray[i], timeID);
+        columnArray[i].data[timeID] += value;
+        if(columnArray[i].cid === 1) { // Category "Expenses"
+          valueTotal -= value;
+        } else {
+          valueTotal += value;
+        }
+      }
+    }
+    // For Record
+    if(columnArray[i].type === 2) {
+      // Find Children
+      if(columnArray[i].pid === columnObj.cid) {
+        let value = columnArray[i].data[timeID];
+        valueTotal += value/100;
+      }
+    }
+  }
+  return valueTotal;
+}
+// Remove nouse data categories for column chart
+
 // Get All Categories need to be removed
 let categoriesRemove = [];
 function removeCategory(parent_id) {
@@ -274,42 +368,102 @@ app.get('/api/HomeChart', (req,res) => {
   })
   .catch(err => console.error(err));
 });
-// Categories Management Page:
-app.get('/api/getCategories', (req,res) => {
 
-    knex.select().from('categories')
-        .then((results) => {
-          res.json({
-            data: results
-          });
-        })
-  });
+// Compare Page: 
+app.get('/api/CompareChart', (req,res) => {
+  // console.log("app.get >>> Compare Page = ", req.query);
+  compareDateInit();
+  // // Update Date Range
+  updateDateRanges(req.query);
+  // Select all Categories
+  knex('categories').select()
+  .then(categories => {
+    return Promise.all(JSON.parse(JSON.stringify(categories)));
+  })
+  .then(results => {
+    allCategories = results;
 
-  app.get('/api/getRecords', (req,res) => {
-    knex.select().from('records')
-        .then((results) => {
-          res.json({
-            data: results
-          });
-        })
-  });
+    // Select all Records
+    knex('records').select().where('date', '>=', timePeriod.start).andWhere('date', '<=', timePeriod.end)
 
-  // Handles any requests that don't match the ones above
-  app.post('/newCategory', (req,res) => {
-    console.log("newCategory >>> ", req.body);
-    knex('categories').insert([{name: req.body.newCat.name, parent_id: req.body.newCat.parent_id}]).then(result =>
-      {res.json(result)})
-  });
+    .then(records => {
+      // Generate data for the pie chart in compare page
+      allRecords = JSON.parse(JSON.stringify(records));
+      balanceInitialization();
+      balanceObj.children = findAllChildren(balanceObj);
+      balanceObj.value += calculateValue(balanceObj);
+      transferToChart();
+      balanceChart.title = "Balance: $" + balanceObj.value/100;
+      // console.log("balanceChart.series = ", balanceChart.series);
+      // console.log("balanceChart.drilldown = ", balanceChart.drilldown);
 
-  app.post('/newRecord', (req,res) => {
-    console.log("newRecord >>> ", req.body);
-    knex('records').insert([{user_id: 1, notes: req.body.newRec.notes, category_id: req.body.newRec.category_id, value: req.body.newRec.value, date: req.body.newRec.date}])
-    .then(result => {
-      res.json(result);
+      // Generate data for the column chart in compare page
+      if(startList.length <= 0 || endList.length <= 0) {
+        console.log("BS >>> app.get(Compare) no start or end time list");
+      } else {
+        let columnObj = {};
+        columnObj = {};
+        columnObj.cid = 0;
+        columnObj.rid = -1;
+        columnObj.pid = -1;
+        columnObj.name = "Balance";
+        columnObj.type = 1; // Category
+        columnObj.data = [];
+        for(let i = 0; i < startList.length; i ++) {
+          columnObj.data.push(0);
+        }
+        columnArray.push(columnObj);
+        createColumnArray();
+        for(let j = 0; j < startList.length; j ++) {
+          columnArray[0].data[j] += getCategoryValuForColunm(columnArray[0], j);
+        }
+
+        let result = { pie: balanceChart, column: columnArray};
+        // console.log("BS >>> result.pie = ", result.pie);
+        // console.log("BS >>> result.column = ", result.column);
+        res.json(result);
+      }
     })
     .catch(err => console.error(err));
-  });
+  })
+  .catch(err => console.error(err));
 
+});
+
+// Categories Management Page:
+app.get('/api/getCategories', (req,res) => {
+  knex.select().from('categories')
+  .then((results) => {
+    res.json({
+      data: results
+    });
+  });
+});
+
+app.get('/api/getRecords', (req,res) => {
+  knex.select().from('records')
+      .then((results) => {
+        res.json({
+          data: results
+        });
+      })
+});
+
+// Handles any requests that don't match the ones above
+app.post('/newCategory', (req,res) => {
+  console.log("newCategory >>> ", req.body);
+  knex('categories').insert([{name: req.body.newCat.name, parent_id: req.body.newCat.parent_id}]).then(result =>
+    {res.json(result)})
+});
+
+app.post('/newRecord', (req,res) => {
+  console.log("newRecord >>> ", req.body);
+  knex('records').insert([{user_id: 1, notes: req.body.newRec.notes, category_id: req.body.newRec.category_id, value: req.body.newRec.value, date: req.body.newRec.date}])
+  .then(result => {
+    res.json(result);
+  })
+  .catch(err => console.error(err));
+});
 
 app.get('/api/getCategoriesMenu', (req, res) => {
   knex.select().from('categories')
@@ -324,12 +478,13 @@ app.post('/api/editCategory', (req, res) => {
 });
 
 app.post('/api/deleteRecord', (req, res) => {
+  recordsRemove = [];
   knex('records').where({id: req.body.delRec.id}).del().then(result =>
     {res.json(result)})
 });
 
 app.post('/api/deleteCategory', (req, res) => {
-  console.log('Delete category Works');
+  categoriesRemove = [];
   let categoryDeleteId = req.body.delCat.id;
   knex('categories').select()
   .then(categories => {
