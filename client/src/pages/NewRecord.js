@@ -69,7 +69,7 @@ class NewRecord extends Component{
               <Form.Control type="number" placeholder="$" step='0.01' name='amount' />
             </Form.Group>
             <Form.Group controlId="recordDate">
-              <Form.Label>Date:</Form.Label>          
+              <Form.Label>Date:</Form.Label>
               <Form.Control type="text" placeholder={currentDateString} name='date' />
             </Form.Group>
             <Form.Group controlId="recordNotes">

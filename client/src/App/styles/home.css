@@ -7,6 +7,10 @@
 
 }
 
+#homeApp {
+  background-image: url("../picture/background-body.jpg");
+}
+
 .container {
 
   border-left: 1px solid black;
@@ -243,8 +247,11 @@
 }
 
 .navbar {
-background-color: #2F3136;
-
+  /*background: linear-gradient(to right red 0%,blue 50%,green 100%);*/
+  background-color: #2F3136;
+  opacity: 0.8;
+  border-bottom-left-radius: 60px;
+  border-bottom-right-radius: 60px;
 
 }
 
@@ -287,7 +294,7 @@ background-color: #2F3136;
   height: 100%;
   width: 30%;*/
   height: 100%;
-  width: 60%;
+  width: 40%;
   display: flex;
   font-family: "Great Vibes", cursive;
   font-weight: normal;
@@ -300,14 +307,26 @@ background-color: #2F3136;
 
 
 }
-#record {
+
+.contents div:hover {
+  text-decoration: underline;
+}
+//new Record
+.add_new_btns {
+  position: flex;
+}
+
+#record:hover {
+
+}
+
+#comparePage {
   color: #A49492;
   width: 100%;
 }
 
-#radioOption {
+#comparePage a {
   color: #A49492;
-  width: 100%;
 }
 
 #categoryPage {
@@ -325,9 +344,6 @@ background-color: #2F3136;
   width: 100%;
 
 }
-
-
-
 
 
 
