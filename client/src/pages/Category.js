@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { /*Card,*/ Form, Modal, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
 import axios from 'axios';
-// import dollarSign from '../assets/dollarSign.png'
 import trashCan from '../assets/trashcan.png'
 import pencil from '../assets/edit.png'
 import '../App/styles/categoriesPage.css'
@@ -16,6 +15,7 @@ class ModalEditRecord extends React.Component{
     this.state = {
       show: false,
     };
+    this.currentDate = new Date();
   }
 
     editRecord = (event) => {
@@ -45,10 +45,10 @@ class ModalEditRecord extends React.Component{
   }
 
   render(){
-
+    let currentDateString = this.currentDate.toISOString().split('T')[0]
     return(
-      <div style={{marginLeft: 'auto', padding: '0.4em'}}>
-        <img onClick={this.handleShow} alt="" style={{position: 'absolute', bottom: '0', left: '15%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
+      <div>
+        <img className='editRecordPencil' onClick={this.handleShow} width='8%' src={pencil} />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Edit Record</Modal.Title>
@@ -56,13 +56,18 @@ class ModalEditRecord extends React.Component{
             <Modal.Body>
               <Form id="record" onSubmit={this.editRecord}>
               <Form.Group controlId="formGroupEmail">
-              <Form.Label>Record notes:</Form.Label>
-              <Form.Control type="text" placeholder="Enter new notes" name='name' />
-              </Form.Group>
-              <Form.Group controlId="formGroupEmail">
               <Form.Label>Record value:</Form.Label>
               <Form.Control type="number" placeholder="Enter new value" name='value' />
               </Form.Group>
+              <Form.Group controlId="recordDate">
+              <Form.Label>Date:</Form.Label>
+              <Form.Control type="text" placeholder={currentDateString} name='date' />
+            </Form.Group>
+              <Form.Group controlId="formGroupEmail">
+              <Form.Label>Record notes:</Form.Label>
+              <Form.Control type="text" placeholder="Enter new notes" name='name' />
+              </Form.Group>
+
               </Form>
             </Modal.Body>
             <Modal.Footer>
@@ -120,8 +125,8 @@ class ModalEditCategory extends React.Component{
   render(){
 
     return(
-      <div style={{marginLeft: 'auto', padding: '0.4em'}}>
-      <img onClick={this.handleShow} alt="" style={{position: 'absolute', bottom: '0', left: '10%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
+      <div>
+      <img className='editCategoryPencil' onClick={this.handleShow} alt="" style={{position: 'absolute', bottom: '0', left: '10%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Edit category: {this.props.name}</Modal.Title>
@@ -134,7 +139,7 @@ class ModalEditCategory extends React.Component{
               </Form.Group>
               <Form.Group controlId="formGroupEmail">
               <Form.Label>Category notes:</Form.Label>
-              <Form.Control type="text" placeholder="Enter new category" name='notes' />
+              <Form.Control type="text" placeholder="Enter new category notes" name='notes' />
               </Form.Group>
               </Form>
             </Modal.Body>
@@ -188,18 +193,18 @@ class ModalDeleteCategory extends React.Component{
 
   render() {
     return (
-      <div style={{flexDirection: 'row-reverse', padding: '0.4em'}}>
-        <img onClick={this.handleShow} alt="" style={{position: 'absolute', bottom: '0', left: '0', padding: '0.2em', backgroundColor: 'red', borderRadius: '20px'}}width='10%' src={trashCan} />
+      <div >
+        <img className='delCategoryCan' onClick={this.handleShow} width='10%' src={trashCan} />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Warning:</Modal.Title>
+            <Modal.Title>Delete Warning:</Modal.Title>
           </Modal.Header>
             <Modal.Body>
-            If you delete a category it will delete ALL records and categories nested within that category
+            All the categories and records in {this.props.name} will be removed
             </Modal.Body>
             <Modal.Footer>
               <Button variant="danger" onClick={this.deleteCategory}>
-                Delete {this.props.name}
+                Confirm
               </Button>
             </Modal.Footer>
         </Modal>
@@ -246,18 +251,18 @@ class ModalDeleteRecord extends React.Component{
 
   render() {
     return (
-      <div style={{flexDirection: 'row-reverse', padding: '0.4em'}}>
-        <img onClick={this.handleShow} style={{position: 'absolute', bottom: '0', left: '0', padding: '0.2em', backgroundColor: 'red', borderRadius: '20px'}}width='10%' src={trashCan} />
+      <div >
+        <img className='delRecordCan' onClick={this.handleShow} width='8%' src={trashCan} />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Delete This Record</Modal.Title>
+            <Modal.Title>Delete Warning:</Modal.Title>
           </Modal.Header>
             <Modal.Body>
             Are you sure you want to delete this record?
             </Modal.Body>
             <Modal.Footer>
               <Button variant="danger" onClick={this.deleteRecord}>
-                Delete Record
+                Confirm
               </Button>
             </Modal.Footer>
         </Modal>
@@ -272,14 +277,13 @@ class RecordRender extends Component {
   render(){
     return (
 
-          <div id={this.props.id} onClick={this.onItemClick} style={{ position:'relative', minWidth: '20%', flex: '0.3', backgroundColor: '#65A688', borderRadius: '10px', position:'relative', border: '3px solid #D99789', width: '20%', height: '50%', margin: '0.5em' }}>
-
+          <div className='recordContainer' id={this.props.id} onClick={this.onItemClick}>
           <ModalDeleteRecord id={this.props.id} update={this.props.update} />
           <ModalEditRecord id={this.props.id} update={this.props.update} />
             <div>
-            <p style={{position: 'absolute', left: '0', top: '0', padding: '0'}}>{this.props.name}</p>
+            <p className='recordNotes'>{this.props.name}</p>
             <br></br>
-            <p style={{position: 'absolute', right: '0', bottom: '0'}}> ${this.props.price/100}</p>
+            <p className='recordPrice'> ${this.props.price/100}</p>
             </div>
           </div>
 
@@ -356,18 +360,18 @@ class CategoryRender extends Component {
         </Tooltip>}
 
     >
-          <div id={this.props.id} onClick={this.handleClicks} style={{ position:'relative', minWidth: '20%', flex: '0.3', backgroundColor: '#65A688', borderRadius: '10px', border: '3px solid #D99789', justifyContent: 'space-around', margin: '0.5em', padding: '3%' }}>
+          <div className='categoryContainer' id={this.props.id} onClick={this.handleClicks}>
             <ModalDeleteCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
             <ModalEditCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
-            <p className='align-middle'style={{verticalAlign: 'middle',position: 'absolute', top: '0'}}>{this.props.name}</p>
+            <p className='categoryName' >{this.props.name}</p>
           </div>
           </OverlayTrigger>
            )
     } else {
       return (
 
-       <div id={this.props.id} onClick={this.handleClicks} style={{ position:'relative', minWidth: '20%', flex: '0.3', backgroundColor: '#65A688', borderRadius: '10px', border: '3px solid #D99789', justifyContent: 'space-around', margin: '0.5em', padding: '3%' }}>
-           <p className='align-middle'style={{verticalAlign: 'middle', position: 'absolute', top: '0'}}>{this.props.name}</p>
+       <div className='categoryContainer' id={this.props.id} onClick={this.handleClicks} >
+           <p className='categoryName' >{this.props.name}</p>
         </div>
 
         )
@@ -394,7 +398,7 @@ class Category extends Component {
       ))
 
     return (
-    <div className="App" style={{backgroundColor: 'rgb(217, 151, 137);', display: 'flex', flexWrap: 'wrap'}}>
+    <div className="bottomDiv" >
       {categoryList}
       {recordsList}
     </div>

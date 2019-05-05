@@ -31,7 +31,7 @@ class Home extends Component {
         drilldown: {
           series: []
         }
-      }
+      },
     }
     this.getCurrentCategory.bind(this);
   }
@@ -136,21 +136,16 @@ class Home extends Component {
     };
 
     return (
-      <div className="App">
+      <div className="App" id="homeApp">
       <nav className="navbar">
         <div id="logo">
           <a href="/"><img src={require("../App/picture/logo.png")}/></a>
           <a href="/" className="navbar-brand">BudgeStory</a>
         </div>
         <div className="contents">
-          <div id="recordBox">
-            <div id="record">
-              Button
-            </div>
-          </div>
-          <div id="radioBox">
-            <div id="radioOption">
-              Drop
+          <div id="compareBox">
+            <div id="comparePage">
+              <a href="/compare">Compare</a>
             </div>
           </div>
           <div id="categoryBox">
