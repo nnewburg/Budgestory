@@ -87,10 +87,9 @@ class ColumnChart extends Component {
       options.tooltip = this.state.options.tooltip;
       options.plotOptions = this.state.options.plotOptions;
       options.yAxis = this.state.options.yAxis;
-
       // options.xAxis = this.props.options.xAxis;
       // options.series = this.props.options.series;
-      console.log("ColumnChart >>> options = ", options);
+      // console.log("ColumnChart >>> options = ", options);
       return (
         <div id="ColunmChart" className="Hightchart">
           <HighchartsReact highcharts={this.props.Highcharts} options={options} />

@@ -22,6 +22,7 @@ const options = [
 ];
 
 let columnData = [];
+let columnDataBK = [];
 let columnXCategories = [];
 
 class Compare extends Component {
@@ -71,13 +72,13 @@ class Compare extends Component {
 
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
-    console.log("Compare >>> handleChangeOption: divided type = ", selectedOption);
+    // console.log("Compare >>> handleChangeOption: divided type = ", selectedOption);
   }
 
   getCurrentCategory = (id, name) => {
     let columnOptions = this.currentColumnOptions(id);
-    console.log("Compare >>> getCurrentCategory: columnOptions = ", columnOptions);
     this.setState({
+      ...this.state,
       currentCategory: {
         id: id,
         name: name
@@ -158,7 +159,10 @@ class Compare extends Component {
     endList.push(year + "-" + start.stringISO.split('-')[1] + "-" + this.getMonthEndDate(startMonth));
     columnXCategories.push(this.getMonthCategory(startMonth));
     let monthNum = endMonth - startMonth + 1;
-    if(monthNum > 2) {
+    // console.log("divideByMonth >>> monthNum : " + monthNum + ", startMonth: " + startMonth + ", endMonth : " + endMonth);
+    // console.log("divideByMonth >>> startMonth : ", startMonth);
+    // console.log("divideByMonth >>> endMonth : ", endMonth);
+    if(monthNum >= 2) {
       for(let i = startMonth + 1; i < endMonth; i ++) {
         startList.push(year + "-" + this.getMonthString(i) + "-01");
         endList.push(year + "-" + this.getMonthString(i) + "-" + this.getMonthEndDate(i));
@@ -168,14 +172,17 @@ class Compare extends Component {
       endList.push(end.stringISO);
       columnXCategories.push(this.getMonthCategory(endMonth));
     }
-    console.log("divideByMonth >>> startList : ", startList);
-    console.log("divideByMonth >>> endList : ", endList);
-    console.log("divideByMonth >>> columnXCategories : ", columnXCategories);
+    // console.log("divideByMonth >>> startList : ", startList);
+    // console.log("divideByMonth >>> endList : ", endList);
+    // console.log("divideByMonth >>> columnXCategories : ", columnXCategories);
 
     return {startList: startList, endList: endList};
   }
 
   currentColumnOptions (categoryID) {
+    
+    columnData = JSON.parse(JSON.stringify(columnDataBK));
+
     if(categoryID === "Balance") {
       categoryID = 0;
     }
@@ -211,14 +218,15 @@ class Compare extends Component {
         ]
       };
     }
-    console.log("Compare >>> currentColumnOptions: categoryID = ", categoryID);
-    console.log("Compare >>> currentColumnOptions: optionsObj = ", optionsObj);
+    console.log("Compare >>> currentColumnOptions: columnData = ", columnData[1].data);
+    console.log("Compare >>> currentColumnOptions: columnDataBK = ", columnDataBK[1].data);
+    // console.log("Compare >>> currentColumnOptions: optionsObj = ", optionsObj);
     return optionsObj;
   }
 
   refreshDate = (state, startDate, endDate) => {
 
-    console.log("Compare >>> refreshDate state = ", state);
+    // console.log("Compare >>> refreshDate state = ", state);
 
     let startCalender = startDate;
     let endCalender = endDate;
@@ -241,11 +249,11 @@ class Compare extends Component {
       end.day = endDate.toString().split(' ')[0];
     }
 
-    console.log("Compare >>> refreshDate start = " + start.day);
-    console.log("Compare >>> refreshDate end = " + end.day);
+    // console.log("Compare >>> refreshDate start = " + start.day);
+    // console.log("Compare >>> refreshDate end = " + end.day);
 
     // Init data for column chart
-    columnData = [];
+    // columnData = [];
     columnXCategories = [];
 
     let dateRange = this.divideByMonth(start, end);
@@ -254,8 +262,6 @@ class Compare extends Component {
     Highcharts.targetLevel = -1;
     Highcharts.charts.forEach((chart) => {
       const drillUpLevel = chart.drilled;
-      console.log("Compare >>> refreshDate chart = ", chart);
-      console.log("Compare >>> refreshDate chart.drilled = ", chart.drilled);
       for(let level = 0; level <= drillUpLevel; level ++) {
         chart.drillUp();
       }
@@ -270,20 +276,20 @@ class Compare extends Component {
     .then(
       ({data}) => {
 
-        console.log("Compare >>> refreshDate data = ", data);
         let pie = data.pie;
-        columnData = data.column;
+
+        columnData = JSON.parse(JSON.stringify(data.column));//data.column.slice(0);
+        columnDataBK = JSON.parse(JSON.stringify(data.column));
+
         if(state === 1) {
           // startCalender.setDate(startCalender.getDate() + 1);
           // endCalender.setDate(endCalender.getDate() + 1);
-          console.log("after axio >>> state = "  + state + ", start = " + startCalender.toISOString().split('T')[0] + "， end = " , endCalender.toISOString().split('T')[0]);
+          // console.log("after axio >>> state = "  + state + ", start = " + startCalender.toISOString().split('T')[0] + "， end = " , endCalender.toISOString().split('T')[0]);
         }
         let balanceValue = (pie.series[0].data[1].v - pie.series[0].data[0].v).toFixed(2);
-
         let columnOptions = this.currentColumnOptions(0);
-
         this.setState({
-          // ...this.state,
+          ...this.state,
           date: {
             state: state,
             startDate: startCalender,
