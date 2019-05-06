@@ -208,9 +208,47 @@ category-*/
   font-size: 1.5em;
 }
 
-.bottomDiv{
+/*.bottomDiv{
   background-color: rgb(217, 151, 137);
   display: flex;
   flex-wrap: wrap;
+}*/
+
+
+
+.bottomDiv {
+  background-color: rgba(217, 151, 137, 0.75);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
