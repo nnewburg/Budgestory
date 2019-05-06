@@ -126,7 +126,7 @@ class ModalEditCategory extends React.Component{
 
     return(
       <div>
-      <img className='editCategoryPencil' onClick={this.handleShow} alt="" style={{position: 'absolute', bottom: '0', left: '10%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
+      <img className='editCategoryPencil' onClick={this.handleShow} alt="" style={{position: 'absolute', bottom: '0', right: '10%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Edit category: {this.props.name}</Modal.Title>
@@ -281,11 +281,12 @@ class RecordRender extends Component {
           <ModalDeleteRecord id={this.props.id} update={this.props.update} />
           <ModalEditRecord id={this.props.id} update={this.props.update} />
             <div id="textBox">
-            <p className='recordNotes'>{this.props.name}</p>
 
             <p className='recordPrice'> ${this.props.price/100}</p>
 
             <p className="dateInput"> {this.props.date.slice(0,-14)}</p>
+
+            <p className='recordNotes'>{this.props.name}</p>
 
             </div>
           </div>
@@ -353,28 +354,30 @@ class CategoryRender extends Component {
 
     if (this.props.parentId){
     return (
-      <OverlayTrigger
-      key={'bottom'}
-      // show={null}
-      placement={'bottom'}
-      overlay={this.state.editModal ? MyToolTip : <Tooltip id={`tooltip-bottom`}>
-        <p>Notes: {this.props.notes} </p>
+    //   <OverlayTrigger
+    //   key={'bottom'}
+    //   // show={null}
+    //   placement={'bottom'}
+    //   overlay={this.state.editModal ? MyToolTip : <Tooltip id={`tooltip-bottom`}>
+    //     <p>Notes: {this.props.notes} </p>
 
-        </Tooltip>}
+    //     </Tooltip>}
 
-    >
+    // >
           <div className='categoryContainer' id={this.props.id} onClick={this.handleClicks}>
             <ModalDeleteCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
             <ModalEditCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
             <p className='categoryName' >{this.props.name}</p>
+            <p className='categoryNote' >{this.props.notes}</p>
           </div>
-          </OverlayTrigger>
+          // </OverlayTrigger>
            )
     } else {
       return (
 
        <div className='categoryContainer' id={this.props.id} onClick={this.handleClicks} >
            <p className='categoryName' >{this.props.name}</p>
+           <p className='categoryNote' >{this.props.notes}</p>
         </div>
 
         )
