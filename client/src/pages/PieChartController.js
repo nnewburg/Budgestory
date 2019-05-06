@@ -12,8 +12,6 @@ class PieChartController extends Component {
       options: {
         chart: {
           type: 'pie',
-
-
           events: {
             drilldown: (e) => {
               let categoryID = e.seriesOptions.id;
@@ -45,14 +43,14 @@ class PieChartController extends Component {
           series: {
             dataLabels: {
               enabled: true,
-              format: '<span style="font-size:12px">{point.name}</span>'
+              format: '{point.name}: ${point.v:.1f}, {point.y:.1f}%, {point.d}'
             },
             cursor: 'pointer'
           }
         },
         tooltip: {
-              headerFormat: '<span style="font-size:12px">{series.name}</span><br>',
-              pointFormat: '<span style="color:{point.color}">{point.name}</span><br/>'
+          headerFormat: '<span style="font-size:12px">{series.name}</span><br>',
+          pointFormat: '<span style="color:{point.color}">{point.name}</span><br/>'
         },
         series: [
           {
