@@ -5,6 +5,7 @@ import '../App/styles/categoryNavbar.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import { /*OverlayTrigger, Tooltip,*/ Modal, Button, Form } from 'react-bootstrap';
 import '../App/styles/categoriesPage.css'
+import NavBar from './Navbar.js'
 
 
 
@@ -281,6 +282,7 @@ class Categories extends Component {
 
     return (
     <div className="categoryPage">
+    <NavBar />
       <div className='mostOuterContainer'>
         <div className='topDiv'>
                 {categoryList}
