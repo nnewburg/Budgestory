@@ -69,7 +69,7 @@ class ModalCreateRecord extends React.Component{
                 </Form.Group>
                 <Form.Group controlId="recordDate">
               <Form.Label>Date:</Form.Label>
-              <Form.Control type="text" value={currentDateString} name='date' />
+              <Form.Control type="text" placeholder={currentDateString} name='date' />
             </Form.Group>
                 <Form.Group controlId="formGroupEmail">
                   <Form.Label>Notes about record:</Form.Label>
