@@ -271,7 +271,7 @@ function createColumnArray () {
         if(recordDate < startList[i] || recordDate > endList[i]) {
           columnObj.data.push(0);
         } else {
-          columnObj.data.push(record.value);
+          columnObj.data.push(record.value/100);
         }
       }
       columnArray.push(columnObj);

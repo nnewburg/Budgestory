@@ -280,11 +280,13 @@ class RecordRender extends Component {
           <div className='recordContainer' id={this.props.id} onClick={this.onItemClick}>
           <ModalDeleteRecord id={this.props.id} update={this.props.update} />
           <ModalEditRecord id={this.props.id} update={this.props.update} />
-            <div>
+            <div id="textBox">
             <p className='recordNotes'>{this.props.name}</p>
-            <br></br>
+
             <p className='recordPrice'> ${this.props.price/100}</p>
-            <p>{this.props.date.slice(0, -14)}</p>
+
+            <p className="dateInput"> {this.props.date.slice(0,-14)}</p>
+
             </div>
           </div>
 
@@ -395,7 +397,9 @@ class Category extends Component {
 
 
     const recordsList = filteredRecords.map((record, index) => (
-        <RecordRender name={record.notes} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} price={record.value} id={record.id} date={record.date} update={this.props.update} />
+
+        <RecordRender name={record.notes} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} price={record.value} id={record.id} update={this.props.update} date={record.date} />
+
       ))
 
     return (

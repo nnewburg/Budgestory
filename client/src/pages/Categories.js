@@ -5,6 +5,7 @@ import '../App/styles/categoryNavbar.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import { /*OverlayTrigger, Tooltip,*/ Modal, Button, Form } from 'react-bootstrap';
 import '../App/styles/categoriesPage.css'
+import Back from '../App/picture/back.jpg'
 import NavBar from './Navbar.js'
 
 
@@ -181,11 +182,10 @@ class Helper extends Component {
   render() {
     return (
 
-         <div className='currentCategory' id={this.props.id} onClick={this.onItemClick}>
-           <span> Current Category: {this.props.name} </span>
-           <br></br>
-           <span> Click to go back </span>
-          </div>
+        <div className='currentCategory' id={this.props.id} onClick={this.onItemClick}>
+         <img className="back" width="10%" src={Back} />
+         <span> {this.props.name} </span>
+        </div>
           )
   }
 }
@@ -285,10 +285,9 @@ class Categories extends Component {
     <NavBar />
       <div className='mostOuterContainer'>
         <div className='topDiv'>
-                {categoryList}
-                  <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
-                  <ModalCreateRecord name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
-
+          {categoryList}
+          <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
+          <ModalCreateRecord name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
         </div>
         <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
       </div>
