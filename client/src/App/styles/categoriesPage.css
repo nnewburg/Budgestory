@@ -5,87 +5,6 @@
   background-image: url("../picture/background-body.jpg");
   background-size: 100% 100%;
 }
-/*
-.category-navbar {
-  height: 4em;
-  padding: 0;
-  background-color: #2F3136;
-  opacity: 0.8;
-  border-bottom-left-radius: 60px;
-  align-items: center;
-  display: flex;
-}
-
-#category-logo {
-  width: 15%;
-  padding-left: 5%
-}
-
-#category-logo .category-navbar-brand {
-  color: #d54d7b;
-  font-family: "Great Vibes", cursive;
-  font-weight: normal;
-  text-shadow: 0 1px 1px #fff;
-  padding-left: 10%;
-  padding-top: 0;
-  -webkit-transition: .5s ease-out;
-  -moz-transition:  .5s ease-out;
-  transition:  .5s ease-out;
-  font-size: 160%;
-}
-
-#category-logo:hover .category-navbar-brand {
-  -webkit-transform: rotateZ(-10deg);
-  -moz-transform: rotateZ(-10deg);
-  transform: rotateZ(-10deg);
-}
-
-.category-contents {
-  height: 100%;
-  width: 50%;
-  display: flex;
-  font-family: "Great Vibes", cursive;
-  font-weight: normal;
-  text-shadow: 0 1px 1px #fff;
-  font-size: 150%;
-}
-
-.category-contents div {
-  height: 100%;
-  border-left: 1px solid;
-  width: 15%;
-}
-
-#category-compareBox {
-  height: 100%;
-  color: #A49492;
-  width: 100%;
-}
-
-#category-comparePage {
-  height: 100%;
-  width: 100%;
-}
-
-#category-comparePage a {
-  height: 100%;
-  width: 100%;
-  color: #A49492;
-}
-
-#category-comparePage:hover a {
-  position: absolute;
-}
-
-#category-comparePage:hover {
-  background-image: url("../picture/graph.png");
-  background-size: 25%;
-  background-repeat: no-repeat;
-  background-position: center;
-  transition: 1s;
-}
-
-category-*/
 
 .createRecordBtn{
   flex-direction: row-reverse;
@@ -124,11 +43,16 @@ category-*/
   width: 33%;
 }
 
+.back {
+
+}
+
 .editRecordPencil{
   position: absolute;
   bottom: 0;
-  left: 8%;
-  padding: 0.2em;
+  left: 10%;
+  width: 10%;
+  padding: 0;
   background-color: gray;
   border-radius: 20px;
 }
@@ -153,6 +77,7 @@ category-*/
 
 .delRecordCan{
   position: absolute;
+  width: 10%;
   bottom: 0;
   left: 0;
   padding: 0.2em;
@@ -162,52 +87,120 @@ category-*/
 
 .recordContainer{
   position: relative;
+  text-align: center;
+  justify-content: center;
+  display: flex;
   min-width: 20%;
   flex: 0.3;
-  background-color: #65A688;
-  border-radius: 10px;
+  overflow: hidden;
+  background-color: #34AAAB;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
   border: 3px solid #D99789;
   width: 20%;
   height: 8em;
   margin: 0.5em;
 }
 
-.recordNotes{
+
+#textBox  {
+  width: 100%;
+  height: 100%;
+}
+
+
+/*.recordNotes{
   position: absolute;
   left: 0.2em;
   top: 0.2em;
   padding: 0;
   font-size: 1.2em;
+}*/
+
+.recordNotes {
+  position: relative;
+  max-width: 100%;
+
+  height: 40%;
+  flex-wrap: wrap;
+  overflow: hidden;
+  word-wrap: break-word;
+  margin: auto;
 }
 
-.recordPrice{
+.recordNotes:hover {
+  overflow: scroll;
+  max-height: 100%;
+  max-width: 200%;
+  background-color: #585A5D;
+  transition: 1s;
+  color: white;
+
+
+
+}
+/*.recordPrice{
   position: absolute;
   bottom: 0;
   left: 20%;
   font-size: 1.5em;
+}*/
+
+.recordPrice {
+  position: relative;
+  flex-wrap: wrap;
+  color: black;
+  font-size: 150%;
+  margin: 0;
 }
+
+.dateInput {
+  position: relative;
+  color: black;
+  margin: 0;
+  height: 40%;
+}
+
 
 .categoryContainer{
   position: relative;
-  min-width: 20%;
-  flex: 0.3;
-  background-color: #65A688;
-  border-radius: 10px;
-  position: relative;
-  border: 3px solid #D99789;
-  justify-content: space-around;
+  display: flex;
+  align-content: center;
+  text-align: center;
   width: 20%;
+  min-width: 20%;
+  height: 100px;
+  flex: 0.3;
+  background-color: #64C195;
+  border: 1px solid #25864B;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  justify-content: space-around;
   margin: 0.5em;
-  padding: 3%;
+  padding: 0;
 }
 
 .categoryName{
   vertical-align: middle;
-  position: absolute;
+  position: relative;
+  width: 100%;
+  height: 70%;
   top: 0;
   font-size: 1.5em;
+  overflow: hidden;
+  word-wrap: break-word;
 }
 
+.categoryName:hover {
+  overflow: scroll;
+  font-size: 100%;
+  transition: 1s;
+  background-color: #585A5D;
+  height: 100%;
+  color: white;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
 /*.bottomDiv{
   background-color: rgb(217, 151, 137);
   display: flex;
@@ -217,7 +210,8 @@ category-*/
 
 
 .bottomDiv {
-  background-color: rgba(217, 151, 137, 0.75);
+  background-color: lightblue;
+  opacity: 0.7;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
