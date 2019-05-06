@@ -284,7 +284,7 @@ class RecordRender extends Component {
             <p className='recordNotes'>{this.props.name}</p>
             <br></br>
             <p className='recordPrice'> ${this.props.price/100}</p>
-            <p>{this.props.date}</p>
+            <p>{this.props.date.slice(0, -14)}</p>
             </div>
           </div>
 
