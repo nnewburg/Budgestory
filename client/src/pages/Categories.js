@@ -281,28 +281,6 @@ class Categories extends Component {
 
     return (
     <div className="categoryPage">
-      <nav className="category-navbar">
-        <div id="category-logo">
-          <a href="/" className="category-navbar-brand">BudgeStory</a>
-        </div>
-        <div className="category-contents">
-          <div id="category-compareBox">
-            <div id="category-comparePage">
-              <a href="/compare">Compare</a>
-            </div>
-          </div>
-          <div id="category-categoryBox">
-            <div id="category-categoryPage">
-              <a href="/categories">Category</a>
-            </div>
-          </div>
-          <div id="category-userBox">
-            <div id="category-userInfo">
-              Blah
-            </div>
-          </div>
-        </div>
-      </nav>
       <div className='mostOuterContainer'>
         <div className='topDiv'>
                 {categoryList}
