@@ -28,7 +28,7 @@ class ModalCreateRecord extends React.Component{
     const newRec = {
       notes: event.target.notes.value,
       category_id: this.props.parentCategory,
-      value: event.target.value.value*100,
+      value: Math.round((event.target.value.value*100) * 100) / 100,
       date: event.target.date.value
     }
     axios.post('/newRecord', {newRec}).then((response) => {

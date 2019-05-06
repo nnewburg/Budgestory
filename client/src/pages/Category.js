@@ -25,7 +25,7 @@ class ModalEditRecord extends React.Component{
       const editRec = {
         id: this.props.id,
         name: event.target.name.value,
-        value: event.target.value.value*100
+        value: Math.round((event.target.value.value*100) * 100) / 100
       }
 
       axios.post('/api/editRecord', {editRec}).then((response) => {
@@ -57,7 +57,7 @@ class ModalEditRecord extends React.Component{
               <Form id="record" onSubmit={this.editRecord}>
               <Form.Group controlId="formGroupEmail">
               <Form.Label>Record value:</Form.Label>
-              <Form.Control type="number" placeholder="Enter new value" name='value' />
+              <Form.Control type="number" step='0.01' placeholder="Enter new value" name='value' />
               </Form.Group>
               <Form.Group controlId="recordDate">
               <Form.Label>Date:</Form.Label>
