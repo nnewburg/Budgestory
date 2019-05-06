@@ -4,8 +4,11 @@ import axios from 'axios';
 import '../App/styles/categoryNavbar.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import { /*OverlayTrigger, Tooltip,*/ Modal, Button, Form } from 'react-bootstrap';
-import '../App/styles/categoriesPage.css';
-import Navbar from './Navbar.js';
+import '../App/styles/categoriesPage.css'
+import Back from '../App/picture/back.jpg'
+import NavBar from './Navbar.js'
+
+
 
 class ModalCreateRecord extends React.Component{
   constructor(props, context) {
@@ -67,7 +70,7 @@ class ModalCreateRecord extends React.Component{
                 </Form.Group>
                 <Form.Group controlId="recordDate">
               <Form.Label>Date:</Form.Label>
-              <Form.Control type="text" value={currentDateString} name='date' />
+              <Form.Control type="text" placeholder={currentDateString} name='date' />
             </Form.Group>
                 <Form.Group controlId="formGroupEmail">
                   <Form.Label>Notes about record:</Form.Label>
@@ -179,11 +182,10 @@ class Helper extends Component {
   render() {
     return (
 
-         <div className='currentCategory' id={this.props.id} onClick={this.onItemClick}>
-           <span> Current Category: {this.props.name} </span>
-           <br></br>
-           <span> Click to go back </span>
-          </div>
+        <div className='currentCategory' id={this.props.id} onClick={this.onItemClick}>
+         <img className="back" width="10%" src={Back} />
+         <span> {this.props.name} </span>
+        </div>
           )
   }
 }
@@ -280,6 +282,7 @@ class Categories extends Component {
 
     return (
     <div className="categoryPage">
+    <NavBar />
       <div className='mostOuterContainer'>
         <div className='topDiv'>
           {categoryList}
