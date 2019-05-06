@@ -28,7 +28,6 @@
   transform: rotateZ(-10deg);
 }
 
-
 .add_new_btns {
   display: flex;
   align-items: center;
@@ -36,37 +35,32 @@
   margin: 50px 0 20px 0;
   padding: 0;
 }
+
 .contents {
   height: 100%;
   width: 40%;
   display: flex;
+  align-items: center;
   font-family: "Great Vibes", cursive;
   font-weight: normal;
   text-shadow: 0 1px 1px #fff;
   font-size: 150%;
 }
+
 .contents div {
   height: 100%;
-  /*border-left: 1px solid;*/
   width: 33%;
-
-
 }
 
 .contents div:hover {
   text-decoration: underline;
 }
 
-
-
 #comparePage {
-
   height: 100%;
   color: #A49492;
   width: 100%;
 }
-
-
 
 #comparePage a {
   height: 100%;
@@ -84,7 +78,7 @@
 
 #comparePage:hover {
   /*background-color: white;*/
-  background-image: url("../picture/graph.png");
+  /* background-image: url("../picture/graph.png"); */
   background-size: 25%;
   background-repeat: no-repeat;
   background-position: center;

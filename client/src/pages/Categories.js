@@ -4,9 +4,8 @@ import axios from 'axios';
 import '../App/styles/categoryNavbar.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import { /*OverlayTrigger, Tooltip,*/ Modal, Button, Form } from 'react-bootstrap';
-import '../App/styles/categoriesPage.css'
-
-
+import '../App/styles/categoriesPage.css';
+import Navbar from './Navbar.js';
 
 class ModalCreateRecord extends React.Component{
   constructor(props, context) {
@@ -281,8 +280,8 @@ class Categories extends Component {
 
     return (
     <div className="categoryPage">
-      <nav className="category-navbar">
-        <div id="category-logo">
+      {/* <nav className="category-navbar">
+        <div id="category-logo" className="hj_test_navbar">
           <a href="/" className="category-navbar-brand">BudgeStory</a>
         </div>
         <div className="category-contents">
@@ -302,13 +301,13 @@ class Categories extends Component {
             </div>
           </div>
         </div>
-      </nav>
+      </nav> */}
+      <Navbar />
       <div className='mostOuterContainer'>
         <div className='topDiv'>
-                {categoryList}
-                  <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
-                  <ModalCreateRecord name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
-
+          {categoryList}
+          <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
+          <ModalCreateRecord name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
         </div>
         <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
       </div>
