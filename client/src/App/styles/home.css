@@ -7,6 +7,7 @@
 
 }
 
+
 .CompareHome {
   position: fixed;
   height: 100%;
@@ -20,15 +21,22 @@
   background-image: url("../picture/background-body.jpg");
 }
 
+#recordBtn {
+  background-color: #3CA3DA;
+  border: 1px solid lightblue;
+}
+.dataContainer {
+  text-align: center
+}
 .container {
+  position:fixed;
+  padding:0;
+  margin:0;
 
-  border: 2px solid black;
-
-  position: fixed;
-  height: 100%;
-  left: 5%;
-  right: 5%;
+  min-width: 100vw;
+  height: 100vh;
   background-color: rgba(255,255,255,0.75);
+
 }
 
 .footerWave {
@@ -41,8 +49,10 @@
 
 }
 
-
-
+#highcharts-nizvont-0 {
+  width: 50%;
+  left: 25%;
+}
 
 #update {
   background: url(../picture/refresh.gif);

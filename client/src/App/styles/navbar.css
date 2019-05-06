@@ -1,20 +1,24 @@
 
 .navbar {
+
   height: 4em;
   padding: 0;
   background-color: #2F3136;
   opacity: 0.8;
   border-bottom-left-radius: 60px;
-
+  vertical-align: middle;
+  text-align: center;
+  margin: auto;
+  position: relative;
 }
 
 
-#logo .navbar-brand {
-  color: #d54d7b;
+.contents .navbar-brand {
+  color: lightblue;
   font-family: "Great Vibes", cursive;
   font-weight: normal;
   text-shadow: 0 1px 1px #fff;
-  padding-left: 20%;
+  padding: 0;
   padding-top: 0;
   -webkit-transition: .5s ease-out;
   -moz-transition:  .5s ease-out;
@@ -22,29 +26,29 @@
   font-size: 160%;
 }
 
-#logo:hover .navbar-brand {
+.contents .navbar-brand:hover {
   -webkit-transform: rotateZ(-10deg);
   -moz-transform: rotateZ(-10deg);
   transform: rotateZ(-10deg);
 }
 
 .add_new_btns {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 50px 0 20px 0;
+
   padding: 0;
 }
 
 .contents {
+  position: relative;
+  margin-left: 3%;
   height: 100%;
-  width: 40%;
+  width: 50%;
   display: flex;
   align-items: center;
   font-family: "Great Vibes", cursive;
   font-weight: normal;
   text-shadow: 0 1px 1px #fff;
   font-size: 150%;
+
 }
 
 .contents div {
@@ -56,69 +60,75 @@
   text-decoration: underline;
 }
 
+#compareBox {
+
+}
+
 #comparePage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   color: #A49492;
   width: 100%;
+
+
 }
 
 #comparePage a {
-  height: 100%;
-  width: 100%;
   color: #A49492;
 }
-
-#comparePage:hover a {
-  /*font-size: 80%;*/
-
-  /*transition: 1s;*/
-  position: absolute;
-  /*color: black;*/
-}
-
-#comparePage:hover {
-  /*background-color: white;*/
-  /* background-image: url("../picture/graph.png"); */
-  background-size: 25%;
-  background-repeat: no-repeat;
-  background-position: center;
-  transition: 1s;
-}
-
-
 
 #categoryPage {
-  color: #A49492;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
 
 }
 
 #categoryPage a {
-  height: 100%;
-  width: 100%;
+
   color: #A49492;
+
 }
 
-#categoryPage:hover a {
+
+#categoryPage a {
+  color: #A49492;
+
+}
+
+.slogan {
   position: absolute;
-}
-
-#categoryPage:hover {
-  background-image: url("../picture/folder.png");
-  background-size: 25%;
-  background-repeat: no-repeat;
-  background-position: center;
-  transition: 1s;
-}
-
-#categoryPage a {
+  right: 0;
+  width: 57%;
+  text-align: left;
+  align-items: center;
+  justify-content: center;
+  font-family: "Great Vibes", cursive;
+  font-weight: normal;
+  text-shadow: 0 1px 1px #fff;
+  font-size: 160%;
   color: #A49492;
+
 }
 
-#userInfo {
+
+
+.userInfo {
+  position: relative;
+  right: 5%;
+  align-items: center;
+  justify-content: center;
+  font-family: "Great Vibes", cursive;
+  font-weight: normal;
+  text-shadow: 0 1px 1px #fff;
+  font-size: 160%;
   color: #A49492;
-  width: 100%;
 
 }
+
+
 

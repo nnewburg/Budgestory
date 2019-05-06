@@ -7,24 +7,9 @@ class ColumnChart extends Component {
       this.state = {
         options: {
           chart: {
+            marginTop: 70,
             type: 'column',
             events: {
-            //   drilldown: (e) => {
-            //       let categoryID = e.seriesOptions.id;
-            //       let categoryName = e.seriesOptions.name;
-            //       props.Highcharts.charts.forEach((chart) => {
-            //           chart.setTitle({text: e.seriesOptions.name});
-            //       });
-            //       props.getCurrentCategory(categoryID, categoryName);
-            //   },
-            //   drillup: function (e) {
-            //       let categoryID = e.seriesOptions.id;
-            //       let categoryName = e.seriesOptions.name;
-            //       props.Highcharts.charts.forEach((chart) => {
-            //           chart.setTitle({text: e.seriesOptions.name});
-            //       });
-            //       props.getCurrentCategory(categoryID, categoryName);
-            //   }
             }
           },
           title: {
@@ -34,10 +19,11 @@ class ColumnChart extends Component {
             enabled: false
           },
           legend: {
+            layout: 'horizontal',
             align: 'right',
             x: -30,
             verticalAlign: 'top',
-            y: 25,
+            y: -10,
             floating: true,
             backgroundColor: (props.Highcharts.theme && props.Highcharts.theme.background2) || 'white',
             borderColor: '#CCC',
@@ -73,11 +59,11 @@ class ColumnChart extends Component {
           xAxis: {
             categories: ['Jan', 'Feb', 'Mar']
           },
-          series: [ 
+          series: [
             {
               name: 'Expenses',
               data: [299.9, 71.5, 106.4]
-            }, 
+            },
             {
               name: 'Incomes',
               data: [290.9, 171.5, 56.4]
@@ -86,29 +72,12 @@ class ColumnChart extends Component {
         }
       }
     }
-  
-    // static getDerivedStateFromProps(props, state) {
-    //   this.props.Highcharts.charts.forEach((chart) => {
-    //     chart.setTitle({text: props.options.title});
-    //   });
-    //   if(props.options.series.length > 0) {
-    //     return {
-    //       options: {
-    //         ...state.options,
-    //         title: props.options.title,
-    //         series: props.options.series,
-    //         drilldown: props.options.drilldown
-    //       }
-    //     };
-    //   } else{
-    //     return {};
-    //   }
-    // }
-  
+
+
     componentDidMount() {
-  
+
     }
-  
+
     render() {
       let options = this.props.options;
       options.chart = this.state.options.chart;
@@ -129,5 +98,5 @@ class ColumnChart extends Component {
       );
     }
   }
-  
+
   export default ColumnChart;

@@ -3,6 +3,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { drillDownEvent } from "./DrillDownUp";
 import { drillUpEvent } from "./DrillDownUp";
 import '../App/styles/home.css';
+import '../App/styles/compare.css';
 
 class PieChartController extends Component {
   constructor(props) {
@@ -11,6 +12,8 @@ class PieChartController extends Component {
       options: {
         chart: {
           type: 'pie',
+
+
           events: {
             drilldown: (e) => {
               let categoryID = e.seriesOptions.id;
@@ -103,24 +106,6 @@ class PieChartController extends Component {
       }
     }
   }
-
-  // static getDerivedStateFromProps(props, state) {
-  //   this.props.Highcharts.charts.forEach((chart) => {
-  //     chart.setTitle({text: props.options.title});
-  //   });
-  //   if(props.options.series.length > 0) {
-  //     return {
-  //       options: {
-  //         ...state.options,
-  //         title: props.options.title,
-  //         series: props.options.series,
-  //         drilldown: props.options.drilldown
-  //       }
-  //     };
-  //   } else{
-  //     return {};
-  //   }
-  // }
 
   componentDidMount() {
 

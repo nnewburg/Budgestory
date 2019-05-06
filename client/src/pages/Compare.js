@@ -22,7 +22,7 @@ const options = [
 ];
 
 let columnData = [];
-let columnXCategories = []; 
+let columnXCategories = [];
 
 class Compare extends Component {
 
@@ -49,11 +49,11 @@ class Compare extends Component {
         xAxis: {
           categories: ['Feb', 'Mar', 'Apr']
         },
-        series: [ 
+        series: [
           {
             name: 'Category1',
             data: [100, 200, 300]
-          }, 
+          },
           {
             name: 'Category2',
             data: [312, 231, 123]
@@ -171,7 +171,7 @@ class Compare extends Component {
     console.log("divideByMonth >>> startList : ", startList);
     console.log("divideByMonth >>> endList : ", endList);
     console.log("divideByMonth >>> columnXCategories : ", columnXCategories);
-    
+
     return {startList: startList, endList: endList};
   }
 
@@ -199,11 +199,11 @@ class Compare extends Component {
         xAxis: {
           categories: ['Mar', 'Apr', 'May']
         },
-        series: [ 
+        series: [
           {
             name: 'Expenses',
             data: [100, 200, 300]
-          }, 
+          },
           {
             name: 'Incomes',
             data: [312, 231, 123]
@@ -219,10 +219,10 @@ class Compare extends Component {
   refreshDate = (state, startDate, endDate) => {
 
     console.log("Compare >>> refreshDate state = ", state);
-    
+
     let startCalender = startDate;
     let endCalender = endDate;
-    
+
     let start = {
       stringISO: "2019-01-01",
       day: "Mon"
@@ -240,13 +240,13 @@ class Compare extends Component {
       end.stringISO = endDate.toISOString().split('T')[0];
       end.day = endDate.toString().split(' ')[0];
     }
-    
+
     console.log("Compare >>> refreshDate start = " + start.day);
     console.log("Compare >>> refreshDate end = " + end.day);
 
     // Init data for column chart
     columnData = [];
-    columnXCategories = []; 
+    columnXCategories = [];
 
     let dateRange = this.divideByMonth(start, end);
 
@@ -261,7 +261,7 @@ class Compare extends Component {
       }
       chart.drilled = 0;
     });
-    
+
     axios('/api/CompareChart', {
       params: {
         dateRange
@@ -318,7 +318,7 @@ class Compare extends Component {
         <div className="compare-control-area">
           <div className='date update_area'>
             <DateRange date={this.state.date} refreshDate={this.refreshDate.bind(this)}/>
-            Divide By:
+            &ensp;&ensp;&ensp;<a>View:</a>&ensp;
             <div className="compare-by">
               <Select
                 value={selectedOption}
@@ -328,16 +328,15 @@ class Compare extends Component {
             </div>
           </div>
         </div>
-        <br/>
-        <br/>
-        <hr/>
-        <div className="charts-area">
-          <ColumnChart Highcharts={Highcharts} options={this.state.columnOptions} /*currentCategory={this.state.currentCategory}*//>
-          <PieChartController Highcharts={Highcharts} options={this.state.options} getCurrentCategory={this.getCurrentCategory}/>
+        <div className="background-container">
+          <br/>
+          <br/>
+          <hr/>
+          <div className="charts-area">
+            <ColumnChart Highcharts={Highcharts} options={this.state.columnOptions} /*currentCategory={this.state.currentCategory}*//>
+            <PieChartController Highcharts={Highcharts} options={this.state.options} getCurrentCategory={this.getCurrentCategory}/>
+          </div>
         </div>
-        {/* <Highchart type={"pie"} options={this.state.options}/>
-        <Highchart type={"column"} options={this.state.options}/> */}
-
       </div>
     );
   }
