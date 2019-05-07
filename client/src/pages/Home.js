@@ -141,11 +141,11 @@ class Home extends Component {
         <Navbar />
         <div className="homePage">
           <div className="container">
+              <NewRecord category={this.state.currentCategory} update={this.refreshDate.bind(this)}/>
             <div className="add_new_btns">
               <div className='date update_area' id= "newRecord">
                 <DateRange date={this.state.date} refreshDate={this.refreshDate.bind(this)}/>
               </div>
-              <NewRecord category={this.state.currentCategory} update={this.refreshDate.bind(this)}/>
 
             </div>
             <Highchart Highcharts={Highcharts} type={"pie"} options={this.state.options} getCurrentCategory={this.getCurrentCategory}/>

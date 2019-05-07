@@ -18,6 +18,11 @@
 #recordBtn {
   background-color: #3CA3DA;
   border: 1px solid lightblue;
+  margin-top: 5%;
+}
+
+.container .add_new_btns {
+  margin: auto;
 }
 .dataContainer {
   text-align: center
