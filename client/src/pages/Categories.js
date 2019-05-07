@@ -181,10 +181,13 @@ class Helper extends Component {
 
   render() {
     return (
-
         <div className='currentCategory' id={this.props.id} onClick={this.onItemClick}>
-         <img className="back" width="10%" src={Back} />
-         <span> {this.props.name} </span>
+        <div id="currentName">
+          <span> {this.props.name} </span>
+          <div id="back">
+            Back
+          </div>
+        </div>
         </div>
           )
   }
@@ -285,9 +288,13 @@ class Categories extends Component {
     <NavBar />
       <div className='mostOuterContainer'>
         <div className='topDiv'>
-          {categoryList}
+          <div>
+          <span> {categoryList} </span>
+          </div>
+          <div className="click">
           <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
           <ModalCreateRecord name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
+          </div>
         </div>
         <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
       </div>
