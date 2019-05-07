@@ -1,6 +1,6 @@
 import Highcharts from 'highcharts';
 
-export const drillDownEvent = (e) => {
+export const drillDownEvent = (e, compare) => {
   if(!e.seriesOptions) {
     console.log("Category Name Not Found!", e);
     return;
@@ -25,13 +25,14 @@ export const drillDownEvent = (e) => {
       chart.drilled = 0;
     }
     if(chart !== e.target) {
-      chart.drilled++;
-      chart.series[0].points[e.point.index].doDrilldown();
+      chart.drilled ++;
+      if(!compare)
+        chart.series[0].points[e.point.index].doDrilldown();
     }
   });
 }
 
-export const drillUpEvent = (e) => {
+export const drillUpEvent = (e, compare) => {
   if(!e.seriesOptions) {
     console.log("Category Name Not Found!", e);
     return;
@@ -58,7 +59,8 @@ export const drillUpEvent = (e) => {
     chart.setTitle({text: newTitle + value.toFixed(2)});
     if(chart !== e.target) {
         chart.drilled--;
-        chart.drillUp();
+        if(!compare)
+          chart.drillUp();
     }
   });
   Highcharts.targetLevel = -1;

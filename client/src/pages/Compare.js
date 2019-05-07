@@ -218,8 +218,8 @@ class Compare extends Component {
         ]
       };
     }
-    console.log("Compare >>> currentColumnOptions: columnData = ", columnData[1].data);
-    console.log("Compare >>> currentColumnOptions: columnDataBK = ", columnDataBK[1].data);
+    // console.log("Compare >>> currentColumnOptions: columnData = ", columnData[1].data);
+    // console.log("Compare >>> currentColumnOptions: columnDataBK = ", columnDataBK[1].data);
     // console.log("Compare >>> currentColumnOptions: optionsObj = ", optionsObj);
     return optionsObj;
   }

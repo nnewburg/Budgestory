@@ -17,13 +17,13 @@ class Highchart extends Component {
             drilldown: (e) => {
               let categoryID = e.seriesOptions.id;
               let categoryName = e.seriesOptions.name;
-              drillDownEvent(e);
+              drillDownEvent(e, false);
               props.getCurrentCategory(categoryID, categoryName);
             },
             drillup: function (e) {
               let categoryID = e.seriesOptions.id;
               let categoryName = e.seriesOptions.name;
-              drillUpEvent(e);
+              drillUpEvent(e, false);
               props.getCurrentCategory(categoryID, categoryName);
             }
           }

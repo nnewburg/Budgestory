@@ -19,7 +19,7 @@ class PieChartController extends Component {
               // props.Highcharts.charts.forEach((chart) => {
               //   chart.setTitle({text: e.seriesOptions.name});
               // });
-              drillDownEvent(e);
+              drillDownEvent(e, true);
               props.getCurrentCategory(categoryID, categoryName);
             },
             drillup: function (e) {
@@ -28,7 +28,7 @@ class PieChartController extends Component {
               // props.Highcharts.charts.forEach((chart) => {
               //   chart.setTitle({text: e.seriesOptions.name});
               // });
-              drillUpEvent(e);
+              drillUpEvent(e, true);
               props.getCurrentCategory(categoryID, categoryName);
             }
           }
@@ -50,7 +50,7 @@ class PieChartController extends Component {
         },
         tooltip: {
           headerFormat: '<span style="font-size:12px">{series.name}</span><br>',
-          pointFormat: '<span style="color:{point.color}">{point.name}</span><br/>'
+          pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
         },
         series: [
           {
