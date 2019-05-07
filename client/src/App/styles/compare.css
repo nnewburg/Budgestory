@@ -1,5 +1,5 @@
 .CompareHome {
-  position: fixed;
+  position: flex;
   height: 100%;
   width: 100%;
   background-image: url("../picture/background-body.jpg");
@@ -16,7 +16,7 @@
   position: relative;
   justify-content: center;
   padding: 0;
-  height: ;
+  opacity: 0.75;
 }
 
 .update_area a {

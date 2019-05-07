@@ -1,24 +1,18 @@
-.homePage {
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  background-image: url("../picture/background-body.jpg");
-  background-size: 100% 100%;
-
-}
-
 
 .CompareHome {
   position: fixed;
   height: 100%;
   width: 100%;
-/*  background-image: url("../picture/background-body.jpg");*/
   background-size: 100% 100%;
   opacity: 0.9;
 }
 
 #homeApp {
+  position: absolute;
+  height: 100%;
+  width: 100%;
   background-image: url("../picture/background-body.jpg");
+  background-size: 100% 100%;
 }
 
 #recordBtn {
@@ -36,17 +30,11 @@
   min-width: 100vw;
   height: 100vh;
   background-color: rgba(255,255,255,0.75);
-
-}
-
-.footerWave {
-
 }
 
 .highcharts-background {
   width: 0;
   height: 0;
-
 }
 
 #highcharts-nizvont-0 {

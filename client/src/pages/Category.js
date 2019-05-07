@@ -351,23 +351,12 @@ class CategoryRender extends Component {
 
     if (this.props.parentId){
     return (
-    //   <OverlayTrigger
-    //   key={'bottom'}
-    //   // show={null}
-    //   placement={'bottom'}
-    //   overlay={this.state.editModal ? MyToolTip : <Tooltip id={`tooltip-bottom`}>
-    //     <p>Notes: {this.props.notes} </p>
-
-    //     </Tooltip>}
-
-    // >
           <div className='categoryContainer' id={this.props.id} onClick={this.handleClicks}>
             <ModalDeleteCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
             <ModalEditCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
             <p className='categoryName' >{this.props.name}</p>
             <p className='categoryNote' >{this.props.notes}</p>
           </div>
-          // </OverlayTrigger>
            )
     } else {
       return (

@@ -12,38 +12,103 @@
 }
 
 .createCategoryBtn{
-  margin-left: auto;
+  right: 0;
   padding: 0.4em;
 }
 
 .currentCategory{
+  position: relative;
   flex-direction: row;
-  border: 3px #03A678 solid;
-  padding: 0.5em;
-  margin: 0.5em;
-  border-radius: 10px;
+  border: 2px #03A678 solid;
+  border-top-left-radius: 80px;
+  border-bottom-left-radius: 80px;
+  height: 80px;
+  width: 230px;
+  padding-left: 3%;
+  padding-right: 3%;
+  margin-top: 3%;
+  margin-left: 20%;
+  margin-bottom: 3%;
+  transition: all 1s ease;
+}
+
+#currentName {
+  position: flex;
+  font-family: "Great Vibes", cursive;
+  font-weight: normal;
+  text-shadow: 0 1px 1px #fff;
+  font-size: 200%;
+  height: 80px;
+  width: 230px;
+  justify-content: center;
+  text-align: center;
+  line-height: 80px;
+  transition: all 1s ease;
+}
+
+#back {
+  position: flex;
+  font-family: "Great Vibes", cursive;
+  font-weight: normal;
+  text-shadow: 0 1px 1px #fff;
+  font-size: 100%;
+  height: 80px;
+  width: 230px;
+  justify-content: center;
+  text-align: center;
+  line-height: 80px;
+  opacity: 0;
+  transition: all 1s ease;
+}
+
+.currentCategory:hover #back {
+  opacity: 1;
+  margin-top: 5%;
+}
+
+.currentCategory:hover #currentName {
+  margin-top: -45%;
+}
+
+.currentCategory:hover #currentName span {
+  opacity: 0;
+}
+
+.currentCategory:hover {
+  background-color: lightblue;
+  opacity: 0.75;
+
 }
 
 .mostOuterContainer{
-  background-color: rgba(255,255,255,0.75);
+  background-color: rgba(255,255,255,0);
   margin: 0 auto;
-  /*border: 4px #D99789 solid;*/
   width: 100%;
+  height: 100%;
+
   border-radius: 10px;
 }
 
 .topDiv{
-  background-color: rgba(255,255,255,0.75);
+  background-color: rgba(255,255,255,0);
+  height: 10%;
   display: flex;
-  flex-wrap: wrap;
-  border-bottom: 1px solid black;
+  justify-content: space-between;
 }
 
-.topDiv h1 {
-  width: 33%;
+.click {
+  display: flex;
+  justify-content: flex-end;
+  float: right;
+  margin-right: 5%;
 }
-
-.back {
+.btn-primary {
+  border: 1px solid black;
+  opacity: 0.75;
+  height: 90%;
+  font-size: 110%;
+  margin-top: 3%;
+  margin-bottom: 3%;
 
 }
 
@@ -90,14 +155,14 @@
   text-align: center;
   justify-content: center;
   display: flex;
-  min-width: 20%;
   flex: 0.3;
   overflow: hidden;
   background-color: #34AAAB;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
   border: 1px solid black;
-  width: 20%;
+  max-width: 20%;
+  min-width: 20%;
   height: 8em;
   margin: 0.5em;
 }
@@ -107,15 +172,6 @@
   width: 100%;
   height: 100%;
 }
-
-
-/*.recordNotes{
-  position: absolute;
-  left: 0.2em;
-  top: 0.2em;
-  padding: 0;
-  font-size: 1.2em;
-}*/
 
 .recordNotes {
   position: relative;
@@ -131,23 +187,6 @@
   margin: 0;
 }
 
-/*.recordNotes:hover {
-  overflow: scroll;
-  max-height: 100%;
-  max-width: 200%;
-  background-color: #585A5D;
-  transition: 1s;
-  color: white;
-
-
-
-}*/
-/*.recordPrice{
-  position: absolute;
-  bottom: 0;
-  left: 20%;
-  font-size: 1.5em;
-}*/
 
 .recordPrice {
   position: relative;
@@ -164,16 +203,10 @@
   height: 20%;
 }
 
-.categoryNote {
-
-}
-
 .categoryContainer{
   position: relative;
-  display: flex;
-  align-content: center;
   text-align: center;
-  width: 20%;
+  max-width: 20%;
   min-width: 20%;
   height: 8em;
   flex: 0.3;
@@ -186,38 +219,29 @@
   padding: 0;
 }
 
+
 .categoryName{
   vertical-align: middle;
   position: relative;
   width: 100%;
-  height: 70%;
+  height: 50%;
   top: 0;
   font-size: 1.5em;
   overflow: hidden;
   word-wrap: break-word;
+  margin: 0;
 }
-/*
-.categoryName:hover {
-  overflow: scroll;
-  font-size: 100%;
-  transition: 1s;
-  background-color: #585A5D;
-  height: 100%;
-  color: white;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-}*/
 
-/*.bottomDiv{
-  background-color: rgb(217, 151, 137);
-  display: flex;
-  flex-wrap: wrap;
-}*/
-
-
+.categoryNote {
+  width: 100%;
+  height: 50%;
+  text-align: left;
+  margin: 0;
+  padding-left: 3%;
+}
 
 .bottomDiv {
-  background-color: rgba(255,255,255,0.75);
+  background-color: rgba(255,255,255,0);
   opacity: 0.7;
   display: flex;
   flex-wrap: wrap;

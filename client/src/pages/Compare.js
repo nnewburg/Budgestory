@@ -180,7 +180,7 @@ class Compare extends Component {
   }
 
   currentColumnOptions (categoryID) {
-    
+
     columnData = JSON.parse(JSON.stringify(columnDataBK));
 
     if(categoryID === "Balance") {
@@ -318,9 +318,7 @@ class Compare extends Component {
 
     return (
       <div className="CompareHome">
-        <div className='heading'>
           <Navbar />
-        </div>
         <div className="compare-control-area">
           <div className='date update_area'>
             <DateRange date={this.state.date} refreshDate={this.refreshDate.bind(this)}/>
