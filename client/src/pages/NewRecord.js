@@ -34,7 +34,7 @@ class NewRecord extends Component{
     const newRec = {
       notes: event.target.notes.value,
       category_id: this.props.category.id,
-      value: Math.round((event.target.value.value*100) * 100) / 100,
+      value: Math.round((event.target.amount.value*100) * 100) / 100,
       date: event.target.date.value//date.toISOString().split('T')[0]
     };
     let newRecordDate = new Date(newRec.date);

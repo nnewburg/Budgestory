@@ -66,7 +66,7 @@ class ModalCreateRecord extends React.Component{
               <Form id="record" onSubmit={this.createRecord}>
               <Form.Group controlId="formGroupPassword">
                   <Form.Label>Amount:</Form.Label>
-                  <Form.Control type="number" step='0.01' name='value' />
+                  <Form.Control type="number" placeholder='$' step='0.01' name='value' />
                 </Form.Group>
                 <Form.Group controlId="recordDate">
               <Form.Label>Date:</Form.Label>
@@ -74,7 +74,7 @@ class ModalCreateRecord extends React.Component{
             </Form.Group>
                 <Form.Group controlId="formGroupEmail">
                   <Form.Label>Notes about record:</Form.Label>
-                  <Form.Control type="text" placeholder="Notes..." name='notes' />
+                  <Form.Control type="text" placeholder="Where and why did I spend this money?" name='notes' />
                 </Form.Group>
 
 

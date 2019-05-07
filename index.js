@@ -369,7 +369,7 @@ app.get('/api/HomeChart', (req,res) => {
   .catch(err => console.error(err));
 });
 
-// Compare Page: 
+// Compare Page:
 app.get('/api/CompareChart', (req,res) => {
   // console.log("app.get >>> Compare Page = ", req.query);
   compareDateInit();
@@ -528,7 +528,7 @@ app.post('/api/deleteCategory', (req, res) => {
 });
 
 app.post('/api/editRecord', (req, res) => {
-  knex('records').where({id: req.body.editRec.id}).update({notes: req.body.editRec.name, value: req.body.editRec.value}).then(result =>
+  knex('records').where({id: req.body.editRec.id}).update({notes: req.body.editRec.name, value: req.body.editRec.value, date:req.body.editRec.date}).then(result =>
     {res.json(result)})
 });
 
