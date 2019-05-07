@@ -72,7 +72,7 @@ class Compare extends Component {
 
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
-    // console.log("Compare >>> handleChangeOption: divided type = ", selectedOption);
+    console.log("Compare >>> handleChange: view type = ", selectedOption);
   }
 
   getCurrentCategory = (id, name) => {
@@ -179,10 +179,58 @@ class Compare extends Component {
     return {startList: startList, endList: endList};
   }
 
-  currentColumnOptions (categoryID) {
-    
-    columnData = JSON.parse(JSON.stringify(columnDataBK));
+  getWeekEndDate (start, monthID) {
+    let endString = "31";
+    let endInt = start + 6;
+    // console.log("Compare Page >>> getWeekEndDate: endInt = ", endInt);
+    let endMonth = parseInt(this.getMonthEndDate(monthID), 10);
+    if(endInt > endMonth) {
+      endInt = endMonth;
+    }
+    if(endInt >= 1 && endInt <= endMonth) {
+      if(endInt <= 9) {
+        endString = "0" + endInt;
+      } else {
+        endString = endInt.toString();
+      }
+    }
+    // console.log("Compare Page >>> getWeekEndDate: endString = ", endString);
+    return {int: endInt, string: endString};
+  }
 
+  divideByWeek (start, end) {
+    let year = start.stringISO.split('-')[0];
+    let startList = [];
+    let endList = [];
+    let startMonth = parseInt(start.stringISO.split('-')[1], 10);
+    let endMonth = parseInt(end.stringISO.split('-')[1], 10);
+    let startDay = parseInt(start.stringISO.split('-')[2], 10);
+    let endDay = parseInt(end.stringISO.split('-')[2], 10);
+    let weekNum = parseInt((endDay-startDay)/7, 10) + 1;
+    // console.log("Compare Page >>> divideByWeek: weekNum = ", weekNum);
+    startList.push(start.stringISO);
+    let endData = this.getWeekEndDate(parseInt(start.stringISO.split('-')[2], 10), startMonth);
+    endList.push(year + "-" + start.stringISO.split('-')[1] + "-" + endData.string);
+    for(let i = 1; i < weekNum; i ++) {
+      let newStart = endData.int + 1;
+      if(newStart <= 9) {
+        newStart = "0" + newStart;
+      }
+      startList.push(year + "-" + start.stringISO.split('-')[1] + "-" + newStart);
+      endData = this.getWeekEndDate(parseInt(endData.int + 1, 10), startMonth);
+      endList.push(year + "-" + start.stringISO.split('-')[1] + "-" + endData.string);
+      columnXCategories.push("Week" + i);
+    }
+    columnXCategories.push("Week" + weekNum);
+    // console.log("Compare Page >>> divideByWeek: startList = ", startList);
+    // console.log("Compare Page >>> divideByWeek: endList = ", endList);
+    // console.log("Compare Page >>> divideByWeek: columnXCategories = ", columnXCategories);
+
+    return {startList: startList, endList: endList};
+  }
+
+  currentColumnOptions (categoryID) {
+    columnData = JSON.parse(JSON.stringify(columnDataBK));
     if(categoryID === "Balance") {
       categoryID = 0;
     }
@@ -225,12 +273,9 @@ class Compare extends Component {
   }
 
   refreshDate = (state, startDate, endDate) => {
-
-    // console.log("Compare >>> refreshDate state = ", state);
-
+    // Get start and end date
     let startCalender = startDate;
     let endCalender = endDate;
-
     let start = {
       stringISO: "2019-01-01",
       day: "Mon"
@@ -239,7 +284,6 @@ class Compare extends Component {
       stringISO: "2019-05-31",
       day: "Sun"
     };
-
     if(startDate){
       start.stringISO = startDate.toISOString().split('T')[0];
       start.day = startDate.toString().split(' ')[0];
@@ -248,15 +292,28 @@ class Compare extends Component {
       end.stringISO = endDate.toISOString().split('T')[0];
       end.day = endDate.toString().split(' ')[0];
     }
-
-    // console.log("Compare >>> refreshDate start = " + start.day);
-    // console.log("Compare >>> refreshDate end = " + end.day);
-
     // Init data for column chart
-    // columnData = [];
+    columnData = [];
     columnXCategories = [];
+    // console.log("Compare >>> refreshDate: current option = ", this.state.selectedOption);
 
-    let dateRange = this.divideByMonth(start, end);
+    let dateRange = {};
+    if(this.state.selectedOption.value === 1) {
+      dateRange = this.divideByMonth(start, end);
+    } else {
+      dateRange = this.divideByWeek(start, end);
+    }
+
+    console.log("dateRange = ", dateRange);
+
+    // this.setState({
+    //   ...this.state,
+    //   date: {
+    //     state: state,
+    //     startDate: startCalender,
+    //     endDate: endCalender
+    //   }
+    // });
 
     // Drill Up back to balance level everytime update the chart
     Highcharts.targetLevel = -1;
@@ -268,6 +325,7 @@ class Compare extends Component {
       chart.drilled = 0;
     });
 
+    // Makeing a request for fetching data from DB
     axios('/api/CompareChart', {
       params: {
         dateRange
@@ -288,6 +346,9 @@ class Compare extends Component {
         }
         let balanceValue = (pie.series[0].data[1].v - pie.series[0].data[0].v).toFixed(2);
         let columnOptions = this.currentColumnOptions(0);
+
+        console.log("Compare page >>> after axios: columnData = ", columnData);
+
         this.setState({
           ...this.state,
           date: {

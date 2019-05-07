@@ -271,7 +271,7 @@ function createColumnArray () {
         if(recordDate < startList[i] || recordDate > endList[i]) {
           columnObj.data.push(0);
         } else {
-          columnObj.data.push(record.value);
+          columnObj.data.push(record.value/100);
         }
       }
       columnArray.push(columnObj);
@@ -303,7 +303,7 @@ function getCategoryValuForColunm(columnObj, timeID){
       // Find Children
       if(columnArray[i].pid === columnObj.cid) {
         let value = columnArray[i].data[timeID];
-        valueTotal += value/100;
+        valueTotal += value;
       }
     }
   }
@@ -401,6 +401,7 @@ app.get('/api/CompareChart', (req,res) => {
       if(startList.length <= 0 || endList.length <= 0) {
         console.log("BS >>> app.get(Compare) no start or end time list");
       } else {
+        // console.log("BS >>> allRecords = ", allRecords);
         let columnObj = {};
         columnObj = {};
         columnObj.cid = 0;
@@ -414,6 +415,7 @@ app.get('/api/CompareChart', (req,res) => {
         }
         columnArray.push(columnObj);
         createColumnArray();
+        
         for(let j = 0; j < startList.length; j ++) {
           columnArray[0].data[j] += getCategoryValuForColunm(columnArray[0], j);
         }
