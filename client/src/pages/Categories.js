@@ -137,7 +137,7 @@ render() {
   return (
     <div className='createCategoryBtn'>
       <Button style={{backgroundColor: '#45c6a0'}} onClick={this.handleShow}>
-        Create Category
+        Create Category 1
       </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
