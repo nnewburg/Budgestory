@@ -1,5 +1,5 @@
 .categoryPage {
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 100%;
   background-image: url("../picture/background-body.jpg");
@@ -164,7 +164,7 @@
   max-width: 20%;
   min-width: 20%;
   height: 8em;
-  margin: 0.5em;
+  margin: 0.5%;
 }
 
 
@@ -175,11 +175,10 @@
 
 .recordNotes {
   position: relative;
-  max-width: 80%;
   text-align: left;
   padding-left: 3%;
-  padding-right: 3%;
-  padding-top: 2%;
+  width: 80%;
+
   height: 40%;
   flex-wrap: wrap;
   overflow: hidden;
