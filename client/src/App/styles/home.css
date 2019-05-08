@@ -21,6 +21,10 @@
   margin-top: 3%;
 }
 
+#recordBtn:hover {
+  border: 1px solid gray;
+}
+
 .container .add_new_btns {
   margin-top: 2%;
 }

@@ -74,6 +74,13 @@
   color: #A49492;
 }
 
+
+#comparePage:hover a {
+  font-size: 140%;
+  transition: 1s;
+}
+
+
 #categoryPage {
   display: flex;
   align-items: center;
@@ -86,8 +93,10 @@
   color: #A49492;
 }
 
-#categoryPage a {
-  color: #A49492;
+
+#categoryPage:hover a {
+  font-size: 140%;
+  transition: 1s;
 }
 
 .slogan {
