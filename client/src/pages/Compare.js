@@ -245,6 +245,12 @@ class Compare extends Component {
           seriesObj = {};
           seriesObj.name = columnData[i].name;
           seriesObj.data = columnData[i].data;
+          // for(let j = 0; j < columnData[i].data.length; j ++) {
+          //   let value = columnData[i].data[j].toFixed(2);
+          //   seriesObj.data[j] = value;
+          //   console.log("currentColumnOptions: ", value);
+          // }
+          
           optionsObj.series.push(seriesObj);
         }
       }

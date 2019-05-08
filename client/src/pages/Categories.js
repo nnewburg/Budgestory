@@ -33,7 +33,7 @@ class ModalCreateRecord extends React.Component{
     }
     axios.post('/newRecord', {newRec}).then((response) => {
       console.log('record Posted')
-      this.props.update()
+      this.props.update();
       this.handleClose();
     })
   }
@@ -137,7 +137,7 @@ render() {
   return (
     <div className='createCategoryBtn'>
       <Button style={{backgroundColor: '#45c6a0'}} onClick={this.handleShow}>
-        Create Category 1
+        Create Category
       </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
