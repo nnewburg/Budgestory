@@ -21,7 +21,6 @@ class ModalEditRecord extends React.Component{
     editRecord = (event) => {
       event.preventDefault();
 
-      console.log(this.props.id)
       const editRec = {
         id: this.props.id,
         name: event.target.name.value,
@@ -46,7 +45,10 @@ class ModalEditRecord extends React.Component{
   }
 
   render(){
-    let currentDateString = this.currentDate.toISOString().split('T')[0]
+
+    console.log("Edit Category: id = ", this.props.id);
+    console.log("Edit Category: id = ", this.props.name);
+    // let currentDateString = this.currentDate.toISOString().split('T')[0];
     return(
       <div>
         <img className='editRecordPencil' onClick={this.handleShow} width='8%' src={pencil} />
@@ -58,15 +60,15 @@ class ModalEditRecord extends React.Component{
               <Form id="record" onSubmit={this.editRecord}>
               <Form.Group controlId="formGroupEmail">
               <Form.Label>Record value:</Form.Label>
-              <Form.Control type="number" step='0.01' placeholder="$" name='value' />
+              <Form.Control type="number" step='0.01' placeholder={"$"+this.props.price} name='value' />
               </Form.Group>
               <Form.Group controlId="recordDate">
               <Form.Label>Date:</Form.Label>
-              <Form.Control type="text" placeholder={currentDateString} name='date' />
+              <Form.Control type="text" placeholder={this.props.date} name='date' />
             </Form.Group>
               <Form.Group controlId="formGroupEmail">
               <Form.Label>Record notes:</Form.Label>
-              <Form.Control type="text" placeholder="Where and why did I spend this money?" name='name' />
+              <Form.Control type="text" placeholder={this.props.notes} name='name' />
               </Form.Group>
 
               </Form>
@@ -136,7 +138,7 @@ class ModalEditCategory extends React.Component{
               <Form id="record" onSubmit={this.editCategory}>
               <Form.Group controlId="formGroupEmail">
               <Form.Label>Name:</Form.Label>
-              <Form.Control type="text" placeholder="Enter new category" name='name' />
+              <Form.Control type="text" placeholder={this.props.name} name='name' />
               </Form.Group>
               {/* <Form.Group controlId="formGroupEmail">
               <Form.Label>Category notes:</Form.Label>
@@ -280,7 +282,7 @@ class RecordRender extends Component {
 
           <div className='recordContainer' id={this.props.id} onClick={this.onItemClick}>
           <ModalDeleteRecord id={this.props.id} update={this.props.update} />
-          <ModalEditRecord id={this.props.id} update={this.props.update} />
+          <ModalEditRecord id={this.props.id} price={this.props.price/100} date={this.props.date.slice(0,-14)} notes={this.props.name} update={this.props.update} />
             <div id="textBox">
 
             <p className='recordPrice'> ${this.props.price/100}</p>

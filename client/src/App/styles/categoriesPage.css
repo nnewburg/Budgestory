@@ -38,10 +38,12 @@
 }
 
 .currentName {
-  font-size: 30px;
+  /* background-color: black; */
+  font-size: 28px;
   font-weight: bold;
   margin-left: 33vw;
   margin-bottom: 10px;
+  min-width: 20vw;
 }
 
 #currentName {
@@ -56,7 +58,7 @@
   text-align: center;
   line-height: 60px;
   transition: all 1s ease;
-  margin-left: 5px;
+  margin-left: 10px;
 }
 
 #backBtn {
@@ -75,6 +77,10 @@
   opacity: 1.0;
 }
 
+.spaceBtn {
+  background-color:white;
+  min-width: 200px;
+}
 
 #back {
   /* position: flex; */

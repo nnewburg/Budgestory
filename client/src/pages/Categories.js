@@ -107,7 +107,7 @@ class ModalCreateCategory extends React.Component{
 
        const newCat = {
         name: event.target.name.value,
-        notes: event.target.notes.value,
+        notes: "",
         parent_id: this.props.parentCategory
        }
 
@@ -170,6 +170,10 @@ class Helper extends Component {
   constructor(props) {
     super();
     this.onItemClick = this.onItemClick.bind(this);
+    this.parentName = "Balance";
+    if(props.id >= 0) {
+      this.parentName = props.name;
+    }
   }
 
   onItemClick(event) {
@@ -178,6 +182,17 @@ class Helper extends Component {
   }
 
   render() {
+
+    console.log("render: this.props.id = ", this.props.id);
+    let backButton;
+    if (this.props.name != "Balance") {
+      backButton = (<Button id="backBtn" variant="success" onClick={this.onItemClick}>
+        {'<< Back'}
+      </Button>);
+    } else {
+      backButton = (<div className="spaceBtn"> </div>);
+    }
+
     return (
       <div className='currentCategory' id={this.props.id} onClick={this.onItemClick}>
         {/* <div id="currentName">
@@ -186,11 +201,13 @@ class Helper extends Component {
             {"<< Back"}
           </div>
         </div> */}
-        <Button id="backBtn" variant="success" onClick={this.onItemClick}>
+        {/* <Button id="backBtn" variant="success" onClick={this.onItemClick}>
           {'<< Back'}
-        </Button>
-        <div class="currentName">
-          {this.props.name}
+        </Button> */}
+        {backButton}
+        <div className="currentName">
+          {/* {this.props.name} */}
+          {this.parentName}
         </div>
       </div>
     )
@@ -281,11 +298,17 @@ class Categories extends Component {
     }
 
    render() {
-
-      const filteredList = this.findLineage(this.state.parentId)
-      const categoryList = filteredList.map((category, index) => (
-        <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} key={category.parent_id} id={category.parent_id} name={category.name}  />
-      ))
+      console.log("Categories >>> render: this.state.parentId = ", this.state.parentId);
+      const filteredList = this.findLineage(this.state.parentId);
+      console.log("Categories >>> render: filteredList = ",filteredList);
+      let categoryList;
+      if(filteredList.length === 0) {
+        categoryList = <Helper key={-1} id={this.state.parentId} name={"Balance"}  />
+      } else {
+        categoryList = filteredList.map((category, index) => (
+          <Helper onClick={this.onItemClick} updateCurrentGen={this.updateCurrentGen} key={category.parent_id} id={category.parent_id} name={category.name}  />
+        ));
+      }
 
     return (
     <div className="categoryPage">
@@ -293,7 +316,7 @@ class Categories extends Component {
       <div className='mostOuterContainer'>
         <div className='topDiv'>
           <div>
-          <span> {categoryList} </span>
+            <span> {categoryList} </span>
           </div>
           <div className="click">
             <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
