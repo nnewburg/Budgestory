@@ -16,13 +16,36 @@
 }
 
 #recordBtn {
+  color: white;
   background-color: #3CA3DA;
   border: 1px solid lightblue;
   margin-top: 3%;
+  opacity: 0.8;
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
 }
 
 #recordBtn:hover {
+  color: black;
   border: 1px solid gray;
+}
+
+#newBtn {
+  color: white;
+  background-color: #3CA3DA;
+  border: 1px solid lightblue;
+  margin-top: 3%;
+  width: 180px;
+  height: 60px;
+  opacity: 0.8;
+  font-size: 22px;
+}
+
+#newBtn:hover {
+  color: black;
+  border: 1px solid gray;
+  opacity: 1.0;
 }
 
 .container .add_new_btns {
@@ -35,7 +58,6 @@
   position:fixed;
   padding:0;
   margin:0;
-
   min-width: 100vw;
   height: 100vh;
   background-color: rgba(255,255,255,0.75);

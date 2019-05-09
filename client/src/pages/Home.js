@@ -24,8 +24,8 @@ class Home extends Component {
       },
       date: {
         state: 0,  // 0: Init from Home; 1. Update from DateRange; 2. Generate via new record
-        startDate: this.getStartDate(),
-        endDate: new Date()
+        startDate: new Date("2019-04-01"),  // HJ Calender Adjust
+        endDate: new Date("2019-04-30")
       },
       options: {
         series: [],
@@ -37,11 +37,16 @@ class Home extends Component {
     this.getCurrentCategory.bind(this);
   }
 
-  getStartDate() {
-    let startDate = new Date();
-    startDate.setDate(startDate.getDate()-30)
-    return startDate;
-  }
+  // getRealDate(inputDate) {
+  //   let outputDate = inputDate.setDate(inputDate.getDate() - 1);
+  //   return outputDate;
+  // }
+
+  // getStartDate() {
+  //   let startDate = new Date();
+  //   startDate.setDate(startDate.getDate()-30)
+  //   return startDate;
+  // }
 
   getCurrentCategory = (id, name) => {
     this.setState({
@@ -59,29 +64,28 @@ class Home extends Component {
     let endCalender = endDate;
 
     if(startDate){
-      // startDate.setDate(startDate.getDate() - 1);
+      startDate.setDate(startDate.getDate()-1);  // HJ Calender Adjust
       startDateString = startDate.toISOString().split('T')[0]
     }
     if(endDate){
-      // endDate.setDate(endDate.getDate() - 1);
+      endDate.setDate(endDate.getDate()-1);  // HJ Calender Adjust
       endDateString = endDate.toISOString().split('T')[0]
     }
+
+    console.log("Home >>> refreshDate: startDateString = ", startDateString);
+    console.log("Home >>> refreshDate: endDateString = ", endDateString);
 
     // Drill Up back to balance level everytime update the chart
     Highcharts.targetLevel = -1;
     Highcharts.charts.forEach((chart) => {
       const drillUpLevel = chart.drilled;
-      console.log("Compare >>> refreshDate chart = ", chart);
-      console.log("Compare >>> refreshDate chart.drilled = ", chart.drilled);
       for(let level = 0; level <= drillUpLevel; level ++) {
         chart.drillUp();
       }
       chart.drilled = 0;
-      console.log("Compare >>> refreshDate chart.drilled = ", chart.drilled);
     });
 
-    console.log("Home >>> refreshDate: state = ", state);
-    console.log("Home >>> startDate = " + startDateString + "， endDate = " , endDateString);
+    
     axios('/api/HomeChart', {
       params: {
         start: startDateString,
@@ -95,12 +99,11 @@ class Home extends Component {
           chart.setTitle({text: data.title});
         });
 
-        if(state === 1) {
-          // startCalender.setDate(startCalender.getDate() + 1);
-          // endCalender.setDate(endCalender.getDate() + 1);
+        if(state === 1) {  // HJ Calender Adjust
+          startCalender.setDate(startCalender.getDate() + 1);
+          endCalender.setDate(endCalender.getDate() + 1);
         }
-        console.log("Home >>> after axio: state = ", state);
-        console.log("Home >>> start = " + startCalender.toISOString().split('T')[0] + ", end = " + endCalender.toISOString().split('T')[0]);
+        console.log("Home >>> after axios: start = " + startCalender.toISOString().split('T')[0] + ", end = " + endCalender.toISOString().split('T')[0]);
         let balanceValue = (data.series[0].data[1].v - data.series[0].data[0].v).toFixed(2);
 
         this.setState({

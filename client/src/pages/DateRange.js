@@ -8,15 +8,15 @@ class DateRange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: this.props.date.startDate,
-      endDate: this.props.date.endDate
+      startDate: this.getCalenderDate(this.props.date.startDate),
+      endDate: this.getCalenderDate(this.props.date.endDate)
     };
   }
 
-  getCalenderDate() {
-    let startDate = new Date();
-    startDate.setDate(startDate.getDate()-30)
-    return startDate;
+  // Adjust real date passed down from Home or Compare page into DatePicker element
+  getCalenderDate(inputDate) {
+    let outputDate = inputDate.setDate(inputDate.getDate() + 1);
+    return outputDate;
   }
 
   handleChange = ({ startDate, endDate }) => {
@@ -62,25 +62,29 @@ class DateRange extends Component {
   }
 
   passDateToParent = (start, end) => {
-    let startCalender = start;
-    let endCalender = end;
-    // if(this.props.date.state !== 4) {
-    // startCalender.setDate(startCalender.getDate() - 1);
-    // endCalender.setDate(endCalender.getDate() - 1);
-    // }
-    // console.log("DR >>> passDateToParent: start = " +  startCalender.toISOString().split('T')[0] + ", end = " + endCalender.toISOString().split('T')[0]);
-    this.props.refreshDate(1, startCalender, endCalender);
+    // console.log("DR >>> passDateToParent: start = ", start);
+    // console.log("DR >>> passDateToParent: end = ", end);
+    // let startDate = this.getRealDate(start.toISOString());
+    // let endDate = this.getRealDate(end.toISOString());
+    let startDate = new Date(start.toISOString());
+    let endDate = new Date(end.toISOString());
+
+    console.log("DR >>> passDateToParent: startDate = ", startDate);
+    console.log("DR >>> passDateToParent: endDate = ", endDate);
+    this.props.refreshDate(1, start, end);
   }
 
   componentDidMount() {
-    this.passDateToParent(this.state.startDate, this.state.endDate);
+    // this.passDateToParent(this.state.startDate, this.state.endDate);
+    this.props.refreshDate(1, this.state.startDate, this.state.endDate);   // HJ Calender Adjust
   }
 
   render() {
 
     const updateChart = evt => {
       evt.preventDefault();
-      this.passDateToParent(this.state.startDate, this.state.endDate);
+      // this.passDateToParent(this.state.startDate, this.state.endDate);
+      this.props.refreshDate(1, this.state.startDate, this.state.endDate);   // HJ Calender Adjust
     };
 
     return (

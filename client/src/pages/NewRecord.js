@@ -16,21 +16,16 @@ class NewRecord extends Component{
     this.currentDate = new Date();
   }
 
-  getPastDate(newDate) {
-    let pastDate = new Date();
-    pastDate.setDate(newDate.getDate()-30)
-    return pastDate;
-  }
+  // getPastDate(newDate) {
+  //   let pastDate = new Date();
+  //   pastDate.setDate(newDate.getDate()-30);
+  //   console.log("NewRecord >>> getPastDate: newDate.getDate = ", newDate.getDate());
+  //   console.log("NewRecord >>> getPastDate: pastDate = ", pastDate);
+  //   return pastDate;
+  // }
 
   createRecord = (event) => {
     event.preventDefault();
-    // console.log("event target = ", event.target);
-    // console.log("event amount = ", event.target.amount.value);
-    // console.log("event date = ", event.target.date.value);
-    // console.log("event date = ", event.target.date.placeholder);
-    // console.log("event category = ", this.props.category.id);
-    // console.log("event notes = ", event.target.notes.value);
-    // let date = new Date();
     const newRec = {
       notes: event.target.notes.value,
       category_id: this.props.category.id,
@@ -38,8 +33,10 @@ class NewRecord extends Component{
       date: event.target.date.value//date.toISOString().split('T')[0]
     };
     let newRecordDate = new Date(newRec.date);
-    let pastDate = this.getPastDate(newRecordDate);
-    console.log("createRecord >>> past = " + pastDate.toISOString().split('T')[0] + ", new = " + newRecordDate.toISOString().split('T')[0]);
+    let pastDate = new Date(newRec.date);
+    newRecordDate.setDate(newRecordDate.getDate() +1);  // HJ Calender Adjust
+    pastDate.setDate(pastDate.getDate() - 29);
+    console.log("NewRecord >>> createRecord: past = " + pastDate.toISOString().split('T')[0] + ", new = " + newRecordDate.toISOString().split('T')[0]);
     axios.post('/newRecord', {newRec}).then((response) => {
       this.props.update(2, pastDate, newRecordDate);
       this.handleClose();

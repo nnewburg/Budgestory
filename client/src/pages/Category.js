@@ -130,23 +130,23 @@ class ModalEditCategory extends React.Component{
       <img className='editCategoryPencil' onClick={this.handleShow} alt="" style={{position: 'absolute', bottom: '0', right: '10%', padding: '0.2em', backgroundColor: 'gray', borderRadius: '20px'}}width='10%' src={pencil} />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Edit category: {this.props.name}</Modal.Title>
+            <Modal.Title>Edit Category {this.props.name}</Modal.Title>
           </Modal.Header>
             <Modal.Body>
               <Form id="record" onSubmit={this.editCategory}>
               <Form.Group controlId="formGroupEmail">
-              <Form.Label>Category name:</Form.Label>
+              <Form.Label>Name:</Form.Label>
               <Form.Control type="text" placeholder="Enter new category" name='name' />
               </Form.Group>
-              <Form.Group controlId="formGroupEmail">
+              {/* <Form.Group controlId="formGroupEmail">
               <Form.Label>Category notes:</Form.Label>
               <Form.Control type="text" placeholder="Enter new category notes" name='notes' />
-              </Form.Group>
+              </Form.Group> */}
               </Form>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="primary" type="submit" form="record">
-                Edit
+                Submit
               </Button>
             </Modal.Footer>
         </Modal>
@@ -355,22 +355,22 @@ class CategoryRender extends Component {
 
     if (this.props.parentId){
     return (
-          <div className='categoryContainer' id={this.props.id} onClick={this.handleClicks}>
-            <ModalDeleteCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
-            <ModalEditCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
-            <p className='categoryName' >{this.props.name}</p>
-            <p className='categoryNote' >{this.props.notes}</p>
-          </div>
-           )
+      <div className='categoryContainer' id={this.props.id} onClick={this.handleClicks}>
+        <ModalDeleteCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
+        <ModalEditCategory id={this.props.id} name={this.props.name} update={this.props.update} modalClicked={this.modalClicked} />
+        <p className='categoryName' >{this.props.name}</p>
+        <p className='categoryNote' >{this.props.notes}</p>
+      </div>
+        )
     } else {
       return (
 
-       <div className='categoryContainer' id={this.props.id} onClick={this.handleClicks} >
-           <p className='categoryName' >{this.props.name}</p>
-           <p className='categoryNote' >{this.props.notes}</p>
+        <div className='categoryContainer' id={this.props.id} onClick={this.handleClicks} >
+          <p className='categoryName' >{this.props.name}</p>
+          <p className='categoryNote' >{this.props.notes}</p>
         </div>
 
-        )
+      )
     }
   }
 }
@@ -388,17 +388,16 @@ class Category extends Component {
       <CategoryRender update={this.props.update} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} notes={category.notes} id={category.id} key={category.id} name={category.name} parentId={category.parent_id} />
     ))
 
-
     const recordsList = filteredRecords.map((record, index) => (
-
-        <RecordRender name={record.notes} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} price={record.value} id={record.id} update={this.props.update} date={record.date} />
-
-      ))
+      <RecordRender name={record.notes} toggle={this.props.toggleCategory} updateCurrentGen={this.props.updateCurrentGen} price={record.value} id={record.id} update={this.props.update} date={record.date} />
+    ))
 
     return (
-    <div className="bottomDiv" >
-      {categoryList}
-      {recordsList}
+    <div className="bottomDivBGC" >
+      <div className="bottomDiv">
+        {categoryList}
+        {recordsList}
+      </div>
     </div>
     )
   }

@@ -37,8 +37,10 @@ class Compare extends Component {
       },
       date: {
         state: 0,  // 0: Init from Home; 1. Update from DateRange; 2. Generate via new record; 4. Init from Compare
-        startDate: this.getStartDate(),
-        endDate: new Date()
+        startDate: new Date("2019-01-01"),  // HJ Calender Adjust
+        endDate: new Date("2019-04-30")
+        // startDate: this.getStartDate(),
+        // endDate: new Date()
       },
       options: {
         series: [],
@@ -72,7 +74,7 @@ class Compare extends Component {
 
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
-    console.log("Compare >>> handleChange: view type = ", selectedOption);
+    // console.log("Compare >>> handleChange: view type = ", selectedOption);
   }
 
   getCurrentCategory = (id, name) => {
@@ -245,12 +247,6 @@ class Compare extends Component {
           seriesObj = {};
           seriesObj.name = columnData[i].name;
           seriesObj.data = columnData[i].data;
-          // for(let j = 0; j < columnData[i].data.length; j ++) {
-          //   let value = columnData[i].data[j].toFixed(2);
-          //   seriesObj.data[j] = value;
-          //   console.log("currentColumnOptions: ", value);
-          // }
-          
           optionsObj.series.push(seriesObj);
         }
       }
@@ -291,13 +287,19 @@ class Compare extends Component {
       day: "Sun"
     };
     if(startDate){
+      startDate.setDate(startDate.getDate()-1);  // HJ Calender Adjust
       start.stringISO = startDate.toISOString().split('T')[0];
       start.day = startDate.toString().split(' ')[0];
     }
     if(endDate){
+      endDate.setDate(endDate.getDate()-1);  // HJ Calender Adjust
       end.stringISO = endDate.toISOString().split('T')[0];
       end.day = endDate.toString().split(' ')[0];
     }
+
+    console.log("Compare >>> refreshDate: start = ", start);
+    console.log("Compare >>> refreshDate: end = ", end);
+
     // Init data for column chart
     columnData = [];
     columnXCategories = [];
@@ -345,15 +347,13 @@ class Compare extends Component {
         columnData = JSON.parse(JSON.stringify(data.column));//data.column.slice(0);
         columnDataBK = JSON.parse(JSON.stringify(data.column));
 
-        if(state === 1) {
-          // startCalender.setDate(startCalender.getDate() + 1);
-          // endCalender.setDate(endCalender.getDate() + 1);
+        if(state === 1) {  // HJ Calender Adjust
+          startCalender.setDate(startCalender.getDate() + 1);
+          endCalender.setDate(endCalender.getDate() + 1);
           // console.log("after axio >>> state = "  + state + ", start = " + startCalender.toISOString().split('T')[0] + "， end = " , endCalender.toISOString().split('T')[0]);
         }
         let balanceValue = (pie.series[0].data[1].v - pie.series[0].data[0].v).toFixed(2);
         let columnOptions = this.currentColumnOptions(0);
-
-        console.log("Compare page >>> after axios: columnData = ", columnData);
 
         this.setState({
           ...this.state,

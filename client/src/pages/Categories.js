@@ -55,12 +55,12 @@ class ModalCreateRecord extends React.Component{
     return (
 
       <div className='createRecordBtn'>
-        <Button style={{backgroundColor: '#45c6a0'}} onClick={this.handleShow}>
-          Create Record
+        <Button id="newBtn" variant="success" /*style={{backgroundColor: '#45c6a0'}}*/ onClick={this.handleShow}>
+          New Record
         </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Create a Record in {this.props.name} </Modal.Title>
+            <Modal.Title>New Record In {this.props.name} </Modal.Title>
           </Modal.Header>
             <Modal.Body>
               <Form id="record" onSubmit={this.createRecord}>
@@ -73,16 +73,14 @@ class ModalCreateRecord extends React.Component{
               <Form.Control type="text" placeholder={currentDateString} name='date' />
             </Form.Group>
                 <Form.Group controlId="formGroupEmail">
-                  <Form.Label>Notes about record:</Form.Label>
+                  <Form.Label>Notes:</Form.Label>
                   <Form.Control type="text" placeholder="Where and why did I spend this money?" name='notes' />
                 </Form.Group>
-
-
               </Form>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="primary" type="submit" form="record">
-                Create Record
+                Submit
               </Button>
             </Modal.Footer>
         </Modal>
@@ -136,28 +134,28 @@ render() {
 
   return (
     <div className='createCategoryBtn'>
-      <Button style={{backgroundColor: '#45c6a0'}} onClick={this.handleShow}>
-        Create Category
+      <Button id="newBtn" variant="success" /*style={{backgroundColor: '#45c6a0', color: 'black'}}*/ onClick={this.handleShow}>
+        New Category
       </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Create a sub category within {this.props.name}</Modal.Title>
+            <Modal.Title>New Category In {this.props.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form id="record" onSubmit={this.createCategory}>
             <Form.Group controlId="formGroupEmail">
-            <Form.Label>Category Name:</Form.Label>
+            <Form.Label>Name:</Form.Label>
             <Form.Control type="text" placeholder="Enter category name" name='name' />
             </Form.Group>
-            <Form.Group controlId="formGroupEmail">
+            {/* <Form.Group controlId="formGroupEmail">
             <Form.Label>Category Notes:</Form.Label>
             <Form.Control type="text" placeholder="Enter category notes" name='notes' />
-            </Form.Group>
+            </Form.Group> */}
             </Form>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" type="submit" form="record">
-              Create Category
+              Submit
             </Button>
           </Modal.Footer>
         </Modal>
@@ -181,15 +179,21 @@ class Helper extends Component {
 
   render() {
     return (
-        <div className='currentCategory' id={this.props.id} onClick={this.onItemClick}>
-        <div id="currentName">
+      <div className='currentCategory' id={this.props.id} onClick={this.onItemClick}>
+        {/* <div id="currentName">
           <span> {this.props.name} </span>
           <div id="back">
-            Back
+            {"<< Back"}
           </div>
+        </div> */}
+        <Button id="backBtn" variant="success" onClick={this.onItemClick}>
+          {'<< Back'}
+        </Button>
+        <div class="currentName">
+          {this.props.name}
         </div>
-        </div>
-          )
+      </div>
+    )
   }
 }
 
@@ -292,8 +296,8 @@ class Categories extends Component {
           <span> {categoryList} </span>
           </div>
           <div className="click">
-          <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
-          <ModalCreateRecord name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
+            <ModalCreateCategory name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
+            <ModalCreateRecord name={this.state.parentName} parentCategory={this.state.parentId} update={this.refreshAsync.bind(this)}  />
           </div>
         </div>
         <Category editShow={this.state.showCategoryOptions} toggleCategory={this.toggleCategory.bind(this)} updateCurrentGen={this.updateCurrentGen} state={this.state} update={this.refreshAsync.bind(this)} />
