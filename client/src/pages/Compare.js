@@ -230,6 +230,7 @@ class Compare extends Component {
   }
 
   currentColumnOptions (categoryID) {
+
     columnData = JSON.parse(JSON.stringify(columnDataBK));
     if(categoryID === "Balance") {
       categoryID = 0;
