@@ -56,6 +56,7 @@ exports.seed = function(knex, Promise) {
         // knex('categories').insert({parent_id: 50, name: 'Cell Phone', notes: '', icon: ''}),
         // knex('categories').insert({parent_id: 50, name: 'Home Insurance', notes: '', icon: ''}),
         // knex('categories').insert({parent_id: 50, name: 'Mortage', notes: '', icon: ''})
+
       ]);
     });
 }

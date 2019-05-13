@@ -1,6 +1,19 @@
-# React Express Example
+# Budgestory
+Budgestory allows users to categorize their incomes and expenses. Categories can be created and sub categories can be nested within each other any number of times. Users can then navigate their finances by clicking on categories on a pie chart, which will render the subcategories of the chosen categor. Each category will display the total value of all expenses of any category within that category. Users can view records by date and compare weeks and months to one another.
 
-This project offers a simple example of how to set up a React project with Create React App and how to connect this app with an Express backend. React-Router is also used for routing.
+Created By:
+
+* [Brendan Lee](https://github.com/boksul)
+* [Hao Jiang](https://github.com/HaoJiang0201)
+* [Nick Newburg](https://github.com/nnewburg)
+
+## Tech Stack
+* Express
+* React
+* Postgres
+
+## Screenshots
+
 
 ## Prerequisites
 In order to run this project node.js and npm both need to have been installed.
@@ -8,12 +21,25 @@ In order to run this project node.js and npm both need to have been installed.
 ## Deployment
 <ol>
 <li>Clone this repo</li>
-<li>Run npm start from react-express-example to start the Express app</li>
-<li>Run npm start from the client directory to start the React app</li>
+<li>npm install within the main directory</li>
+<li>npm install within the client directory</li>
+<li>From the command line run knex migrate:latest</li>
+<li>From the command line run knex seed:run</li>
+<li>Run npm run start from the main directory</li>
+<li>Run npm run start from the client directory</li>
 <li>Visit http://localhost:3000/</li>
 </ol>
 
 ## Built With
-* [React.js](https://reactjs.org/)
-* [Express.js](https://expressjs.com/)
-* [React-Router](https://reacttraining.com/react-router/core/guides/philosophy)
+* [React]
+* [Express]
+* [React-Router]
+* [Axios]
+* [React-Bootstrap]
+* [React-date-picker]
+* [Highcharts]
+* [Highcharts-drilldown]
+* [Highcharts-react]
+* [Knex]
+* [Post-Gres]
+
